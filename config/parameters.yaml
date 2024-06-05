@@ -1,0 +1,6 @@
+Parameter_group_1:
+  Parameter1:
+    default: "i try"
+    type: string
+    description: "An integer parameter for testing"
+    constraints_description: "Value must be between 0 and 10"
