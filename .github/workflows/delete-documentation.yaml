@@ -1,0 +1,27 @@
+name: Delete Documentation
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  delete-documentation:
+    name: Delete Mkdocs Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+      - name: Delete with mike
+        run: |
+          git config --local user.name robosix_bot
+          git config --local user.email robotsix_bot@noreply.com
+          cd ${{ github.workspace }}
+          mike delete PR-${{ github.event.number }} -b gh-pages -p

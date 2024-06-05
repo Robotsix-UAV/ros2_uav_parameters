@@ -1,0 +1,7 @@
+site_name: ROS2 PX4 Interface Documentation
+theme:
+  name: readthedocs
+nav:
+  - Home: index.md
+  - Configuration: configuration.md
+  - Parameter Library: parameter_library.md

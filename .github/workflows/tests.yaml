@@ -1,0 +1,64 @@
+name: Tests
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_run:
+    workflows: ["Versioning"]
+    types:
+      - completed
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    container:
+      image: ubuntu:jammy
+    steps:
+      - name: Setup ROS
+        uses: ros-tooling/setup-ros@v0.7
+        with:
+          required-ros-distributions: humble
+          use-ros2-testing: true
+
+      - name: Build and Test
+        uses: ros-tooling/action-ros-ci@v0.3
+        with:
+          package-name: ${{ github.repository_name }}
+          target-ros2-distro: humble
+          colcon-defaults: |
+            {
+            "build": {
+              "cmake-args": [
+                  "-DCMAKE_CXX_FLAGS='-fprofile-arcs -ftest-coverage -fno-elide-constructors -fno-default-inline -ffunction-sections'","-DCMAKE_EXE_LINKER_FLAGS='-Wl,--gc-sections'"
+                ]
+              }
+            }
+          coverage-ignore-pattern: "*/test/*"
+
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v4
+        with:
+          name: code-coverage-report
+          path: ${{ github.workspace }}/ros_ws/lcov
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Get Version or PR ID
+        id: get_version_or_pr_id
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "PR-${{ github.event.number }}" > doc_id.txt
+          else
+            git clone --branch ${{ github.ref_name }} https://github.com/${{ github.repository }}
+            cd ${{ github.event.repository.name }}
+            TAG=$(git describe --tags --abbrev=0)
+            VERSION=${TAG%.*}
+            echo ${VERSION} > ../doc_id.txt
+          fi
+
+      - name: Archive doc_id
+        uses: actions/upload-artifact@v4
+        with:
+          name: doc_id
+          path: doc_id.txt

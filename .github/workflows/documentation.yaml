@@ -1,0 +1,132 @@
+name: Documentation
+
+on:
+  workflow_run:
+    workflows: ["Tests"]
+    types:
+      - completed
+
+permissions:
+  contents: write
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    permissions: write-all
+
+    steps:
+      - name: Delete deployment
+        uses: strumwolf/delete-deployment-environment@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          environment: github-pages
+          onlyRemoveDeployments: true
+
+  deploy-mkdocs:
+    needs: cleanup
+    name: Deploy Mkdocs Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download doc_id artifact
+        uses: dawidd6/action-download-artifact@v5
+        with:
+          workflow: tests.yaml
+          name: doc_id
+          path: .
+
+      - name: Set DEPLOY_REF from doc_id artifact
+        run: |
+          DEPLOY_REF=$(cat doc_id.txt)
+          echo "DEPLOY_REF=${DEPLOY_REF}" >> $GITHUB_ENV
+
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - name: Install dependencies
+        run: |
+          python3 -m pip install mike
+
+      - name: Generate example documentation
+        run: |
+          git clone https://github.com/Robotsix-UAV/example_cpp_to_md
+          python3 example_cpp_to_md/example_cpp_to_md.py ${{ github.workspace }}/examples ${{ github.workspace }}/docs
+
+      - name: Create and push with mike
+        run: |
+          git config --local user.name robosix_bot
+          git config --local user.email robotsix_bot@noreply.com
+          git fetch origin gh-pages --depth=1
+          cd ${{ github.workspace }}
+          mike deploy ${{ env.DEPLOY_REF }} -b gh-pages -p
+
+  deploy-rosdoc2-coverage:
+    needs: deploy-mkdocs
+    name: Deploy Rosdoc2 Documentation
+    runs-on: ubuntu-latest
+    container:
+      image: robotsix/ros2_builder:main
+      options: --user root
+    defaults:
+      run:
+        working-directory: /home/ros
+    steps:
+      - name: Download doc_id artifact
+        uses: dawidd6/action-download-artifact@v5
+        with:
+          workflow: tests.yaml
+          name: doc_id
+          path: /home/ros
+
+      - name: Set DEPLOY_REF from doc_id artifact
+        run: |
+          DEPLOY_REF=$(cat doc_id.txt)
+          echo "DEPLOY_REF=${DEPLOY_REF}" >> $GITHUB_ENV
+
+      - name: Checkout the repository
+        run: git clone --branch ${{ github.ref_name }} https://github.com/${{ github.repository }}
+
+      - name: Build rosdoc2 Documentation
+        shell: bash
+        run: |
+          source /home/ros/.profile
+          rosdoc2 build -p ./${{ github.event.repository.name }}
+
+      - name: Checkout gh-pages branch
+        run: |
+          cd ${{ github.event.repository.name }}
+          git fetch origin gh-pages --depth=1
+          git checkout gh-pages
+
+      - name: Download code coverage results
+        uses: dawidd6/action-download-artifact@v5
+        with:
+          workflow: tests.yaml
+          name: code-coverage-report
+          path: /home/ros/${{ github.event.repository.name }}/${{ env.DEPLOY_REF }}/lcov
+
+      - name: Generate badge
+        run: |
+          git clone https://github.com/RaZeR-RBI/lcov-badger.git
+          python3 lcov-badger/lcov-badger.py /home/ros/${{ github.event.repository.name }}/${{ env.DEPLOY_REF }}/lcov/total_coverage.info /home/ros/${{ github.event.repository.name }}/${{ env.DEPLOY_REF }}/lcov/badge.svg
+
+      - name: Copy generated documentation
+        run: |
+          cd ${{ github.event.repository.name }}
+          mkdir -p ${{ env.DEPLOY_REF }}/rosdoc2
+          cp -r /home/ros/docs_output/${{ github.event.repository.name }} ${{ env.DEPLOY_REF }}/rosdoc2
+
+      - name: Push changes to gh-pages squashing commits
+        run: |
+          cd ${{ github.event.repository.name }}
+          git config --local user.name robosix
+          git config --local user.email robotsix@noreply.com
+          git add .
+          git commit -m "Update rosdoc2 documentation and code coverage results"
+          git reset $(git commit-tree HEAD^{tree} -m "gh-pages")
+          git remote set-url --push origin https://$damien-robotsix:${{ secrets.MY_GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git push -f origin gh-pages
