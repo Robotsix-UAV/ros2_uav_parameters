@@ -47,7 +47,7 @@ jobs:
       - name: Get Version or PR ID
         id: get_version_or_pr_id
         run: |
-          if [ "${{ github.event_name }}" == "pull_request" ]; then
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
             echo "PR-${{ github.event.number }}" > doc_id.txt
           else
             git clone --branch ${{ github.ref_name }} https://github.com/${{ github.repository }}
