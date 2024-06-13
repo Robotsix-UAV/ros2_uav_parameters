@@ -43,6 +43,13 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
+      - name: Select the apropiate branch
+        run: |
+          if [ ${{ github.env.DEPLOY_REF }} == PR* ]; then
+            PR_ID = ${{ github.env.DEPLOY_REF#PR- }}
+            git fetch origin refs/pull/$PR_ID/head:FETCH_HEAD
+            git checkout FETCH_HEAD 
+
       - uses: actions/setup-python@v5
         with:
           python-version: 3.x
@@ -89,6 +96,14 @@ jobs:
 
       - name: Checkout the repository
         run: git clone --branch ${{ github.ref_name }} https://github.com/${{ github.repository }}
+
+      - name: Select the apropiate branch
+        run: |
+          cd ${{ github.event.repository.name }}
+          if [ ${{ github.env.DEPLOY_REF }} == PR* ]; then
+            PR_ID = ${{ github.env.DEPLOY_REF#PR- }}
+            git fetch origin refs/pull/$PR_ID/head:FETCH_HEAD
+            git checkout FETCH_HEAD 
 
       - name: Build rosdoc2 Documentation
         shell: bash
