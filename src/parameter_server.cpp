@@ -28,7 +28,7 @@ class ServerNode : public rclcpp::Node
 {
 public:
   ServerNode()
-  : Node("ros2_uav_parameters")
+  : Node("parameter_server")
   {
     // Create a parameter event handler
     param_suscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
