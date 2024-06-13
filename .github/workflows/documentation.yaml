@@ -43,9 +43,9 @@ jobs:
       - name: Checkout the repository
         uses: actions/checkout@v4
 
-      - name: Select the apropiate branch
+      - name: Select the PR if needed
         run: |
-          if [ ${{ github.env.DEPLOY_REF }} == PR* ]; then
+          if [ "${{ github.env.DEPLOY_REF }}" == "PR*" ]; then
             PR_ID = ${{ github.env.DEPLOY_REF#PR- }}
             git fetch origin refs/pull/$PR_ID/head:FETCH_HEAD
             git checkout FETCH_HEAD 
@@ -97,10 +97,10 @@ jobs:
       - name: Checkout the repository
         run: git clone --branch ${{ github.ref_name }} https://github.com/${{ github.repository }}
 
-      - name: Select the apropiate branch
+      - name: Select the PR if needed
         run: |
           cd ${{ github.event.repository.name }}
-          if [ ${{ github.env.DEPLOY_REF }} == PR* ]; then
+          if [ ${{ "github.env.DEPLOY_REF }}" == "PR*" ]; then
             PR_ID = ${{ github.env.DEPLOY_REF#PR- }}
             git fetch origin refs/pull/$PR_ID/head:FETCH_HEAD
             git checkout FETCH_HEAD 
