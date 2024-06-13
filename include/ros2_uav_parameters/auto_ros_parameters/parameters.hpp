@@ -27,6 +27,7 @@ using rcl_interfaces::msg::ParameterDescriptor;
  * @class Parameter
  * @brief A class for managing ROS2 parameters with callback functionality.
  *
+ * THIS IS A TEST
  * This class encapsulates the functionality for declaring and managing ROS2 parameters.
  * It allows for the automatic invocation of callbacks when parameter values change.
  */
