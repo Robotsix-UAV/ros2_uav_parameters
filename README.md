@@ -1,13 +1,13 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Tests](https://github.com/Robotsix-UAV/ros2_uav_parameters/actions/workflows/tests.yaml/badge.svg?branch=main)](https://github.com/Robotsix-UAV/ros2_uav_parameters/actions/workflows/tests.yaml)
-[![lcov](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.0/lcov/badge.svg)](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.0/lcov)
+[![lcov](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.1/lcov/badge.svg)](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.1/lcov)
 
 # ROS UAV PARAMETERS
 
 ## Documentation
 
-Package overview and user documentation can be found at [ROS2 UAV Parameters Documentation](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.0). <br>
-Developer documentation for the ROS2 UAV Parameters package can be found at [ROS2 UAV Parameters Developer Documentation](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.0/rosdoc2/ros2_uav_parameters).
+Package overview and user documentation can be found at [ROS2 UAV Parameters Documentation](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.1). <br>
+Developer documentation for the ROS2 UAV Parameters package can be found at [ROS2 UAV Parameters Developer Documentation](https://robotsix-UAV.github.io/ros2_uav_parameters/v0.1/rosdoc2/ros2_uav_parameters).
 
 ## Support
 
