@@ -1,6 +1,24 @@
-Parameter_group_1:
-  Parameter1:
-    default: "i try"
-    type: string
-    description: "An integer parameter for testing"
-    constraints_description: "Value must be between 0 and 10"
+limits:
+  ground_velocity:
+    default: 15.0
+    type: double
+    description: "Maximum ground velocity of the UAV"
+    min: 0.0
+
+  vertical_velocity:
+    default: 10.0
+    type: double
+    description: "Maximum vertical velocity of the UAV"
+    min: 0.0
+
+  ground_acceleration:
+    default: 5.0
+    type: double
+    description: "Maximum ground acceleration of the UAV"
+    min: 0.0
+
+  vertical_acceleration:
+    default: 5.0
+    type: double
+    description: "Maximum vertical acceleration of the UAV"
+    min: 0.0
