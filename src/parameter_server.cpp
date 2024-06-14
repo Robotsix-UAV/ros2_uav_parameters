@@ -31,12 +31,12 @@ public:
   : Node("parameter_server")
   {
     // Create a parameter event handler
-    param_suscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
+    param_subscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
   }
 
   std::shared_ptr<rclcpp::ParameterEventHandler> getParameterEventHandler() const
   {
-    return param_suscriber_;
+    return param_subscriber_;
   }
 
   void initParameters(const uav_ros2::YamlParameterParser & parser)
@@ -79,12 +79,12 @@ private:
         parameters_.push_back(
           std::make_shared<uav_ros2::Parameter>(
             shared_from_this(),
-            param_suscriber_, name, val, descriptor));
+            param_subscriber_, name, val, descriptor));
       },
       value);
   }
 
-  std::shared_ptr<rclcpp::ParameterEventHandler> param_suscriber_;
+  std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
   std::vector<std::shared_ptr<uav_ros2::Parameter>> parameters_;
 };
 
