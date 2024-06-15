@@ -77,7 +77,7 @@ private:
       [this, &name, &descriptor](auto && val)
       {
         parameters_.push_back(
-          std::make_shared<uav_ros2::Parameter>(
+          std::make_shared<uav_ros2::parameters::ServerParameter>(
             shared_from_this(),
             param_subscriber_, name, val, descriptor));
       },
@@ -85,7 +85,7 @@ private:
   }
 
   std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
-  std::vector<std::shared_ptr<uav_ros2::Parameter>> parameters_;
+  std::vector<std::shared_ptr<uav_ros2::parameters::ServerParameter>> parameters_;
 };
 
 int main(int argc, char ** argv)
@@ -97,7 +97,7 @@ int main(int argc, char ** argv)
   default_config_folder += "/config";
   auto param_descriptor = rcl_interfaces::msg::ParameterDescriptor();
   param_descriptor.description = "Folder containing YAML configuration files";
-  auto config_file = uav_ros2::Parameter(
+  auto config_file = uav_ros2::parameters::Parameter(
     node,
     node->getParameterEventHandler(), "config_directory", default_config_folder, param_descriptor);
 

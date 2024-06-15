@@ -15,7 +15,7 @@
 #include "auto_ros_parameters/parameters.hpp"
 #include "auto_ros_parameters/utils.hpp"
 
-namespace uav_ros2
+namespace uav_ros2::parameters
 {
 void Parameter::onParameterChange([[maybe_unused]] const rclcpp::Parameter & parameter)
 {
@@ -130,7 +130,24 @@ void Parameter::logChange(const rclcpp::Parameter & parameter)
     default:
       RCLCPP_INFO(node_->get_logger(), "Parameter %s set", param_name_.c_str());
       break;
-      // LCOV_EXCL_STOP
+    // LCOV_EXCL_STOP
   }
 }
+
+void ServerParameter::parameterCallback(const rclcpp::Parameter &parameter)
+{
+  onParameterChange(parameter);
+  logChange(parameter);
+  for (const auto &client : client_nodes_) {
+    auto request_client = node_->create_client<rcl_interfaces::srv::SetParameters>(
+     client + "/set_parameters");
+    auto request = std::make_shared<rcl_interfaces::srv::SetParameters::Request>();
+    auto parameter_msg = parameter.to_parameter_msg();
+    request->parameters.push_back(parameter_msg);
+    request_client->async_send_request(request);
+    RCLCPP_INFO(node_->get_logger(), "Sending parameter %s to client %s", parameter.get_name().c_str(), client.c_str());
+  }
+}
+
 }  // namespace uav_ros2
+

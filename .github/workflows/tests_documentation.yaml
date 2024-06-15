@@ -120,7 +120,7 @@ jobs:
             echo "DEPLOY_REF=PR-${{ github.event.number }}" >> $GITHUB_ENV
           else
             cd /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-            git config --global --add safe.directory /__w/ros2_uav_parameters/ros2_uav_parameters
+            git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
             git fetch --tags
             TAG=$(git describe --tags --abbrev=0)
             VERSION=${TAG%.*}

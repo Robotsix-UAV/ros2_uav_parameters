@@ -10,6 +10,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(yaml-cpp REQUIRED)
+find_package(ros2_uav_interfaces REQUIRED)
 
 # Auto ROS Parameters Library
 add_library(auto_ros_parameters SHARED src/auto_ros_parameters/parameters.cpp src/auto_ros_parameters/yaml_parameter_parser.cpp)
@@ -19,7 +20,7 @@ target_include_directories(auto_ros_parameters
     $<INSTALL_INTERFACE:include>
 )
 target_link_libraries(auto_ros_parameters yaml-cpp)
-ament_target_dependencies(auto_ros_parameters rclcpp)
+ament_target_dependencies(auto_ros_parameters rclcpp ros2_uav_interfaces)
 
 # Parameter Server Node
 add_executable(parameter_server src/parameter_server.cpp)
