@@ -41,8 +41,8 @@ public:
    * and sets up a callback to handle parameter changes.
    *
    * @tparam T The data type of the parameter value.
-   * @param node A shared pointer to the ROS2 node.
-   * @param param_suscriber A shared pointer to the parameter event handler.
+   * @param node A pointer to the ROS2 node.
+   * @param param_subscriber A shared pointer to the parameter event handler.
    * @param name The name of the parameter.
    * @param value The initial value of the parameter.
    * @param descriptor The descriptor of the parameter.
@@ -50,22 +50,57 @@ public:
   template<typename T>
   Parameter(
     rclcpp::Node * node,
-    std::shared_ptr<rclcpp::ParameterEventHandler> param_suscriber,
-    const std::string & name, const T & value, const ParameterDescriptor & descriptor):
-    param_name_(name), node_(node)
-    {
-      node_->declare_parameter(name, value, descriptor);
-      cb_handle_ = param_suscriber->add_parameter_callback(
-        param_name_, [this](const rclcpp::Parameter & parameter)
-        {return this->parameterCallback(parameter);});
-    }
-  template<typename T>
-    Parameter(
-    rclcpp::Node::SharedPtr node,
-    std::shared_ptr<rclcpp::ParameterEventHandler> param_suscriber,
+    std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
     const std::string & name, const T & value, const ParameterDescriptor & descriptor)
-    : Parameter(node.get(), param_suscriber, name, value, descriptor)
-    {}
+  : node_(node), param_name_(name)
+  {
+    node_->declare_parameter(name, value, descriptor);
+    cb_handle_ = param_subscriber->add_parameter_callback(
+      param_name_, [this](const rclcpp::Parameter & parameter)
+      {return this->parameterCallback(parameter);});
+  }
+
+  /**
+   * @brief Overloaded constructor to initialize and declare a ROS2 parameter with a shared pointer to the node.
+   *
+   * @tparam T The data type of the parameter value.
+   * @param node A shared pointer to the ROS2 node.
+   * @param param_subscriber A shared pointer to the parameter event handler.
+   * @param name The name of the parameter.
+   * @param value The initial value of the parameter.
+   * @param descriptor The descriptor of the parameter.
+   */
+  template<typename T>
+  Parameter(
+    rclcpp::Node::SharedPtr node,
+    std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+    const std::string & name, const T & value, const ParameterDescriptor & descriptor)
+  : Parameter(node.get(), param_subscriber, name, value, descriptor)
+  {}
+
+  /**
+   * @brief Constructor to initialize and declare a ROS2 parameter from an existing parameter.
+   *
+   * @param node A pointer to the ROS2 node.
+   * @param param_subscriber A shared pointer to the parameter event handler.
+   * @param parameter The existing parameter.
+   */
+  Parameter(
+    rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+    const rclcpp::Parameter & parameter);
+
+  /**
+   * @brief Overloaded constructor to initialize and declare a ROS2 parameter from an existing parameter with a shared pointer to the node.
+   *
+   * @param node A shared pointer to the ROS2 node.
+   * @param param_subscriber A shared pointer to the parameter event handler.
+   * @param parameter The existing parameter.
+   */
+  Parameter(
+    rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+    const rclcpp::Parameter & parameter)
+  : Parameter(node.get(), param_subscriber, parameter)
+  {}
 
 protected:
   /**
@@ -98,14 +133,20 @@ protected:
 
   rclcpp::Node * node_;  ///< Pointer to the ROS2 node.
 
-private:
-  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_;
-  ///< Handle for the parameter callback.
+protected:
   std::string param_name_;  ///< Name of the parameter.
 
+private:
+  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_; ///< Handle for the parameter callback.
 };
 
-class ServerParameter:public Parameter
+/**
+ * @class ServerParameter
+ * @brief A class for managing ROS2 server parameters with client registration functionality.
+ *
+ * This class extends the Parameter class to include functionality for registering and unregistering client nodes.
+ */
+class ServerParameter : public Parameter
 {
 public:
   /**
@@ -115,8 +156,8 @@ public:
    * and sets up a callback to handle parameter changes.
    *
    * @tparam T The data type of the parameter value.
-   * @param node A shared pointer to the ROS2 node.
-   * @param param_suscriber A shared pointer to the parameter event handler.
+   * @param node A pointer to the ROS2 node.
+   * @param param_subscriber A shared pointer to the parameter event handler.
    * @param name The name of the parameter.
    * @param value The initial value of the parameter.
    * @param descriptor The descriptor of the parameter.
@@ -124,37 +165,40 @@ public:
   template<typename T>
   ServerParameter(
     rclcpp::Node * node,
-    std::shared_ptr<rclcpp::ParameterEventHandler> param_suscriber,
-    const std::string & name, const T & value, const ParameterDescriptor & descriptor):
-    Parameter(node, param_suscriber, name, value, descriptor)
+    std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+    const std::string & name, const T & value, const ParameterDescriptor & descriptor)
+  : Parameter(node, param_subscriber, name, value, descriptor)
   {
+    // Replace dots with slashes in the parameter name
+    std::string service_name = "param/" + name;
+    std::replace(service_name.begin(), service_name.end(), '.', '/');
+    service_name += "/register";
+
     // Create a service to register a new client node
-    auto service_name = "param/" + name + "/register";
-    auto callback = [this](const std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister_Request> request,
-                           std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister_Response> response) -> void
-      {
-        auto client_node = request->client_name;
-        RCLCPP_INFO(node_->get_logger(), "Registering client node %s for parameter %s", client_node.c_str(), param_name_.c_str());
-        // Check if the client node is already registered
-        if (std::find(client_nodes_.begin(), client_nodes_.end(), client_node) != client_nodes_.end()) {
-          RCLCPP_WARN(node_->get_logger(), "Client node %s is already registered for parameter %s", client_node.c_str(), param_name_.c_str());
-          response->success = false;
-          response->message = "Client node is already registered";
-          return;
-        }
-        response->success = true;
-        client_nodes_.push_back(client_node);
-      };
+    register_service_ = node->create_service<ros2_uav_interfaces::srv::ParameterClientRegister>(
+      service_name,
+      std::bind(
+        &ServerParameter::handleClientRegistration, this, std::placeholders::_1,
+        std::placeholders::_2));
   }
 
+  /**
+   * @brief Overloaded constructor to initialize and declare a ROS2 parameter with a shared pointer to the node.
+   *
+   * @tparam T The data type of the parameter value.
+   * @param node A shared pointer to the ROS2 node.
+   * @param param_subscriber A shared pointer to the parameter event handler.
+   * @param name The name of the parameter.
+   * @param value The initial value of the parameter.
+   * @param descriptor The descriptor of the parameter.
+   */
   template<typename T>
   ServerParameter(
     rclcpp::Node::SharedPtr node,
-    std::shared_ptr<rclcpp::ParameterEventHandler> param_suscriber,
-    const std::string & name, const T & value, const ParameterDescriptor & descriptor):
-    ServerParameter(node.get(), param_suscriber, name, value, descriptor)
-  {
-  }
+    std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+    const std::string & name, const T & value, const ParameterDescriptor & descriptor)
+  : ServerParameter(node.get(), param_subscriber, name, value, descriptor)
+  {}
 
 protected:
   /**
@@ -164,7 +208,7 @@ protected:
    *
    * @param parameter The updated parameter.
    */
-  virtual void onParameterChange([[maybe_unused]] const rclcpp::Parameter & parameter) override;
+  void onParameterChange([[maybe_unused]] const rclcpp::Parameter & parameter) override;
 
 private:
   /**
@@ -176,8 +220,21 @@ private:
    */
   void parameterCallback(const rclcpp::Parameter & parameter) override;
 
-  std::vector<std::string> client_nodes_;
-};
+  /**
+   * @brief Handles client registration and unregistration requests.
+   *
+   * This method processes client registration and unregistration requests, updating the list of registered clients accordingly.
+   *
+   * @param request The client registration request.
+   * @param response The client registration response.
+   */
+  void handleClientRegistration(
+    const std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Request> request,
+    std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Response> response);
 
+  std::vector<std::string> client_nodes_;  ///< List of registered client nodes.
+  std::shared_ptr<rclcpp::Service<ros2_uav_interfaces::srv::ParameterClientRegister>>
+  register_service_;                                                                                      ///< Service for registering/unregistering client nodes.
+};
 
 }  // namespace uav_ros2::parameters

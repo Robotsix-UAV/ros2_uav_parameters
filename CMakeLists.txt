@@ -13,7 +13,10 @@ find_package(yaml-cpp REQUIRED)
 find_package(ros2_uav_interfaces REQUIRED)
 
 # Auto ROS Parameters Library
-add_library(auto_ros_parameters SHARED src/auto_ros_parameters/parameters.cpp src/auto_ros_parameters/yaml_parameter_parser.cpp)
+add_library(auto_ros_parameters SHARED
+  src/auto_ros_parameters/parameters.cpp
+  src/auto_ros_parameters/yaml_parameter_parser.cpp
+  src/auto_ros_parameters/parameter_client.cpp)
 target_include_directories(auto_ros_parameters
   PUBLIC
     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include/ros2_uav_parameters>

@@ -14,9 +14,51 @@
 
 #include "auto_ros_parameters/parameters.hpp"
 #include "auto_ros_parameters/utils.hpp"
+#include <algorithm>  // For std::replace
 
 namespace uav_ros2::parameters
 {
+Parameter::Parameter(
+  rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+  const rclcpp::Parameter & parameter)
+: node_(node), param_name_(parameter.get_name())
+{
+  switch (parameter.get_type()) {
+    case rclcpp::ParameterType::PARAMETER_BOOL:
+      node_->declare_parameter(param_name_, parameter.as_bool());
+      break;
+    case rclcpp::ParameterType::PARAMETER_INTEGER:
+      node_->declare_parameter(param_name_, parameter.as_int());
+      break;
+    case rclcpp::ParameterType::PARAMETER_DOUBLE:
+      node_->declare_parameter(param_name_, parameter.as_double());
+      break;
+    case rclcpp::ParameterType::PARAMETER_STRING:
+      node_->declare_parameter(param_name_, parameter.as_string());
+      break;
+    case rclcpp::ParameterType::PARAMETER_BOOL_ARRAY:
+      node_->declare_parameter(param_name_, parameter.as_bool_array());
+      break;
+    case rclcpp::ParameterType::PARAMETER_INTEGER_ARRAY:
+      node_->declare_parameter(param_name_, parameter.as_integer_array());
+      break;
+    case rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY:
+      node_->declare_parameter(param_name_, parameter.as_double_array());
+      break;
+    case rclcpp::ParameterType::PARAMETER_STRING_ARRAY:
+      node_->declare_parameter(param_name_, parameter.as_string_array());
+      break;
+    case rclcpp::ParameterType::PARAMETER_BYTE_ARRAY:
+      node_->declare_parameter(param_name_, parameter.as_byte_array());
+      break;
+    default:
+      throw std::runtime_error("Unsupported parameter type");
+  }
+  cb_handle_ = param_subscriber->add_parameter_callback(
+    param_name_, [this](const rclcpp::Parameter & parameter)
+    {return this->parameterCallback(parameter);});
+}
+
 void Parameter::onParameterChange([[maybe_unused]] const rclcpp::Parameter & parameter)
 {
 }
@@ -35,25 +77,21 @@ void Parameter::logChange(const rclcpp::Parameter & parameter)
         node_->get_logger(), "Parameter %s set to %s",
         param_name_.c_str(), parameter.as_bool() ? "true" : "false");
       break;
-
     case rclcpp::ParameterType::PARAMETER_INTEGER:
       RCLCPP_INFO(
         node_->get_logger(), "Parameter %s set to %ld",
         param_name_.c_str(), parameter.as_int());
       break;
-
     case rclcpp::ParameterType::PARAMETER_DOUBLE:
       RCLCPP_INFO(
         node_->get_logger(), "Parameter %s set to %s",
         param_name_.c_str(), utils::doubleToStringTrimZero(parameter.as_double()).c_str());
       break;
-
     case rclcpp::ParameterType::PARAMETER_STRING:
       RCLCPP_INFO(
         node_->get_logger(), "Parameter %s set to %s",
         param_name_.c_str(), parameter.as_string().c_str());
       break;
-
     case rclcpp::ParameterType::PARAMETER_BOOL_ARRAY:
       {
         bool first = true;
@@ -71,7 +109,6 @@ void Parameter::logChange(const rclcpp::Parameter & parameter)
           param_name_.c_str(), bool_array.c_str());
         break;
       }
-
     case rclcpp::ParameterType::PARAMETER_INTEGER_ARRAY:
       {
         std::string int_array = "[";
@@ -89,7 +126,6 @@ void Parameter::logChange(const rclcpp::Parameter & parameter)
           param_name_.c_str(), int_array.c_str());
         break;
       }
-
     case rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY:
       {
         std::string double_array = "[";
@@ -107,7 +143,6 @@ void Parameter::logChange(const rclcpp::Parameter & parameter)
           param_name_.c_str(), double_array.c_str());
         break;
       }
-
     case rclcpp::ParameterType::PARAMETER_STRING_ARRAY:
       {
         std::string string_array = "[";
@@ -125,29 +160,74 @@ void Parameter::logChange(const rclcpp::Parameter & parameter)
           param_name_.c_str(), string_array.c_str());
         break;
       }
-
     // LCOV_EXCL_START
     default:
       RCLCPP_INFO(node_->get_logger(), "Parameter %s set", param_name_.c_str());
       break;
-    // LCOV_EXCL_STOP
+      // LCOV_EXCL_STOP
   }
 }
 
-void ServerParameter::parameterCallback(const rclcpp::Parameter &parameter)
+void ServerParameter::parameterCallback(const rclcpp::Parameter & parameter)
 {
   onParameterChange(parameter);
   logChange(parameter);
-  for (const auto &client : client_nodes_) {
+  for (const auto & client : client_nodes_) {
     auto request_client = node_->create_client<rcl_interfaces::srv::SetParameters>(
-     client + "/set_parameters");
+      client + "/set_parameters");
     auto request = std::make_shared<rcl_interfaces::srv::SetParameters::Request>();
     auto parameter_msg = parameter.to_parameter_msg();
     request->parameters.push_back(parameter_msg);
     request_client->async_send_request(request);
-    RCLCPP_INFO(node_->get_logger(), "Sending parameter %s to client %s", parameter.get_name().c_str(), client.c_str());
+    RCLCPP_INFO(
+      node_->get_logger(), "Sending parameter %s to client %s",
+      parameter.get_name().c_str(), client.c_str());
   }
 }
 
-}  // namespace uav_ros2
+void ServerParameter::onParameterChange([[maybe_unused]] const rclcpp::Parameter & parameter)
+{
+}
 
+void ServerParameter::handleClientRegistration(
+  const std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Request> request,
+  std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Response> response)
+{
+  auto client_node = request->client_name;
+  if (request->register_client) {
+    RCLCPP_INFO(
+      node_->get_logger(), "Registering client node %s for parameter %s",
+      client_node.c_str(), param_name_.c_str());
+    // Check if the client node is already registered
+    if (std::find(
+        client_nodes_.begin(), client_nodes_.end(),
+        client_node) != client_nodes_.end())
+    {
+      RCLCPP_WARN(
+        node_->get_logger(), "Client node %s is already registered for parameter %s",
+        client_node.c_str(), param_name_.c_str());
+      response->success = false;
+      response->message = "Client node is already registered";
+      return;
+    }
+    response->success = true;
+    client_nodes_.push_back(client_node);
+  } else {
+    RCLCPP_INFO(
+      node_->get_logger(), "Unregistering client node %s for parameter %s",
+      client_node.c_str(), param_name_.c_str());
+    auto it = std::find(client_nodes_.begin(), client_nodes_.end(), client_node);
+    if (it != client_nodes_.end()) {
+      client_nodes_.erase(it);
+      response->success = true;
+    } else {
+      RCLCPP_WARN(
+        node_->get_logger(), "Client node %s is not registered for parameter %s",
+        client_node.c_str(), param_name_.c_str());
+      response->success = false;
+      response->message = "Client node is not registered";
+    }
+  }
+}
+
+}  // namespace uav_ros2::parameters

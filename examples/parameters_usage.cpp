@@ -20,7 +20,7 @@
 
 // Class that inherits from uav_ros2::Parameter
 class MyParameter
-  : public uav_ros2::Parameter
+  : public uav_ros2::parameters::Parameter
 {
 public:
   MyParameter(
@@ -29,7 +29,7 @@ public:
     const std::string & name,
     const int & value,
     rcl_interfaces::msg::ParameterDescriptor descriptor)
-  : uav_ros2::Parameter(node, parameter_handler, name, value, descriptor)
+  : uav_ros2::parameters::Parameter(node, parameter_handler, name, value, descriptor)
   {
   }
 

@@ -19,6 +19,8 @@ Each YAML file can contain multiple parameter groups. Each parameter group conta
 - `min`: (Optional) Minimum value for `int` and `double` types.
 - `max`: (Optional) Maximum value for `int` and `double` types.
 
+The parameter server node will load all parameters from the YAML files and expose them as ROS 2 parameters. The parameters can be accessed and modified using the ROS 2 parameter client API. They are named using the following convention: `<parameter_group>.<parameter_name>`.
+
 ### Example `parameters.yaml`
 
 ```yaml

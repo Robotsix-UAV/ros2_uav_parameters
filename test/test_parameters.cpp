@@ -18,8 +18,8 @@
 #include <rclcpp/parameter_event_handler.hpp>
 #include "auto_ros_parameters/parameters.hpp"
 
-namespace uav_ros2
-{
+using uav_ros2::parameters::Parameter;
+using uav_ros2::parameters::ServerParameter;
 
 class ParameterTest : public ::testing::Test
 {
@@ -45,6 +45,28 @@ class TestParameter : public Parameter
 {
 public:
   using Parameter::Parameter;
+
+  void setOnChangeCallback(std::function<void(const rclcpp::Parameter &)> callback)
+  {
+    on_change_callback_ = callback;
+  }
+
+protected:
+  void onParameterChange(const rclcpp::Parameter & parameter) override
+  {
+    if (on_change_callback_) {
+      on_change_callback_(parameter);
+    }
+  }
+
+private:
+  std::function<void(const rclcpp::Parameter &)> on_change_callback_;
+};
+
+class TestServerParameter : public ServerParameter
+{
+public:
+  using ServerParameter::ServerParameter;
 
   void setOnChangeCallback(std::function<void(const rclcpp::Parameter &)> callback)
   {
@@ -102,6 +124,65 @@ TEST_P(ParameterParameterizedTest, DeclareAndChangeParameter)
   EXPECT_EQ(callback_triggered, 2);
 }
 
+TEST_P(ParameterParameterizedTest, ServerParameterRegisterAndChange)
+{
+  auto [param_name, initial_param, param_type] = GetParam();
+
+  rcl_interfaces::msg::ParameterDescriptor descriptor;
+  descriptor.description = "Test server parameter";
+
+  int callback_triggered = 0;
+
+  TestServerParameter server_param(
+    node_, param_handler_, param_name, initial_param.get_value<rclcpp::ParameterValue>(),
+    descriptor);
+
+  server_param.setOnChangeCallback(
+    [&callback_triggered, param_name, param_type, initial_param](
+      const rclcpp::Parameter & parameter)
+    {
+      ++callback_triggered;
+      EXPECT_EQ(parameter.get_name(), param_name);
+      EXPECT_EQ(parameter.get_type(), param_type);
+      EXPECT_EQ(parameter, initial_param);
+    });
+
+  rclcpp::spin_some(node_);
+
+  // Register a client
+  auto client = std::make_shared<rclcpp::Node>("client_node");
+
+  std::string service_name = "param/" + param_name;
+  std::replace(service_name.begin(), service_name.end(), '.', '/');
+  service_name += "/register";
+  auto client_register_service =
+    client->create_client<ros2_uav_interfaces::srv::ParameterClientRegister>(service_name);
+  auto request = std::make_shared<ros2_uav_interfaces::srv::ParameterClientRegister::Request>();
+  request->client_name = client->get_fully_qualified_name();
+  request->register_client = true;
+
+  ASSERT_TRUE(client_register_service->wait_for_service(std::chrono::seconds(1)));
+  auto future_result = client_register_service->async_send_request(request);
+  rclcpp::spin_until_future_complete(client, future_result);
+
+  auto response = future_result.get();
+  EXPECT_TRUE(response->success);
+
+  // Update parameter with the same value to trigger the callback
+  node_->set_parameter(initial_param);
+  rclcpp::spin_some(node_);
+
+  EXPECT_EQ(callback_triggered, 2);
+
+  // Unregister the client
+  request->register_client = false;
+  auto future_result_unregister = client_register_service->async_send_request(request);
+  rclcpp::spin_until_future_complete(client, future_result_unregister);
+
+  auto response_unregister = future_result_unregister.get();
+  EXPECT_TRUE(response_unregister->success);
+}
+
 INSTANTIATE_TEST_SUITE_P(
   ParameterTests,
   ParameterParameterizedTest,
@@ -136,8 +217,6 @@ INSTANTIATE_TEST_SUITE_P(
       rclcpp::Parameter("test_param_string_array", std::vector<std::string>{"one", "two", "three"}),
       rclcpp::ParameterType::PARAMETER_STRING_ARRAY)
 ));
-
-}  // namespace uav_ros2
 
 int main(int argc, char ** argv)
 {
