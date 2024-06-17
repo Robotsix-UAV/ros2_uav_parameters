@@ -18,7 +18,7 @@
 #include <stdexcept>
 #include <sstream>
 
-namespace uav_ros2
+namespace ros2_uav::parameters
 {
 using rcl_interfaces::msg::FloatingPointRange;
 using rcl_interfaces::msg::IntegerRange;
@@ -135,4 +135,4 @@ void YamlParameterParser::parseYamlFile(const std::string & file_path)
     }
   }
 }
-}  // namespace uav_ros2
+}  // namespace ros2_uav::parameters

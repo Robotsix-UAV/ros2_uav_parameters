@@ -17,10 +17,12 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <utility>
+#include <algorithm>
 #include <rclcpp/rclcpp.hpp>
 #include <ros2_uav_interfaces/srv/parameter_client_register.hpp>
 
-namespace uav_ros2::parameters
+namespace ros2_uav::parameters
 {
 using rcl_interfaces::msg::ParameterDescriptor;
 
@@ -34,11 +36,6 @@ using rcl_interfaces::msg::ParameterDescriptor;
 class Parameter
 {
 public:
-  /**
-   * @brief Default constructor for the Parameter class.
-   */
-  Parameter() {}
-
   /**
    * @brief Constructor to initialize and declare a ROS2 parameter.
    *
@@ -110,6 +107,16 @@ public:
   : Parameter(node.get(), param_subscriber, parameter)
   {}
 
+  /**
+   * @brief Get the name of the parameter.
+   *
+   * @return The name of the parameter.
+   */
+  std::string getName() const
+  {
+    return param_name_;
+  }
+
 protected:
   /**
    * @brief Virtual method called when the parameter changes.
@@ -150,6 +157,7 @@ protected:
  * @brief A class for managing ROS2 server parameters with client registration functionality.
  *
  * This class extends the Parameter class to include functionality for registering and unregistering client nodes.
+ * Registered client nodes receive updates when the parameter changes.
  */
 class ServerParameter : public Parameter
 {
@@ -240,10 +248,11 @@ private:
     const std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Request> request,
     std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Response> response);
 
-  std::vector<std::pair<std::string, std::shared_ptr<rclcpp::Client<rcl_interfaces::srv::SetParameters>>>> client_nodes_;
+  std::vector<std::pair<std::string,
+    std::shared_ptr<rclcpp::Client<rcl_interfaces::srv::SetParameters>>>> client_nodes_;
   ///< List of registered client nodes.
   std::shared_ptr<rclcpp::Service<ros2_uav_interfaces::srv::ParameterClientRegister>>
   register_service_;  ///< Service for registering/unregistering client nodes.
 };
 
-}  // namespace uav_ros2::parameters
+}  // namespace ros2_uav::parameters

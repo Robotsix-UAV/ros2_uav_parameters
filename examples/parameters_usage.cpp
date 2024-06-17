@@ -18,9 +18,9 @@
 // START_EXAMPLE parameters_callback
 #include "auto_ros_parameters/parameters.hpp"
 
-// Class that inherits from uav_ros2::Parameter
+// Class that inherits from ros2_uav::Parameter
 class MyParameter
-  : public uav_ros2::parameters::Parameter
+  : public ros2_uav::parameters::Parameter
 {
 public:
   MyParameter(
@@ -29,7 +29,7 @@ public:
     const std::string & name,
     const int & value,
     rcl_interfaces::msg::ParameterDescriptor descriptor)
-  : uav_ros2::parameters::Parameter(node, parameter_handler, name, value, descriptor)
+  : ros2_uav::parameters::Parameter(node, parameter_handler, name, value, descriptor)
   {
   }
 

@@ -34,6 +34,8 @@ add_executable(parameters_usage examples/parameters_usage.cpp)
 target_link_libraries(parameters_usage auto_ros_parameters)
 add_executable(yaml_parser_usage examples/yaml_parser_usage.cpp)
 target_link_libraries(yaml_parser_usage auto_ros_parameters)
+add_executable(parameter_client examples/parameter_client.cpp)
+target_link_libraries(parameter_client auto_ros_parameters)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -48,6 +50,8 @@ if(BUILD_TESTING)
   target_link_libraries(test_utils gtest auto_ros_parameters)
   ament_add_gtest(test_parameters test/test_parameters.cpp)
   target_link_libraries(test_parameters gtest auto_ros_parameters)
+  ament_add_gtest(test_parameter_client test/test_parameter_client.cpp)
+  target_link_libraries(test_parameter_client gtest auto_ros_parameters)
 
   add_launch_test(
     test/test_server_node_launch.py
@@ -74,6 +78,7 @@ if(BUILD_TESTING)
   add_launch_test(test/test_parameter_server_launch.py)
   add_launch_test(test/examples/test_parameters_usage.py)
   add_launch_test(test/examples/test_yaml_parser_usage.py)
+  add_launch_test(test/examples/test_parameter_client.py)
 endif()
 
 install(
@@ -82,11 +87,16 @@ install(
 )
 
 install(
-  TARGETS auto_ros_parameters parameter_server parameters_usage yaml_parser_usage
+  TARGETS auto_ros_parameters parameter_server
   EXPORT export_auto_ros_parameters
   RUNTIME DESTINATION lib/${PROJECT_NAME}
   LIBRARY DESTINATION lib
   INCLUDES DESTINATION include
+)
+
+install(
+  TARGETS parameters_usage yaml_parser_usage parameter_client
+  RUNTIME DESTINATION share/${PROJECT_NAME}/examples
 )
 
 install(

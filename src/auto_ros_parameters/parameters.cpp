@@ -15,7 +15,7 @@
 #include "auto_ros_parameters/parameters.hpp"
 #include "auto_ros_parameters/utils.hpp"
 
-namespace uav_ros2::parameters
+namespace ros2_uav::parameters
 {
 void Parameter::onParameterChange([[maybe_unused]] const rclcpp::Parameter & parameter)
 {
@@ -164,7 +164,7 @@ void ServerParameter::handleClientRegistration(
       RCLCPP_WARN(
         node_->get_logger(), "Client node %s is already registered for parameter %s",
         client_node_name.c_str(), param_name_.c_str());
-      response->success = false;
+      response->success = true;
       response->message = "Client node is already registered";
       return;
     }
@@ -192,4 +192,4 @@ void ServerParameter::handleClientRegistration(
   }
 }
 
-}  // namespace uav_ros2::parameters
+}  // namespace ros2_uav::parameters

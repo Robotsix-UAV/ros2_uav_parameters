@@ -18,8 +18,8 @@
 #include <rclcpp/parameter_event_handler.hpp>
 #include "auto_ros_parameters/parameters.hpp"
 
-using uav_ros2::parameters::Parameter;
-using uav_ros2::parameters::ServerParameter;
+using ros2_uav::parameters::Parameter;
+using ros2_uav::parameters::ServerParameter;
 
 class ParameterTest : public ::testing::Test
 {
@@ -151,10 +151,11 @@ TEST_P(ParameterParameterizedTest, ServerParameterRegisterAndChange)
 
   // Register a client
   auto client = std::make_shared<rclcpp::Node>("client_node");
+  auto param_handler_client = std::make_shared<rclcpp::ParameterEventHandler>(client);
 
   // Create the parameter also in the client
   TestParameter test_param(
-    client, param_handler_, param_name, initial_param.get_value<rclcpp::ParameterValue>(),
+    client, param_handler_client, param_name, initial_param.get_value<rclcpp::ParameterValue>(),
     descriptor);
 
   // Set the client callback
@@ -188,7 +189,6 @@ TEST_P(ParameterParameterizedTest, ServerParameterRegisterAndChange)
 
   // Update parameter with the same value to trigger the callbacks
   node_->set_parameter(initial_param);
-  client->set_parameter(initial_param);
 
   while (callback_triggered_client < 2) {
     rclcpp::spin_some(node_);
@@ -206,6 +206,80 @@ TEST_P(ParameterParameterizedTest, ServerParameterRegisterAndChange)
 
   auto response_unregister = future_result_unregister.get();
   EXPECT_TRUE(response_unregister->success);
+}
+
+TEST_F(ParameterTest, ServerParameterRegisterTwice)
+{
+  rcl_interfaces::msg::ParameterDescriptor descriptor;
+  descriptor.description = "Test server parameter";
+
+  TestServerParameter server_param(
+    node_, param_handler_, "test_param", 10, descriptor);
+
+  rclcpp::spin_some(node_);
+
+  // Register a client
+  auto client = std::make_shared<rclcpp::Node>("client_node");
+
+  std::string service_name = "/test_node/param/test_param";
+  std::replace(service_name.begin(), service_name.end(), '.', '/');
+  service_name += "/register";
+  auto client_register_service =
+    client->create_client<ros2_uav_interfaces::srv::ParameterClientRegister>(service_name);
+  auto request = std::make_shared<ros2_uav_interfaces::srv::ParameterClientRegister::Request>();
+  request->client_name = client->get_fully_qualified_name();
+  request->register_client = true;
+
+  ASSERT_TRUE(client_register_service->wait_for_service(std::chrono::seconds(1)));
+  auto future_result = client_register_service->async_send_request(request);
+  rclcpp::spin_some(node_);
+  rclcpp::spin_some(client);
+
+  auto response = future_result.get();
+  EXPECT_TRUE(response->success);
+
+  // Register the client again
+  auto future_result_twice = client_register_service->async_send_request(request);
+  rclcpp::spin_some(node_);
+  rclcpp::spin_some(client);
+
+  auto response_twice = future_result_twice.get();
+  EXPECT_TRUE(response_twice->success);
+  EXPECT_EQ(response_twice->message, "Client node is already registered");
+}
+
+TEST_F(ParameterTest, ServerParameterUnregister)
+{
+  rcl_interfaces::msg::ParameterDescriptor descriptor;
+  descriptor.description = "Test server parameter";
+
+  TestServerParameter server_param(
+    node_, param_handler_, "test_param", 10, descriptor);
+
+  rclcpp::spin_some(node_);
+
+  auto client = std::make_shared<rclcpp::Node>("client_node");
+
+  std::string service_name = "/test_node/param/test_param";
+  std::replace(service_name.begin(), service_name.end(), '.', '/');
+  service_name += "/register";
+  auto client_register_service =
+    client->create_client<ros2_uav_interfaces::srv::ParameterClientRegister>(service_name);
+  auto request = std::make_shared<ros2_uav_interfaces::srv::ParameterClientRegister::Request>();
+  request->client_name = client->get_fully_qualified_name();
+  request->register_client = true;
+
+  ASSERT_TRUE(client_register_service->wait_for_service(std::chrono::seconds(1)));
+
+  // Unregister the client
+  request->register_client = false;
+  auto future_result_unregister = client_register_service->async_send_request(request);
+  rclcpp::spin_some(node_);
+  rclcpp::spin_some(client);
+
+  auto response_unregister_twice = future_result_unregister.get();
+  EXPECT_FALSE(response_unregister_twice->success);
+  EXPECT_EQ(response_unregister_twice->message, "Client node is not registered");
 }
 
 INSTANTIATE_TEST_SUITE_P(
