@@ -25,8 +25,7 @@ ParameterClient::ParameterClient(
 {
   auto parameter_client = std::make_shared<rclcpp::SyncParametersClient>(this, server_name);
   RCLCPP_INFO(get_logger(), "Waiting for parameter server to start");
-  if(server_name.empty())
-  {
+  if (server_name.empty()) {
     server_name_ = get_namespace() + std::string("/parameter_server");
   }
   if (!parameter_client->wait_for_service(1s)) {
