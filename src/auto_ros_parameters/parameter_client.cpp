@@ -23,11 +23,11 @@ ParameterClient::ParameterClient(
   const std::string & server_name)
 : Node(node_name), server_name_(server_name)
 {
-  auto parameter_client = std::make_shared<rclcpp::SyncParametersClient>(this, server_name);
-  RCLCPP_INFO(get_logger(), "Waiting for parameter server to start");
   if (server_name.empty()) {
     server_name_ = get_namespace() + std::string("/parameter_server");
   }
+  auto parameter_client = std::make_shared<rclcpp::SyncParametersClient>(this, server_name);
+  RCLCPP_INFO(get_logger(), "Waiting for parameter server to start");
   if (!parameter_client->wait_for_service(1s)) {
     throw std::runtime_error("Parameter server " + server_name + " not available");
   }

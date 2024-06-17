@@ -24,6 +24,9 @@ jobs:
           required-ros-distributions: humble
           use-ros2-testing: true
 
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
       - name: Build and Test
         uses: ros-tooling/action-ros-ci@v0.3
         with:
