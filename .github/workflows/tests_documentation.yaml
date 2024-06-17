@@ -29,6 +29,8 @@ jobs:
         with:
           package-name: ${{ github.repository_name }}
           target-ros2-distro: humble
+          vcs-repo-file-url: |
+            $GITHUB_WORKSPACE/dependencies.repos
           colcon-defaults: |
             {
             "build": {
