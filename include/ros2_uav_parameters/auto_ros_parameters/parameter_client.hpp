@@ -67,7 +67,7 @@ public:
   {
     for (auto & parameter : remote_parameters_) {
       auto client_register = node->create_client<ros2_uav_interfaces::srv::ParameterClientRegister>(
-        server_name + "/param" + parameter.getName() + "/register");
+        server_name + "param" + parameter.getName() + "/register");
       auto request = std::make_shared<ros2_uav_interfaces::srv::ParameterClientRegister::Request>();
       request->client_name = this->get_fully_qualified_name();
       request->register_client = true;

@@ -152,7 +152,24 @@ TEST_P(ParameterParameterizedTest, ServerParameterRegisterAndChange)
   // Register a client
   auto client = std::make_shared<rclcpp::Node>("client_node");
 
-  std::string service_name = "param/" + param_name;
+  // Create the parameter also in the client
+  TestParameter test_param(
+    client, param_handler_, param_name, initial_param.get_value<rclcpp::ParameterValue>(),
+    descriptor);
+
+  // Set the client callback
+  int callback_triggered_client = 0;
+  test_param.setOnChangeCallback(
+    [&callback_triggered_client, param_name, param_type, initial_param](
+      const rclcpp::Parameter & parameter)
+    {
+      ++callback_triggered_client;
+      EXPECT_EQ(parameter.get_name(), param_name);
+      EXPECT_EQ(parameter.get_type(), param_type);
+      EXPECT_EQ(parameter, initial_param);
+    });
+
+  std::string service_name = "/test_node/param/" + param_name;
   std::replace(service_name.begin(), service_name.end(), '.', '/');
   service_name += "/register";
   auto client_register_service =
@@ -163,21 +180,29 @@ TEST_P(ParameterParameterizedTest, ServerParameterRegisterAndChange)
 
   ASSERT_TRUE(client_register_service->wait_for_service(std::chrono::seconds(1)));
   auto future_result = client_register_service->async_send_request(request);
-  rclcpp::spin_until_future_complete(client, future_result);
+  rclcpp::spin_some(node_);
+  rclcpp::spin_some(client);
 
   auto response = future_result.get();
   EXPECT_TRUE(response->success);
 
-  // Update parameter with the same value to trigger the callback
+  // Update parameter with the same value to trigger the callbacks
   node_->set_parameter(initial_param);
-  rclcpp::spin_some(node_);
+  client->set_parameter(initial_param);
+
+  while (callback_triggered_client < 2) {
+    rclcpp::spin_some(node_);
+    rclcpp::spin_some(client);
+  }
 
   EXPECT_EQ(callback_triggered, 2);
+  EXPECT_EQ(callback_triggered_client, 2);
 
   // Unregister the client
   request->register_client = false;
   auto future_result_unregister = client_register_service->async_send_request(request);
-  rclcpp::spin_until_future_complete(client, future_result_unregister);
+  rclcpp::spin_some(node_);
+  rclcpp::spin_some(client);
 
   auto response_unregister = future_result_unregister.get();
   EXPECT_TRUE(response_unregister->success);

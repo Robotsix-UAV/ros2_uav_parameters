@@ -35,6 +35,11 @@ class Parameter
 {
 public:
   /**
+   * @brief Default constructor for the Parameter class.
+   */
+  Parameter() {}
+
+  /**
    * @brief Constructor to initialize and declare a ROS2 parameter.
    *
    * This constructor declares a parameter with the given name, value, and descriptor,
@@ -87,7 +92,10 @@ public:
    */
   Parameter(
     rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
-    const rclcpp::Parameter & parameter);
+    const rclcpp::Parameter & parameter)
+  : Parameter(node, param_subscriber, parameter.get_name(),
+      parameter.get_value<rclcpp::ParameterValue>(), rcl_interfaces::msg::ParameterDescriptor())
+  {}
 
   /**
    * @brief Overloaded constructor to initialize and declare a ROS2 parameter from an existing parameter with a shared pointer to the node.
@@ -132,12 +140,9 @@ protected:
   void logChange(const rclcpp::Parameter & parameter);
 
   rclcpp::Node * node_;  ///< Pointer to the ROS2 node.
-
-protected:
   std::string param_name_;  ///< Name of the parameter.
-
-private:
-  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_; ///< Handle for the parameter callback.
+  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_;
+  ///< Handle for the parameter callback.
 };
 
 /**
@@ -169,10 +174,13 @@ public:
     const std::string & name, const T & value, const ParameterDescriptor & descriptor)
   : Parameter(node, param_subscriber, name, value, descriptor)
   {
+    node_ = node;
+    param_name_ = name;
     // Replace dots with slashes in the parameter name
     std::string service_name = "param/" + name;
     std::replace(service_name.begin(), service_name.end(), '.', '/');
     service_name += "/register";
+    service_name = node_->get_fully_qualified_name() + std::string("/") + service_name;
 
     // Create a service to register a new client node
     register_service_ = node->create_service<ros2_uav_interfaces::srv::ParameterClientRegister>(
@@ -232,9 +240,10 @@ private:
     const std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Request> request,
     std::shared_ptr<ros2_uav_interfaces::srv::ParameterClientRegister::Response> response);
 
-  std::vector<std::string> client_nodes_;  ///< List of registered client nodes.
+  std::vector<std::pair<std::string, std::shared_ptr<rclcpp::Client<rcl_interfaces::srv::SetParameters>>>> client_nodes_;
+  ///< List of registered client nodes.
   std::shared_ptr<rclcpp::Service<ros2_uav_interfaces::srv::ParameterClientRegister>>
-  register_service_;                                                                                      ///< Service for registering/unregistering client nodes.
+  register_service_;  ///< Service for registering/unregistering client nodes.
 };
 
 }  // namespace uav_ros2::parameters
