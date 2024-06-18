@@ -30,4 +30,4 @@ int main(int argc, char ** argv)
   rclcpp::shutdown();
   return 0;
 }
-// STOP_EXAMPLE parameter_client
+// END_EXAMPLE parameter_client
