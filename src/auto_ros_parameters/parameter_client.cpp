@@ -19,7 +19,7 @@ namespace ros2_uav::parameters
 {
 
 ParameterClient::ParameterClient(
-  const std::string & node_name, std::vector<std::string> & required_parameters,
+  const std::string & node_name, const std::vector<std::string> & required_parameters,
   const std::string & server_name)
 : Node(node_name), server_name_(server_name)
 {

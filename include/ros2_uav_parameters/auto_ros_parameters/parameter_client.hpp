@@ -44,7 +44,7 @@ public:
    * indicates the default parameter server. (i.e., node_namespace/parameter_server)
    */
   ParameterClient(
-    const std::string & node_name, std::vector<std::string> & required_parameters,
+    const std::string & node_name, const std::vector<std::string> & required_parameters,
     const std::string & server_name = "");
 
   /**
