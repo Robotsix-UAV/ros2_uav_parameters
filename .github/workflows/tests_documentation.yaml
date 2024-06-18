@@ -42,7 +42,7 @@ jobs:
                 ]
               }
             }
-          coverage-ignore-pattern: "*/test/*"
+          coverage-ignore-pattern: "*/msg/* */srv/* */test/*"
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
