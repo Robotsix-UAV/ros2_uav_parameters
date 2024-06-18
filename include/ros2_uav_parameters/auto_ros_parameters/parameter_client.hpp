@@ -41,7 +41,7 @@ public:
    * @param node_name The name of the client node.
    * @param required_parameters A list of required parameters to be synchronized.
    * @param server_name The name of the parameter server node (default is ""). An empty string
-   * indicates the default parameter server. (i.e., #node_namespace#/parameter_server)
+   * indicates the default parameter server. (i.e., node_namespace/parameter_server)
    */
   ParameterClient(
     const std::string & node_name, std::vector<std::string> & required_parameters,
