@@ -71,7 +71,7 @@ class TestNodeParameter(unittest.TestCase):
     def test_parameter_client(self, proc_output):
         node = rclpy.create_node('test_node')
         assert wait_for_node(node, 'parameter_client')
-        client = node.create_client(GetParameters, 'parameter_client/get_parameters')
+        client = node.create_client(GetParameters, '/uav/parameter_client/get_parameters')
 
         ready = client.wait_for_service(timeout_sec=10.0)
         self.assertTrue(ready, 'Service is not available.')
@@ -94,7 +94,7 @@ class TestNodeParameter(unittest.TestCase):
         parameter_to_set.value.type = 3
         parameter_to_set.value.double_value = 10.0
         # Use the set_parameters service on the server node to set the parameter
-        set_param_client = node.create_client(SetParameters, 'parameter_server/set_parameters')
+        set_param_client = node.create_client(SetParameters, '/uav/parameter_server/set_parameters')
 
         request_set = rclpy.parameter_service.SetParameters.Request()
         request_set.parameters = [parameter_to_set]
