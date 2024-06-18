@@ -33,3 +33,5 @@ for a custom configuration folder.
 ### Auto Ros Parameters Library
 
 A library with utilities to facilitate parameter creation and interaction with the parameter server. Guidance on using the utility library in other nodes can be found in the [Parameters Library](parameter_library.md) section of this documentation.
+
+A useful class in the library is the [ParameterClient](parameter_library.md#ros2_uav::parameters::ParameterClient) class. This class manages client-side ros2_uav::parameters. It registers parameters with a remote parameter server and synchronizes their values. The `ParameterClient` class handles the registration and unregistration of parameters, ensuring that the parameters on the client are updated when they change on the server.
