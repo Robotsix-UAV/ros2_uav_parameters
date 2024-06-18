@@ -24,7 +24,7 @@
 // TODO(Damien SIX): Min and max keys are not handled for sequences.
 // Add support for this if possible.
 
-namespace uav_ros2
+namespace ros2_uav::parameters
 {
 /**
  * @class YamlParameterParser
@@ -72,4 +72,4 @@ private:
     rcl_interfaces::msg::ParameterDescriptor>> parameters_;  ///< Parsed parameters.
 };
 
-}  // namespace uav_ros2
+}  // namespace ros2_uav::parameters

@@ -15,7 +15,7 @@
 #include <gtest/gtest.h>
 #include "auto_ros_parameters/utils.hpp"
 
-namespace uav_ros2::utils
+namespace ros2_uav::utils
 {
 
 // Test cases for doubleToStringTrimZero
@@ -71,7 +71,7 @@ TEST_F(DoubleToStringTrimZeroTest, HandlesNegativeValue)
   EXPECT_EQ(result, expected);
 }
 
-}  // namespace uav_ros2::utils
+}  // namespace ros2_uav::utils
 
 int main(int argc, char ** argv)
 {

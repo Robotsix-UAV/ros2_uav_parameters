@@ -29,7 +29,6 @@ import yaml
 
 
 valid_data = True
-correct_data = True
 
 
 def create_test_config(invalid=False):
@@ -82,8 +81,7 @@ def set_node_arguments(context):
     if dir_valid == 'OK':
         parameters = [{'config_directory': create_test_config()}]
     elif dir_valid == 'Empty':
-        global correct_data
-        correct_data = False
+        valid_data = False
         parameters = []
     elif dir_valid == 'NotExists':
         valid_data = False
@@ -121,7 +119,7 @@ class TestFixture(unittest.TestCase):
         node.destroy_node()
 
     def test_parameter_initialization(self, proc_output):
-        global valid_data, correct_data
+        global valid_data
 
         node = Node('test_node')
         client = node.create_client(GetParameters, 'ros2_uav_parameters/get_parameters')
@@ -142,12 +140,8 @@ class TestFixture(unittest.TestCase):
         response = future.result()
         if valid_data:
             self.assertNotEqual(len(response.values), 0)
-            if correct_data:
-                self.assertEqual(response.values[0].type, 2)
-                self.assertEqual(response.values[0].integer_value, 5)
-            else:
-                self.assertNotEqual(response.values[0].type, 2)
-                self.assertNotEqual(response.values[0].integer_value, 5)
+            self.assertEqual(response.values[0].type, 2)
+            self.assertEqual(response.values[0].integer_value, 5)
         else:
             self.assertEqual(len(response.values), 0)
 

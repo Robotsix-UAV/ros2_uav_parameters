@@ -24,11 +24,16 @@ jobs:
           required-ros-distributions: humble
           use-ros2-testing: true
 
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+
       - name: Build and Test
         uses: ros-tooling/action-ros-ci@v0.3
         with:
           package-name: ${{ github.repository_name }}
           target-ros2-distro: humble
+          vcs-repo-file-url: |
+            ${{ github.workspace }}/dependencies.repos
           colcon-defaults: |
             {
             "build": {
@@ -37,7 +42,7 @@ jobs:
                 ]
               }
             }
-          coverage-ignore-pattern: "*/test/*"
+          coverage-ignore-pattern: "*/msg/* */srv/* */test/*"
 
       - name: Archive code coverage results
         uses: actions/upload-artifact@v4
@@ -93,7 +98,7 @@ jobs:
 
       - name: Create and push with mike
         run: |
-          git config --local user.name robosix_bot
+          git config --local user.name robotsix_bot
           git config --local user.email robotsix_bot@noreply.com
           git fetch origin gh-pages --depth=1
           cd ${{ github.workspace }}
@@ -120,7 +125,7 @@ jobs:
             echo "DEPLOY_REF=PR-${{ github.event.number }}" >> $GITHUB_ENV
           else
             cd /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
-            git config --global --add safe.directory /__w/ros2_uav_parameters/ros2_uav_parameters
+            git config --global --add safe.directory /__w/${{ github.event.repository.name }}/${{ github.event.repository.name }}
             git fetch --tags
             TAG=$(git describe --tags --abbrev=0)
             VERSION=${TAG%.*}
@@ -160,7 +165,7 @@ jobs:
       - name: Push changes to gh-pages squashing commits
         run: |
           cd ${{ github.event.repository.name }}
-          git config --local user.name robosix
+          git config --local user.name robotsix
           git config --local user.email robotsix@noreply.com
           git add .
           git commit -m "Update rosdoc2 documentation and code coverage results"

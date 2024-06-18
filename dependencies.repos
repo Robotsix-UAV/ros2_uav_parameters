@@ -1,0 +1,5 @@
+repositories:
+    ros2_uav_interfaces:
+        type: git
+        url: https://github.com/Robotsix-UAV/ros2_uav_interfaces
+        version: main

@@ -11,25 +11,23 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#pragma once
 
-#include <string>
+// START_EXAMPLE parameter_client
+#include <auto_ros_parameters/parameter_client.hpp>
 
-namespace ros2_uav::utils
+int main(int argc, char ** argv)
 {
-/**
- * @brief Converts a double to a string and trims trailing zeros.
- *
- * This function takes a double value, converts it to a string,
- * and removes any trailing zeros from the fractional part.
- *
- * @param value The double value to be converted to string.
- * @return A string representation of the double value without trailing zeros.
- */
-std::string doubleToStringTrimZero(double value)
-{
-  std::string str = std::to_string(value);
-  str.erase(str.find_last_not_of('0') + 1, std::string::npos);
-  return str;
+  rclcpp::init(argc, argv);
+
+  auto required_parameters =
+    std::vector<std::string>{"limits.ground_velocity", "limits.vertical_velocity"};
+
+  auto parameter_client_node = std::make_shared<ros2_uav::parameters::ParameterClient>(
+    "parameter_client",
+    required_parameters);
+
+  rclcpp::spin(parameter_client_node);
+  rclcpp::shutdown();
+  return 0;
 }
-}  // namespace ros2_uav::utils
+// END_EXAMPLE parameter_client

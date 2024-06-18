@@ -22,24 +22,24 @@
 namespace fs = std::filesystem;
 using rcl_interfaces::msg::FloatingPointRange;
 using rcl_interfaces::msg::ParameterDescriptor;
-using uav_ros2::YamlParameterParser;
+using ros2_uav::parameters::YamlParameterParser;
 
 class ServerNode : public rclcpp::Node
 {
 public:
   ServerNode()
-  : Node("ros2_uav_parameters")
+  : Node("parameter_server")
   {
     // Create a parameter event handler
-    param_suscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
+    param_subscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
   }
 
   std::shared_ptr<rclcpp::ParameterEventHandler> getParameterEventHandler() const
   {
-    return param_suscriber_;
+    return param_subscriber_;
   }
 
-  void initParameters(const uav_ros2::YamlParameterParser & parser)
+  void initParameters(const ros2_uav::parameters::YamlParameterParser & parser)
   {
     // Declare parameters from the parser
     for (const auto & param : parser.getParameters()) {
@@ -77,15 +77,15 @@ private:
       [this, &name, &descriptor](auto && val)
       {
         parameters_.push_back(
-          std::make_shared<uav_ros2::Parameter>(
+          std::make_shared<ros2_uav::parameters::ServerParameter>(
             shared_from_this(),
-            param_suscriber_, name, val, descriptor));
+            param_subscriber_, name, val, descriptor));
       },
       value);
   }
 
-  std::shared_ptr<rclcpp::ParameterEventHandler> param_suscriber_;
-  std::vector<std::shared_ptr<uav_ros2::Parameter>> parameters_;
+  std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
+  std::vector<std::shared_ptr<ros2_uav::parameters::ServerParameter>> parameters_;
 };
 
 int main(int argc, char ** argv)
@@ -97,7 +97,7 @@ int main(int argc, char ** argv)
   default_config_folder += "/config";
   auto param_descriptor = rcl_interfaces::msg::ParameterDescriptor();
   param_descriptor.description = "Folder containing YAML configuration files";
-  auto config_file = uav_ros2::Parameter(
+  auto config_file = ros2_uav::parameters::Parameter(
     node,
     node->getParameterEventHandler(), "config_directory", default_config_folder, param_descriptor);
 

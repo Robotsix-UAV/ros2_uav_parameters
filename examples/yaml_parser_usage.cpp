@@ -48,14 +48,14 @@ group1:
 
 // START_EXAMPLE yaml_parser_usage
   // Parse parameters from the temporary YAML file
-  uav_ros2::YamlParameterParser parser(temp_path.string());
+  ros2_uav::parameters::YamlParameterParser parser(temp_path.string());
   auto parameters = parser.getParameters();
 
   // Iterate over the parameters
   for (const auto & param : parameters) {
     std::string name;
     // Use std::variant to store different types of parameter values
-    uav_ros2::YamlParameterParser::ParameterValue value;
+    ros2_uav::parameters::YamlParameterParser::ParameterValue value;
     rcl_interfaces::msg::ParameterDescriptor descriptor;
     std::tie(name, value, descriptor) = param;
 

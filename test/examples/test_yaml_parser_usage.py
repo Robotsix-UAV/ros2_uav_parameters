@@ -27,7 +27,7 @@ import pytest
 def generate_test_description():
     package_name = 'ros2_uav_parameters'
     yaml_parser_executable = os.path.join(
-        get_package_prefix(package_name), 'lib', package_name,  'yaml_parser_usage'
+        get_package_prefix(package_name), 'share', package_name,  'examples/yaml_parser_usage'
     )
 
     return launch.LaunchDescription([

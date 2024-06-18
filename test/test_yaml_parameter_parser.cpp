@@ -36,7 +36,7 @@ protected:
   template<typename T>
   T getParameterValue(
     const std::vector<std::tuple<std::string,
-    uav_ros2::YamlParameterParser::ParameterValue,
+    ros2_uav::parameters::YamlParameterParser::ParameterValue,
     rcl_interfaces::msg::ParameterDescriptor>> & parameters,
     const std::string & name)
   {
@@ -81,7 +81,7 @@ group1:
 )";
   std::string filename = createTempYamlFile(yaml_content);
 
-  uav_ros2::YamlParameterParser parser(filename);
+  ros2_uav::parameters::YamlParameterParser parser(filename);
   auto parameters = parser.getParameters();
 
   ASSERT_EQ(parameters.size(), (size_t)8);
@@ -123,7 +123,7 @@ group1:
 )";
   std::string filename = createTempYamlFile(yaml_content);
 
-  uav_ros2::YamlParameterParser parser(filename);
+  ros2_uav::parameters::YamlParameterParser parser(filename);
   auto parameters = parser.getParameters();
 
   ASSERT_EQ(parameters.size(), (size_t)2);
@@ -159,7 +159,7 @@ group1:
 )";
   std::string filename = createTempYamlFile(yaml_content);
 
-  uav_ros2::YamlParameterParser parser(filename);
+  ros2_uav::parameters::YamlParameterParser parser(filename);
   auto parameters = parser.getParameters();
 
   ASSERT_EQ(parameters.size(), (size_t)1);
@@ -184,7 +184,7 @@ group1:
 
   try {
     std::string filename = createTempYamlFile(yaml_content);
-    uav_ros2::YamlParameterParser parser(filename);
+    ros2_uav::parameters::YamlParameterParser parser(filename);
     FAIL() << "Expected exception not thrown";
   } catch (const std::exception & e) {
     std::string expected_error =
@@ -202,7 +202,7 @@ group1:
   std::string filename = createTempYamlFile(yaml_content);
 
   try {
-    uav_ros2::YamlParameterParser parser(filename);
+    ros2_uav::parameters::YamlParameterParser parser(filename);
     FAIL() << "Expected exception not thrown";
   } catch (const std::exception & e) {
     std::string expected_error =
@@ -217,7 +217,7 @@ TEST_F(YamlParameterParserTest, EmptyYamlFile)
   std::string filename = createTempYamlFile(yaml_content);
 
   try {
-    uav_ros2::YamlParameterParser parser(filename);
+    ros2_uav::parameters::YamlParameterParser parser(filename);
     FAIL() << "Expected exception not thrown";
   } catch (const std::exception & e) {
     std::string expected_error = "Invalid YAML file. Top level must be a map.";
@@ -236,7 +236,7 @@ group1:
   std::string filename = createTempYamlFile(yaml_content);
 
   try {
-    uav_ros2::YamlParameterParser parser(filename);
+    ros2_uav::parameters::YamlParameterParser parser(filename);
     FAIL() << "Expected exception not thrown";
   } catch (const std::exception & e) {
     std::string expected_error =
@@ -256,7 +256,7 @@ group1:
   std::string filename = createTempYamlFile(yaml_content);
 
   try {
-    uav_ros2::YamlParameterParser parser(filename);
+    ros2_uav::parameters::YamlParameterParser parser(filename);
     FAIL() << "Expected exception not thrown";
   } catch (const std::exception & e) {
     std::string expected_error =
@@ -277,7 +277,7 @@ group1:
 
   try {
     std::string filename = createTempYamlFile(yaml_content);
-    uav_ros2::YamlParameterParser parser(filename);
+    ros2_uav::parameters::YamlParameterParser parser(filename);
     FAIL() << "Expected exception not thrown";
   } catch (const std::exception & e) {
     std::string expected_error =
