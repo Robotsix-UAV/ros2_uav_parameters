@@ -15,9 +15,9 @@
 // EXAMPLE_START parameter_client
 #include <auto_ros_parameters/parameter_client.hpp>
 
-int main()
+int main(int argc, char ** argv)
 {
-  rclcpp::init(0, nullptr);
+  rclcpp::init(argc, argv);
 
   auto required_parameters =
     std::vector<std::string>{"limits.ground_velocity", "limits.vertical_velocity"};
