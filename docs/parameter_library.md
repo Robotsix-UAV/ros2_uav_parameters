@@ -42,4 +42,6 @@ An example of an advanced usage of the `ServerParameter` class can be found in t
 
 The `ParameterClient` class manages client-side ros2_uav::parameters. It registers parameters with a remote parameter server and synchronizes their values. The `ParameterClient` class handles the registration and unregistration of parameters, ensuring that the parameters on the client are updated when they change on the server.
 
+### ParameterClient Usage
+
 <!-- INSERT_EXAMPLE: parameter_client -->

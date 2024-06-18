@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// EXAMPLE_START parameter_client
+// START_EXAMPLE parameter_client
 #include <auto_ros_parameters/parameter_client.hpp>
 
 int main(int argc, char ** argv)
@@ -30,4 +30,4 @@ int main(int argc, char ** argv)
   rclcpp::shutdown();
   return 0;
 }
-// EXAMPLE_STOP parameter_client
+// STOP_EXAMPLE parameter_client

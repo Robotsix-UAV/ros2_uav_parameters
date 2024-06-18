@@ -61,10 +61,9 @@ ParameterClient::~ParameterClient()
   if (register_thread_.joinable()) {
     register_thread_.join();
   }
-  registerParameters(false);
 }
 
-void ParameterClient::registerParameters(bool register_client)
+void ParameterClient::registerParameters()
 {
   for (auto & parameter : remote_parameters_) {
     std::string service_name = parameter->getName();
@@ -76,28 +75,27 @@ void ParameterClient::registerParameters(bool register_client)
     auto request =
       std::make_shared<ros2_uav_interfaces::srv::ParameterClientRegister::Request>();
     request->client_name = this->get_fully_qualified_name();
-    request->register_client = register_client;
+    request->register_client = true;
     if (!client_register->wait_for_service(1s)) {
+      // LCOV_EXCL_START
+      // Tested with death test not captured by gcov
       throw std::runtime_error(
               "Failed to connect to parameter server service for parameter " +
               parameter->getName());
+      // LCOV_EXCL_STOP
     }
-    if (register_client) {
-      RCLCPP_INFO(
-        get_logger(), "Registering parameter %s with service %s",
-        parameter->getName().c_str(), service_name.c_str());
-      auto future = client_register->async_send_request(request);
-      future.wait_for(1s);
-      auto result = future.get();
-      if (!result->success) {
-        throw std::runtime_error(
-                "Failed to register client in parameter server");
-      }
-    } else {
-      RCLCPP_INFO(
-        get_logger(), "Unregistering parameter %s with service %s",
-        parameter->getName().c_str(), service_name.c_str());
-      client_register->async_send_request(request);
+    RCLCPP_INFO(
+      get_logger(), "Registering parameter %s with service %s",
+      parameter->getName().c_str(), service_name.c_str());
+    auto future = client_register->async_send_request(request);
+    future.wait_for(1s);
+    auto result = future.get();
+    if (!result->success) {
+      // LCOV_EXCL_START
+      // Tested with death test not captured by gcov
+      throw std::runtime_error(
+              "Failed to register client in parameter server");
+      // LCOV_EXCL_STOP
     }
   }
 }

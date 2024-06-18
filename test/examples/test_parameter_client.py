@@ -113,8 +113,6 @@ class TestNodeParameter(unittest.TestCase):
         self.assertEqual(response.values[0].type, 3)
         self.assertEqual(response.values[0].double_value, 10.0)
 
-        node.destroy_node()
-
 
 def wait_for_node(dummy_node, node_name, timeout=10.0):
     start = time.time()

@@ -282,6 +282,52 @@ TEST_F(ParameterTest, ServerParameterUnregister)
   EXPECT_EQ(response_unregister_twice->message, "Client node is not registered");
 }
 
+TEST_F(ParameterTest, ServerParameterAutomaticUnregister)
+{
+  rcl_interfaces::msg::ParameterDescriptor descriptor;
+  descriptor.description = "Test server parameter";
+
+  TestServerParameter server_param(
+    node_, param_handler_, "test_param", 10, descriptor);
+
+  rclcpp::spin_some(node_);
+
+  auto client = std::make_shared<rclcpp::Node>("client_node");
+
+  std::string service_name = "/test_node/param/test_param";
+  std::replace(service_name.begin(), service_name.end(), '.', '/');
+  service_name += "/register";
+  auto client_register_service =
+    client->create_client<ros2_uav_interfaces::srv::ParameterClientRegister>(service_name);
+  auto request = std::make_shared<ros2_uav_interfaces::srv::ParameterClientRegister::Request>();
+  request->client_name = client->get_fully_qualified_name();
+  request->register_client = true;
+
+  ASSERT_TRUE(client_register_service->wait_for_service(std::chrono::seconds(1)));
+  auto future_result = client_register_service->async_send_request(request);
+  rclcpp::spin_some(node_);
+  rclcpp::spin_some(client);
+
+  auto response = future_result.get();
+  EXPECT_TRUE(response->success);
+
+  // Unregister the client
+  client.reset();
+  rclcpp::spin_some(node_);
+
+  // Capture the log messages
+  testing::internal::CaptureStderr();
+  // Update parameter to trigger the automatic unregister
+  node_->set_parameter(rclcpp::Parameter("test_param", 20));
+  // Spin ros for 2 s to trigger the automatic unregister
+  auto start = std::chrono::steady_clock::now();
+  while (std::chrono::steady_clock::now() - start < std::chrono::seconds(2)) {
+    rclcpp::spin_some(node_);
+  }
+  std::string output = testing::internal::GetCapturedStderr();
+  EXPECT_NE(output.find("Unregistering client node"), std::string::npos);
+}
+
 INSTANTIATE_TEST_SUITE_P(
   ParameterTests,
   ParameterParameterizedTest,

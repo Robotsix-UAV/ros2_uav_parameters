@@ -15,6 +15,8 @@
 #include "auto_ros_parameters/parameters.hpp"
 #include "auto_ros_parameters/utils.hpp"
 
+using std::chrono_literals::operator""s;
+
 namespace ros2_uav::parameters
 {
 void Parameter::onParameterChange([[maybe_unused]] const rclcpp::Parameter & parameter)
@@ -130,15 +132,40 @@ void ServerParameter::parameterCallback(const rclcpp::Parameter & parameter)
 {
   onParameterChange(parameter);
   logChange(parameter);
+
+  std::vector<std::string> invalid_clients;
   for (const auto & client : client_nodes_) {
     auto request_client = client.second;
-    auto request = std::make_shared<rcl_interfaces::srv::SetParameters::Request>();
-    auto parameter_msg = parameter.to_parameter_msg();
-    request->parameters.push_back(parameter_msg);
-    request_client->async_send_request(request);
-    RCLCPP_INFO(
-      node_->get_logger(), "Sending parameter %s to client %s",
-      parameter.get_name().c_str(), client.first.c_str());
+    // Send the parameter to the client
+    try {
+      if (!request_client->wait_for_service(1s)) {
+        throw std::runtime_error("Service not available");
+      }
+      auto request = std::make_shared<rcl_interfaces::srv::SetParameters::Request>();
+      auto parameter_msg = parameter.to_parameter_msg();
+      request->parameters.push_back(parameter_msg);
+      request_client->async_send_request(request);
+      RCLCPP_INFO(
+        node_->get_logger(), "Sending parameter %s to client %s",
+        parameter.get_name().c_str(), client.first.c_str());
+    } catch (const std::exception & e) {
+      RCLCPP_ERROR(
+        node_->get_logger(), "Failed to send parameter %s to client %s: %s",
+        parameter.get_name().c_str(), client.first.c_str(), e.what());
+      RCLCPP_WARN(
+        node_->get_logger(), "Unregistering client node %s for parameter %s",
+        client.first.c_str(), param_name_.c_str());
+      invalid_clients.push_back(client.first);
+    }
+  }
+  // Unregister invalid clients
+  for (const auto & client : invalid_clients) {
+    auto request_client = std::find_if(
+      client_nodes_.begin(), client_nodes_.end(),
+      [&client](auto & client_node) {return client_node.first == client;});
+    if (request_client != client_nodes_.end()) {
+      client_nodes_.erase(request_client);
+    }
   }
 }
 

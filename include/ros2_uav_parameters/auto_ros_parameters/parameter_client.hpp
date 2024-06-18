@@ -53,11 +53,9 @@ public:
   ~ParameterClient();
 
   /**
-   * @brief Register or unregister parameters with the parameter server.
-   *
-   * @param register_client Flag indicating whether to register (true) or unregister (false) the parameters.
+   * @brief Register or parameters with the parameter server.
    */
-  void registerParameters(bool register_client = true);
+  void registerParameters();
 
 private:
   std::jthread register_thread_;  ///< Thread for registering parameters.

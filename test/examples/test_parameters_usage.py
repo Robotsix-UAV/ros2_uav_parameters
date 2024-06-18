@@ -75,7 +75,6 @@ class TestNodeParameter(unittest.TestCase):
         response = future.result()
         self.assertEqual(response.values[0].type, 2)
         self.assertEqual(response.values[0].integer_value, 42)
-        node.destroy_node()
 
     def test_callback_output(self, proc_output):
         proc_output.assertWaitFor(
