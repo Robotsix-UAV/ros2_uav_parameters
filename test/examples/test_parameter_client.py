@@ -94,7 +94,8 @@ class TestNodeParameter(unittest.TestCase):
         parameter_to_set.value.type = 3
         parameter_to_set.value.double_value = 10.0
         # Use the set_parameters service on the server node to set the parameter
-        set_param_client = node.create_client(SetParameters, '/uav/parameter_server/set_parameters')
+        set_param_client = node.create_client(
+            SetParameters, '/uav/parameter_server/set_parameters')
 
         request_set = rclpy.parameter_service.SetParameters.Request()
         request_set.parameters = [parameter_to_set]
