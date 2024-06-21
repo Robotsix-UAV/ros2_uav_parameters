@@ -19,8 +19,6 @@ settings:
     ## For example, you could include it in a custom 'index.rst' so you can have
     ## the standard information followed by custom content.
 
-    ## TODO(wjwwood): provide a concrete example of this (relative path?)
-
     ## If this is not specified explicitly, it defaults to 'true'.
     generate_package_index: true
 

@@ -30,8 +30,6 @@ ros2 launch ros2_uav_parameters parameter_server_launch.py config_directory:=<yo
 
 for a custom configuration folder.
 
-### Auto Ros Parameters Library
+### ParameterClientNode
 
-A library with utilities to facilitate parameter creation and interaction with the parameter server. Guidance on using the utility library in other nodes can be found in the [Parameters Library](parameter_library.md) section of this documentation.
-
-A useful class in the library is the [ParameterClient](parameter_library.md#ros2_uav::parameters::ParameterClient) class. This class manages client-side ros2_uav::parameters. It registers parameters with a remote parameter server and synchronizes their values. The `ParameterClient` class handles the registration and unregistration of parameters, ensuring that the parameters on the client are updated when they change on the server.
+The [ParameterClientNode](parameter_client.md) is a class inherited from ROS2 Node that subscribes to a list of parameters and synchronizes them with the parameter server. It also provides a convenient interface with the uav_cpp::parameters library.
