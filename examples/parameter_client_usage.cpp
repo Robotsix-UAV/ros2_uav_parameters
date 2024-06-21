@@ -13,7 +13,7 @@
 // limitations under the License.
 
 // START_EXAMPLE parameter_client
-#include <auto_ros_parameters/parameter_client.hpp>
+#include <ros2_uav_parameters/parameter_client.hpp>
 
 int main(int argc, char ** argv)
 {

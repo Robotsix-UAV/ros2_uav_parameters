@@ -1,10 +1,23 @@
+// Copyright 2024 Damien SIX (damien@robotsix.net)
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 #include <gtest/gtest.h>
 #include <rclcpp/rclcpp.hpp>
-#include <ros2_uav_interfaces/srv/parameter_client_register.hpp>
 #include <uav_cpp/parameters/parameter.hpp>
 #include "ros2_uav_parameters/parameters/parameter.hpp"
 
-using namespace ros2_uav::parameters;
+using ros2_uav::parameters::Parameter;
 
 enum class ParamValueType { INT, DOUBLE, STRING, BOOL, INT_ARRAY, DOUBLE_ARRAY, STRING_ARRAY,
   BOOL_ARRAY };
@@ -34,7 +47,7 @@ protected:
 TEST_P(ParameterTest, ParameterTestWithLogging) {
   TestParam param_info = GetParam();
 
-  Parameter param(node_.get(), param_subscriber_, param_info.name, param_info.initial_value,
+  Parameter param(node_, param_subscriber_, param_info.name, param_info.initial_value,
     "A parameter");
 
   // Check initial parameter value
@@ -83,14 +96,95 @@ TEST_P(ParameterTest, ParameterTestWithLogging) {
   // Change parameter value
   std::visit(
     [&](auto && arg) {
-      node_->set_parameter(rclcpp::Parameter(param_info.name, arg));
+      node_->set_parameter(
+        rclcpp::Parameter(
+          param_info.name,
+          arg));
     }, param_info.new_value);
 
   rclcpp::spin_some(node_);
   std::string output = testing::internal::GetCapturedStdout();
   EXPECT_TRUE(
     output.find(param_info.log_message) !=
-    std::string::npos) << "Expected log message" << param_info.log_message;
+    std::string::npos) << "Expected log message: " << param_info.log_message;
+}
+
+TEST_P(ParameterTest, ParameterConstructorWithRclParameter) {
+  TestParam param_info = GetParam();
+
+  // Set initial parameter value using rclcpp::Parameter
+  rclcpp::Parameter initial_param = std::visit(
+    [&](auto && arg) {return rclcpp::Parameter(param_info.name, arg);}, param_info.initial_value);
+
+  // Create Parameter instance using the rclcpp::Parameter constructor
+  Parameter param(initial_param);
+
+  // Ensure createRosCallback is called
+  param.createRosCallback(node_, param_subscriber_);
+
+  // Try to call createRosCallback again (expect log message)
+  testing::internal::CaptureStdout();
+  param.createRosCallback(node_, param_subscriber_);
+  std::string output = testing::internal::GetCapturedStdout();
+  EXPECT_TRUE(output.find("has a ROS callback") != std::string::npos);
+
+  // Check initial parameter value
+  rclcpp::Parameter rcl_param = node_->get_parameter(param_info.name);
+  switch (param_info.type) {
+    case ParamValueType::INT:
+      EXPECT_EQ(rcl_param.get_value<int64_t>(), std::get<int64_t>(param_info.initial_value));
+      break;
+    case ParamValueType::DOUBLE:
+      EXPECT_EQ(rcl_param.get_value<double>(), std::get<double>(param_info.initial_value));
+      break;
+    case ParamValueType::STRING:
+      EXPECT_EQ(
+        rcl_param.get_value<std::string>(),
+        std::get<std::string>(param_info.initial_value));
+      break;
+    case ParamValueType::BOOL:
+      EXPECT_EQ(rcl_param.get_value<bool>(), std::get<bool>(param_info.initial_value));
+      break;
+    case ParamValueType::INT_ARRAY:
+      EXPECT_EQ(
+        rcl_param.get_value<std::vector<int64_t>>(),
+        std::get<std::vector<int64_t>>(param_info.initial_value));
+      break;
+    case ParamValueType::DOUBLE_ARRAY:
+      EXPECT_EQ(
+        rcl_param.get_value<std::vector<double>>(),
+        std::get<std::vector<double>>(param_info.initial_value));
+      break;
+    case ParamValueType::STRING_ARRAY:
+      EXPECT_EQ(
+        rcl_param.get_value<std::vector<std::string>>(),
+        std::get<std::vector<std::string>>(param_info.initial_value));
+      break;
+    case ParamValueType::BOOL_ARRAY:
+      EXPECT_EQ(
+        rcl_param.get_value<std::vector<bool>>(),
+        std::get<std::vector<bool>>(param_info.initial_value));
+      break;
+  }
+  rclcpp::spin_some(node_);
+
+  // Initialize the output capture
+  testing::internal::CaptureStdout();
+
+  // Change parameter value
+  std::visit(
+    [&](auto && arg) {
+      node_->set_parameter(
+        rclcpp::Parameter(
+          param_info.name,
+          arg));
+    }, param_info.new_value);
+
+  rclcpp::spin_some(node_);
+  output = testing::internal::GetCapturedStdout();
+  EXPECT_TRUE(
+    output.find(param_info.log_message) !=
+    std::string::npos) << "Expected log message: " << param_info.log_message;
 }
 
 INSTANTIATE_TEST_SUITE_P(
@@ -119,6 +213,10 @@ INSTANTIATE_TEST_SUITE_P(
       "Parameter test_bool_array_param changed to [false, true, false]"}
   )
 );
+
+TEST(ParameterTest, InvalidParameterType) {
+  EXPECT_THROW(Parameter param = Parameter(rclcpp::Parameter());, std::runtime_error);
+}
 
 int main(int argc, char ** argv)
 {

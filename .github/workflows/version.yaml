@@ -25,9 +25,6 @@ jobs:
         run: echo "Calculated version ${{ steps.calculate_version.outputs.version-string }}"
       - name: checkout
         uses: actions/checkout@v4
-      - name: Update package.xml version
-        run: |
-          sed -i "s/<version>.*<\/version>/<version>${{ steps.calculate_version.outputs.version-string }}<\/version>/" package.xml
       - name: Update README version
         run: |
           SHORT_VERSION=$(echo ${{ steps.calculate_version.outputs.version-string }} | cut -d. -f1,2)

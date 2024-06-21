@@ -23,21 +23,29 @@ Parameter::Parameter(const rclcpp::Parameter & parameter)
 {
   name_ = parameter.get_name();
   if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_INTEGER) {
-    value_ = parameter.get_value<int64_t>();
+    value_ = parameter.as_int();
+    min_ = std::numeric_limits<int64_t>::lowest();
+    max_ = std::numeric_limits<int64_t>::max();
   } else if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE) {
-    value_ = parameter.get_value<double>();
+    value_ = parameter.as_double();
+    min_ = std::numeric_limits<double>::lowest();
+    max_ = std::numeric_limits<double>::max();
   } else if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_STRING) {
-    value_ = parameter.get_value<std::string>();
+    value_ = parameter.as_string();
   } else if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_BOOL) {
-    value_ = parameter.get_value<bool>();
+    value_ = parameter.as_bool();
   } else if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_INTEGER_ARRAY) {
-    value_ = parameter.get_value<std::vector<int64_t>>();
+    value_ = parameter.as_integer_array();
+    min_ = std::numeric_limits<int64_t>::lowest();
+    max_ = std::numeric_limits<int64_t>::max();
   } else if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_DOUBLE_ARRAY) {
-    value_ = parameter.get_value<std::vector<double>>();
+    value_ = parameter.as_double_array();
+    min_ = std::numeric_limits<double>::lowest();
+    max_ = std::numeric_limits<double>::max();
   } else if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_STRING_ARRAY) {
-    value_ = parameter.get_value<std::vector<std::string>>();
+    value_ = parameter.as_string_array();
   } else if (parameter.get_type() == rclcpp::ParameterType::PARAMETER_BOOL_ARRAY) {
-    value_ = parameter.get_value<std::vector<bool>>();
+    value_ = parameter.as_bool_array();
   } else {
     throw std::runtime_error("Unsupported parameter type");
   }
@@ -50,6 +58,14 @@ Parameter::Parameter(
 : uav_cpp::parameters::Parameter(name, value, description)
 {
   createRosCallback(node, param_subscriber);
+}
+
+Parameter::Parameter(
+  rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+  const std::string & name, const uav_cpp::parameters::ParameterType & value,
+  const std::string & description)
+: Parameter(node.get(), param_subscriber, name, value, description)
+{
 }
 
 void Parameter::createRosCallback(
@@ -133,7 +149,10 @@ std::function<void(const rclcpp::Parameter &)> Parameter::createParameterCallbac
              setValue(value);
            };
   } else {
+    // LCOV_EXCL_START
+    // Should never happen
     throw std::runtime_error("Unsupported parameter type");
+    // LCOV_EXCL_STOP
   }
 }
 
@@ -146,6 +165,14 @@ ServerParameter::ServerParameter(
   createRegisterService(node);
 }
 
+ServerParameter::ServerParameter(
+  rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+  const std::string & name, const uav_cpp::parameters::ParameterType & value,
+  const std::string & description)
+: ServerParameter(node.get(), param_subscriber, name, value, description)
+{
+}
+
 void ServerParameter::createRegisterService(rclcpp::Node * node)
 {
   if (node_) {
@@ -153,6 +180,7 @@ void ServerParameter::createRegisterService(rclcpp::Node * node)
     return;
   }
   node_ = node;
+  setOnParameterChange([this]() {onParameterChange();});
   // Replace dots with slashes in the parameter name
   std::string service_name = "param/" + name_;
   std::replace(service_name.begin(), service_name.end(), '.', '/');
@@ -175,7 +203,6 @@ void ServerParameter::createRegisterService(rclcpp::Node::SharedPtr node)
   createRegisterService(node.get());
 }
 
-
 void ServerParameter::onParameterChange()
 {
   std::vector<std::string> invalid_clients;
@@ -188,10 +215,10 @@ void ServerParameter::onParameterChange()
       }
       auto request = std::make_shared<rcl_interfaces::srv::SetParameters::Request>();
       rclcpp::Parameter parameter;
-      std::visit(
-        [&parameter](auto && arg) {
-          parameter = rclcpp::Parameter("param_name", arg);
-        }, value_);
+      auto visitor = [&parameter, this](auto && arg) {
+          parameter = rclcpp::Parameter(name_, arg);
+        };
+      std::visit(visitor, value_);
       auto parameter_msg = parameter.to_parameter_msg();
       request->parameters.push_back(parameter_msg);
       request_client->async_send_request(request);

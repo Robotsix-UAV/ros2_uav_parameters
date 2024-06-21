@@ -15,6 +15,10 @@
 #pragma once
 
 #include <functional>
+#include <utility>
+#include <memory>
+#include <string>
+#include <vector>
 #include <rclcpp/rclcpp.hpp>
 #include <ros2_uav_interfaces/srv/parameter_client_register.hpp>
 #include <uav_cpp/parameters/parameter.hpp>
@@ -39,8 +43,14 @@ public:
     const std::string & name, const uav_cpp::parameters::ParameterType & value,
     const std::string & description = "");
 
+  Parameter(
+    rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+    const std::string & name, const uav_cpp::parameters::ParameterType & value,
+    const std::string & description = "");
+
   /**
- * @brief Constructor to initialize from an existing ROS2 parameter.
+ * @brief Constructor to initialize from an existing ROS2 parameter. Require to call createRosCallback to enable
+ * parameter callback.
  *
  * @param parameter The existing parameter.
  */
@@ -77,6 +87,11 @@ public:
     const std::string & name, const uav_cpp::parameters::ParameterType & value,
     const std::string & description = "");
 
+  ServerParameter(
+    rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+    const std::string & name, const uav_cpp::parameters::ParameterType & value,
+    const std::string & description = "");
+
   void createRegisterService(rclcpp::Node * node);
 
   void createRegisterService(rclcpp::Node::SharedPtr node);
@@ -101,7 +116,7 @@ private:
   ///< List of registered client nodes.
   std::shared_ptr<rclcpp::Service<ParameterClientRegister>>
   register_service_;  ///< Service for registering/unregistering client nodes.
-  rclcpp::Node * node_;  ///< Pointer to the ROS2 node.
+  rclcpp::Node * node_ = nullptr;  ///< Pointer to the ROS2 node.
 };
 
 }  // namespace ros2_uav::parameters

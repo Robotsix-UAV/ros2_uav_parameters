@@ -19,12 +19,10 @@
 #include <memory>
 #include <thread>
 #include <rclcpp/rclcpp.hpp>
-#include "auto_ros_parameters/parameters.hpp"
+#include "ros2_uav_parameters/parameters/parameter.hpp"
 
 namespace ros2_uav::parameters
 {
-using std::chrono_literals::operator""s;
-
 /**
  * @class ParameterClient
  * @brief A class for managing client-side ROS2 parameters.

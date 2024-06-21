@@ -14,9 +14,7 @@
 
 #include <gtest/gtest.h>
 #include <rclcpp/rclcpp.hpp>
-#include "auto_ros_parameters/parameter_client.hpp"
-
-using rcl_interfaces::msg::ParameterDescriptor;
+#include "ros2_uav_parameters/parameter_client.hpp"
 
 class ParameterServer : public rclcpp::Node
 {
@@ -26,9 +24,9 @@ public:
   {
     parameter_handler_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
     param1 = std::make_shared<ros2_uav::parameters::ServerParameter>(
-      this, parameter_handler_, "param1", 1, ParameterDescriptor());
+      this, parameter_handler_, "param1", 1);
     param2 = std::make_shared<ros2_uav::parameters::ServerParameter>(
-      this, parameter_handler_, "param2", 2, ParameterDescriptor());
+      this, parameter_handler_, "param2", 2);
   }
 
 private:
