@@ -25,7 +25,7 @@ ament_target_dependencies(parameter_server rclcpp)
 target_link_libraries(parameter_server parameter_client ros2_uav_cpp::ros2_uav_logger)
 
 add_executable(parameter_client_usage examples/parameter_client_usage.cpp)
-target_link_libraries(parameter_client_usage parameter_client)
+target_link_libraries(parameter_client_usage parameter_client ros2_uav_cpp::ros2_uav_logger)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

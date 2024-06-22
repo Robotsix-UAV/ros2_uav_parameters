@@ -14,11 +14,14 @@
 
 // START_EXAMPLE parameter_client
 #include <ros2_uav_parameters/parameter_client.hpp>
+#include <ros2_uav_cpp/ros2_logger.hpp>
 
+using ros2_uav::utils::RosLoggerInterface;
 
 // Create a custom Node inherited from ParameterClient
 class MyClient : public ros2_uav::parameters::ParameterClient
 {
+public:
   MyClient(const std::string & node_name, const std::vector<std::string> & required_parameters)
   : ParameterClient(node_name, required_parameters)
   {
@@ -30,25 +33,30 @@ class MyClient : public ros2_uav::parameters::ParameterClient
         UAVCPP_INFO(
           "Ground velocity %f --- Vertical velocity %f", ground_velocity,
           vertical_velocity);
-      }
-
+      };
+    auto timer = create_wall_timer(std::chrono::seconds(1), timer_callback);
   }
-}
+};
 
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
 
+  // Define the required parameters
   auto required_parameters =
     std::vector<std::string>{"limits.ground_velocity", "limits.vertical_velocity"};
 
-  auto parameter_client_node = std::make_shared<MyClient>(
+  // Create the custom node
+  auto node = std::make_shared<MyClient>(
     "parameter_client",
     required_parameters);
 
-  uav_cpp::logger::Logger::setLogger()
+  // Set the logger to node logger for the uav_cpp library
+  auto logger = std::make_shared<RosLoggerInterface>(node->get_logger());
+  uav_cpp::logger::Logger::setCustomLogger(logger);
 
-  rclcpp::spin(parameter_client_node);
+  // Spin the node
+  rclcpp::spin(node);
   rclcpp::shutdown();
   return 0;
 }

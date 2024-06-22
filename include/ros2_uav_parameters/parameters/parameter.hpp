@@ -101,7 +101,8 @@ protected:
    */
   std::function<void(const rclcpp::Parameter &)> createParameterCallback();
 
-  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_ = nullptr; ///< Handle for the parameter callback.
+  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_ = nullptr;
+  ///< Handle for the parameter callback.
 };
 
 /**
@@ -177,7 +178,8 @@ private:
     std::shared_ptr<ParameterClientRegister::Response> response);
 
   std::vector<std::pair<std::string,
-    std::shared_ptr<rclcpp::Client<SetParameters>>>> client_nodes_; ///< List of registered client nodes.
+    std::shared_ptr<rclcpp::Client<SetParameters>>>> client_nodes_;
+  ///< List of registered client nodes.
 
   std::shared_ptr<rclcpp::Service<ParameterClientRegister>>
   register_service_;  ///< Service for registering/unregistering client nodes.

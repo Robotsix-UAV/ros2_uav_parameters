@@ -17,12 +17,13 @@
 #include <rclcpp/rclcpp.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <uav_cpp/parameters/yaml_parameter_parser.hpp>
+#include <ros2_uav_cpp/ros2_logger.hpp>
 #include "ros2_uav_parameters/parameters/parameter.hpp"
-#include "ros2_uav_cpp/ros2_logger.hpp"
 
 namespace fs = std::filesystem;
 using uav_cpp::parameters::YamlParameterParser;
 using ros2_uav::parameters::ServerParameter;
+using ros2_uav::utils::RosLoggerInterface;
 
 class ServerNode : public rclcpp::Node
 {
@@ -79,6 +80,10 @@ int main(int argc, char ** argv)
   auto param_descriptor = rcl_interfaces::msg::ParameterDescriptor();
   param_descriptor.description = "Folder containing YAML configuration files";
   node->declare_parameter("config_directory", default_config_folder, param_descriptor);
+
+  // Set the logger to node logger for the uav_cpp library
+  auto logger = std::make_shared<RosLoggerInterface>(node->get_logger());
+  uav_cpp::logger::Logger::setCustomLogger(logger);
 
   // Need to spin to get the parameter necessary to load all the others
   rclcpp::spin_some(node);

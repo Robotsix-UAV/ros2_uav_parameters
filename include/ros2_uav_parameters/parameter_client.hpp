@@ -18,6 +18,7 @@
 #include <vector>
 #include <memory>
 #include <thread>
+#include <map>
 #include <rclcpp/rclcpp.hpp>
 #include "ros2_uav_parameters/parameters/parameter.hpp"
 
