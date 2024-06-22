@@ -38,36 +38,70 @@ class Parameter : public uav_cpp::parameters::Parameter
 public:
   using uav_cpp::parameters::Parameter::Parameter;
 
+  /**
+   * @brief Constructor to initialize a Parameter object with a given node, parameter subscriber, name, value, and description.
+   *
+   * @param node Pointer to the ROS2 node.
+   * @param param_subscriber Shared pointer to the parameter event handler.
+   * @param name Name of the parameter.
+   * @param value Value of the parameter.
+   * @param description Description of the parameter (optional).
+   */
   Parameter(
     rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
     const std::string & name, const uav_cpp::parameters::ParameterType & value,
     const std::string & description = "");
 
+  /**
+   * @brief Constructor to initialize a Parameter object with a shared pointer to the node, parameter subscriber, name, value, and description.
+   *
+   * @param node Shared pointer to the ROS2 node.
+   * @param param_subscriber Shared pointer to the parameter event handler.
+   * @param name Name of the parameter.
+   * @param value Value of the parameter.
+   * @param description Description of the parameter (optional).
+   */
   Parameter(
     rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
     const std::string & name, const uav_cpp::parameters::ParameterType & value,
     const std::string & description = "");
 
   /**
- * @brief Constructor to initialize from an existing ROS2 parameter. Require to call createRosCallback to enable
- * parameter callback.
- *
- * @param parameter The existing parameter.
- */
+   * @brief Constructor to initialize from an existing ROS2 parameter. Requires calling createRosCallback to enable parameter callback.
+   *
+   * @param parameter The existing parameter.
+   */
   explicit Parameter(const rclcpp::Parameter & parameter);
 
+  /**
+   * @brief Creates a ROS parameter callback for the given node and parameter subscriber.
+   *
+   * @param node Pointer to the ROS2 node.
+   * @param param_subscriber Shared pointer to the parameter event handler.
+   */
   void createRosCallback(
     rclcpp::Node * node,
     std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber);
 
+  /**
+   * @brief Creates a ROS parameter callback for the given shared pointer to the node and parameter subscriber.
+   *
+   * @param node Shared pointer to the ROS2 node.
+   * @param param_subscriber Shared pointer to the parameter event handler.
+   */
   void createRosCallback(
     rclcpp::Node::SharedPtr node,
     std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber);
 
 protected:
+  /**
+   * @brief Creates a parameter callback function given its type.
+   *
+   * @return A function that handles parameter changes.
+   */
   std::function<void(const rclcpp::Parameter &)> createParameterCallback();
-  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_ = nullptr;
-  ///< Handle for the parameter callback.
+
+  std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_ = nullptr; ///< Handle for the parameter callback.
 };
 
 /**
@@ -82,21 +116,52 @@ class ServerParameter : public Parameter
 public:
   using Parameter::Parameter;
 
+  /**
+   * @brief Constructor to initialize a ServerParameter object with a given node, parameter subscriber, name, value, and description.
+   *
+   * @param node Pointer to the ROS2 node.
+   * @param param_subscriber Shared pointer to the parameter event handler.
+   * @param name Name of the parameter.
+   * @param value Value of the parameter.
+   * @param description Description of the parameter (optional).
+   */
   ServerParameter(
     rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
     const std::string & name, const uav_cpp::parameters::ParameterType & value,
     const std::string & description = "");
 
+  /**
+   * @brief Constructor to initialize a ServerParameter object with a shared pointer to the node, parameter subscriber, name, value, and description.
+   *
+   * @param node Shared pointer to the ROS2 node.
+   * @param param_subscriber Shared pointer to the parameter event handler.
+   * @param name Name of the parameter.
+   * @param value Value of the parameter.
+   * @param description Description of the parameter (optional).
+   */
   ServerParameter(
     rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
     const std::string & name, const uav_cpp::parameters::ParameterType & value,
     const std::string & description = "");
 
+  /**
+   * @brief Creates a service for registering and unregistering client nodes.
+   *
+   * @param node Pointer to the ROS2 node.
+   */
   void createRegisterService(rclcpp::Node * node);
 
+  /**
+   * @brief Creates a service for registering and unregistering client nodes.
+   *
+   * @param node Shared pointer to the ROS2 node.
+   */
   void createRegisterService(rclcpp::Node::SharedPtr node);
 
 private:
+  /**
+   * @brief Handles parameter changes and notifies registered clients.
+   */
   void onParameterChange();
 
   /**
@@ -112,8 +177,8 @@ private:
     std::shared_ptr<ParameterClientRegister::Response> response);
 
   std::vector<std::pair<std::string,
-    std::shared_ptr<rclcpp::Client<SetParameters>>>> client_nodes_;
-  ///< List of registered client nodes.
+    std::shared_ptr<rclcpp::Client<SetParameters>>>> client_nodes_; ///< List of registered client nodes.
+
   std::shared_ptr<rclcpp::Service<ParameterClientRegister>>
   register_service_;  ///< Service for registering/unregistering client nodes.
   rclcpp::Node * node_ = nullptr;  ///< Pointer to the ROS2 node.
