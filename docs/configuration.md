@@ -12,10 +12,9 @@ Place YAML files in the config directory of your ROS 2 package. The node will pa
 
 Each YAML file can contain multiple parameter groups. Each parameter group contains multiple parameters with attributes:
 
-- `default`: Default value of the parameter.
-- `type`: Data type (`int`, `double`, `bool`, `string`).
-- `description`: (Optional) Description of the parameter.
-- `constraints_description`: (Optional) Additional constraints on the parameter.
+- `default`: Specifies the default value. Use a sequence (`[]`) for arrays.
+- `type`: Defines the parameter type (`int`, `double`, `bool`, `string`).
+- `description`: (Optional) Describes the parameter.
 - `min`: (Optional) Minimum value for `int` and `double` types.
 - `max`: (Optional) Maximum value for `int` and `double` types.
 
@@ -31,13 +30,12 @@ Parameter_group_1:
     max: 10
     type: int
     description: "An integer parameter"
-    constraints_description: "Must be between 0 and 10"
 
   Parameter2:
     default: 3.14
     min: 0.0
     max: 10.0
-    type: double
+    type: float
 
   Parameter3:
     default: true
@@ -54,7 +52,7 @@ Parameter_group_2:
 
   ArrayParameter2:
     default: [1.1, 2.2, 3.3]
-    type: double
+    type: float
 
   ArrayParameter3:
     default: [true, false, true]
@@ -65,11 +63,3 @@ Parameter_group_2:
     type: string
 ```
 
-### Attributes
-
-- `default`: Specifies the default value. Use a sequence (`[]`) for arrays.
-- `type`: Defines the parameter type (`int`, `double`, `bool`, `string`).
-- `description`: (Optional) Describes the parameter.
-- `constraints_description`: (Optional) Additional constraints or information.
-- `min`: (Optional) Minimum value for `int` and `double` types.
-- `max`: (Optional) Maximum value for `int` and `double` types.

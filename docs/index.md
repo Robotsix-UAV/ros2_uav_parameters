@@ -2,7 +2,7 @@
 
 ## Overview
 
-Welcome to the ROS2 UAV Parameters documentation. This repository provides a parameter server node specifically designed for use with other ROS2 UAV packages. The parameter server node is a standalone node that manages UAV parameters within the ROS2 ecosystem. It is designed to handle parameters that are commonly used in the ROS2 UAV nodes. It allows users to find all standard parameters in one place and provides utilities to facilitate interactions with the parameter server.
+Welcome to the ROS2 UAV Parameters documentation. This repository provides a parameter server node specifically designed for use with other ROS2 UAV packages. The parameter server node is a standalone node that manages UAV parameters within the ROS2 ecosystem. It is designed to handle parameters that are commonly used in the ROS2 UAV nodes. It allows users to find all standard parameters in one place.
 
 This documentation provides guidance to users. Developers can find additional information at the [Developer Documentation](rosdoc2/ros2_uav_parameters) page.
 
@@ -32,4 +32,6 @@ for a custom configuration folder.
 
 ### ParameterClientNode
 
-The [ParameterClientNode](parameter_client.md) is a class inherited from ROS2 Node that subscribes to a list of parameters and synchronizes them with the parameter server. It also provides a convenient interface with the uav_cpp::parameters library.
+The `ParameterClientNode` is a class inherited from ROS2 Node that subscribes to a list of parameters and synchronizes them with the parameter server. It stores the parameters under a std::map remote_parameters_ that can be accessed by the node.
+
+<!-- INSERT_EXAMPLE: parameter_client -->

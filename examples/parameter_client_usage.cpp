@@ -15,6 +15,26 @@
 // START_EXAMPLE parameter_client
 #include <ros2_uav_parameters/parameter_client.hpp>
 
+
+// Create a custom Node inherited from ParameterClient
+class MyClient : public ros2_uav::parameters::ParameterClient
+{
+  MyClient(const std::string & node_name, const std::vector<std::string> & required_parameters)
+  : ParameterClient(node_name, required_parameters)
+  {
+    // Create a ROS timer to display the registered parameter values
+    auto timer_callback = [this]() {
+        double ground_velocity, vertical_velocity;
+        remote_parameters_["limits.ground_velocity"]->getValue(ground_velocity);
+        remote_parameters_["limits.vertical_velocity"]->getValue(vertical_velocity);
+        UAVCPP_INFO(
+          "Ground velocity %f --- Vertical velocity %f", ground_velocity,
+          vertical_velocity);
+      }
+
+  }
+}
+
 int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
@@ -22,9 +42,11 @@ int main(int argc, char ** argv)
   auto required_parameters =
     std::vector<std::string>{"limits.ground_velocity", "limits.vertical_velocity"};
 
-  auto parameter_client_node = std::make_shared<ros2_uav::parameters::ParameterClient>(
+  auto parameter_client_node = std::make_shared<MyClient>(
     "parameter_client",
     required_parameters);
+
+  uav_cpp::logger::Logger::setLogger()
 
   rclcpp::spin(parameter_client_node);
   rclcpp::shutdown();

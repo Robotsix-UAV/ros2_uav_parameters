@@ -18,6 +18,7 @@
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <uav_cpp/parameters/yaml_parameter_parser.hpp>
 #include "ros2_uav_parameters/parameters/parameter.hpp"
+#include "ros2_uav_cpp/ros2_logger.hpp"
 
 namespace fs = std::filesystem;
 using uav_cpp::parameters::YamlParameterParser;
@@ -42,8 +43,8 @@ public:
   {
     parameters_ = parser.getParameters();
     for (auto & [name, parameter] : parameters_) {
-      parameter.createRegisterService(this);
-      parameter.createRosCallback(this, param_subscriber_);
+      parameter->createRegisterService(this);
+      parameter->createRosCallback(this, param_subscriber_);
     }
   }
 
@@ -63,7 +64,7 @@ public:
       }
     }
   }
-  std::map<std::string, ServerParameter> parameters_;
+  std::map<std::string, std::shared_ptr<ServerParameter>> parameters_;
   std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
 };
 
@@ -72,6 +73,7 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
 
   auto node = std::make_shared<ServerNode>();
+
   auto default_config_folder = ament_index_cpp::get_package_share_directory("ros2_uav_parameters");
   default_config_folder += "/config";
   auto param_descriptor = rcl_interfaces::msg::ParameterDescriptor();

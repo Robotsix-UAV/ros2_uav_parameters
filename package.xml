@@ -13,6 +13,7 @@
   <depend>yaml-cpp</depend>
   <depend>ros2_uav_interfaces</depend>
   <depend>uav_cpp</depend>
+  <depend>ros2_uav_cpp</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

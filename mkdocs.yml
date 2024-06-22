@@ -1,4 +1,4 @@
-site_name: ROS2 PX4 Interface Documentation
+site_name: ROS2 UAV Parameters Documentation
 theme:
   name: readthedocs
 nav:

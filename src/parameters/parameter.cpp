@@ -73,7 +73,7 @@ void Parameter::createRosCallback(
   std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber)
 {
   if (cb_handle_) {
-    LOG_WARN("Parameter {} already has a ROS callback", name_);
+    UAVCPP_WARN("Parameter {} already has a ROS callback", name_);
     return;
   }
   ParameterDescriptor descriptor;
@@ -176,7 +176,7 @@ ServerParameter::ServerParameter(
 void ServerParameter::createRegisterService(rclcpp::Node * node)
 {
   if (node_) {
-    LOG_WARN("Server parameter {} already has a register service", name_);
+    UAVCPP_WARN("Server parameter {} already has a register service", name_);
     return;
   }
   node_ = node;
@@ -222,14 +222,14 @@ void ServerParameter::onParameterChange()
       auto parameter_msg = parameter.to_parameter_msg();
       request->parameters.push_back(parameter_msg);
       request_client->async_send_request(request);
-      LOG_INFO(
+      UAVCPP_INFO(
         "Sending parameter {} to client {}",
         name_, client.first);
     } catch (const std::exception & e) {
-      LOG_ERROR(
+      UAVCPP_ERROR(
         "Failed to send parameter {} to client {}: {}",
         name_, client.first, e.what());
-      LOG_WARN(
+      UAVCPP_WARN(
         "Unregistering client node {} for parameter {}",
         client.first, name_);
       invalid_clients.push_back(client.first);
@@ -252,14 +252,14 @@ void ServerParameter::handleClientRegistration(
 {
   auto client_node_name = request->client_name;
   if (request->register_client) {
-    LOG_INFO("Registering client node {} for parameter {}", client_node_name, name_);
+    UAVCPP_INFO("Registering client node {} for parameter {}", client_node_name, name_);
     // Check if the client node is already registered
     if (std::find_if(
         client_nodes_.begin(), client_nodes_.end(),
         [&client_node_name](auto & client) {return client.first == client_node_name;}) !=
       client_nodes_.end())
     {
-      LOG_WARN("Client node {} is already registered for parameter {}", client_node_name, name_);
+      UAVCPP_WARN("Client node {} is already registered for parameter {}", client_node_name, name_);
       response->success = true;
       response->message = "Client node is already registered";
       return;
@@ -269,7 +269,7 @@ void ServerParameter::handleClientRegistration(
     response->success = true;
     client_nodes_.push_back({client_node_name, client_set_parameters});
   } else {
-    LOG_INFO("Unregistering client node {} for parameter {}", client_node_name, name_);
+    UAVCPP_INFO("Unregistering client node {} for parameter {}", client_node_name, name_);
     auto it = std::find_if(
       client_nodes_.begin(), client_nodes_.end(),
       [&client_node_name](auto & client) {return client.first == client_node_name;});
@@ -277,7 +277,7 @@ void ServerParameter::handleClientRegistration(
       client_nodes_.erase(it);
       response->success = true;
     } else {
-      LOG_WARN("Client node {} is not registered for parameter {}", client_node_name, name_);
+      UAVCPP_WARN("Client node {} is not registered for parameter {}", client_node_name, name_);
       response->success = false;
       response->message = "Client node is not registered";
     }

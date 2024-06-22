@@ -38,6 +38,21 @@ jobs:
         with:
           path: src/${{ github.event.repository.name }}/
 
+      - name: Parse dependencies.repos and clone repositories
+        run: |
+          cd ${{ github.workspace }}/src
+          cat ${{ github.event.repository.name }}/dependencies.repos | grep 'url:' | awk '{print $2}' > repo_urls.txt
+          cat ${{ github.event.repository.name }}/dependencies.repos | grep 'version:' | awk '{print $2}' > repo_versions.txt
+          paste repo_urls.txt repo_versions.txt > repos.txt
+          while IFS=$'\t' read -r url version; do
+            repo_name=$(basename $url .git)
+            git clone $url ${{ github.workspace }}/src/$repo_name
+            cd ${{ github.workspace }}/src/$repo_name
+            git checkout $version
+            cd ${{ github.workspace }}/src
+            ls -all
+          done < repos.txt
+
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -67,7 +82,8 @@ jobs:
         run: |
           source /opt/ros/humble/setup.bash
           colcon lcov-result --initial
-          colcon test --event-handlers console_direct+ && colcon lcov-result --filter */test/*
+          colcon test --event-handlers console_direct+ --packages-select ${{ github.event.repository.name }}
+          colcon lcov-result --filter */test/*
 
       - name: Get documentation directory for deployment
         run: |

@@ -49,9 +49,9 @@ ParameterClient::ParameterClient(
   param_subscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
 
   for (const auto & parameter : rclcpp_remote_parameters) {
-    remote_parameters_.push_back(
-      std::make_shared<ros2_uav::parameters::Parameter>(
-        parameter));
+    remote_parameters_.emplace(
+      parameter.get_name(),
+      std::make_shared<ros2_uav::parameters::Parameter>(parameter));
   }
   register_thread_ = std::jthread([this]() {registerParameters();});
 }
@@ -65,7 +65,7 @@ ParameterClient::~ParameterClient()
 
 void ParameterClient::registerParameters()
 {
-  for (auto & parameter : remote_parameters_) {
+  for (auto & [name, parameter] : remote_parameters_) {
     parameter->createRosCallback(this, param_subscriber_);
     std::string service_name = parameter->getName();
     std::replace(service_name.begin(), service_name.end(), '.', '/');

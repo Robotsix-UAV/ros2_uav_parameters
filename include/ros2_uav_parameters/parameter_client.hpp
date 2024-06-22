@@ -55,11 +55,13 @@ public:
    */
   void registerParameters();
 
+protected:
+  std::map<std::string, std::shared_ptr<ros2_uav::parameters::Parameter>> remote_parameters_;
+  ///< List of remote parameters.
+
 private:
   std::jthread register_thread_;  ///< Thread for registering parameters.
   std::string server_name_;  ///< Name of the parameter server.
-  std::vector<std::shared_ptr<ros2_uav::parameters::Parameter>> remote_parameters_;
-  ///< List of remote parameters.
   std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
   ///< Parameter event handler subscriber.
 };
