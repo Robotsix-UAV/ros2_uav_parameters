@@ -1,0 +1,42 @@
+limits:
+  ground_velocity:
+    description: "Maximum ground velocity of the UAV"
+    type: float
+    default: 15.0
+    min: 0.0
+
+  vertical_velocity:
+    description: "Maximum vertical velocity of the UAV"
+    type: float
+    default: 10.0
+    min: 0.0
+
+  ground_acceleration:
+    description: "Maximum ground acceleration of the UAV"
+    type: float
+    default: 5.0
+    min: 0.0
+
+  vertical_acceleration:
+    description: "Maximum vertical acceleration of the UAV"
+    type: float
+    default: 5.0
+    min: 0.0
+
+  angular_velocity_x:
+    description: "Maximum angular velocity around the x-axis of the UAV"
+    type: float
+    default: 1.0
+    min: 0.0
+
+  angular_velocity_y:
+    description: "Maximum angular velocity around the y-axis of the UAV"
+    type: float
+    default: 1.0
+    min: 0.0
+
+  angular_velocity_z:
+    description: "Maximum angular velocity around the z-axis of the UAV"
+    type: float
+    default: 0.5
+    min: 0.0

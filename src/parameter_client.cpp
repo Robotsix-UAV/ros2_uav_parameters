@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "auto_ros_parameters/parameter_client.hpp"
 #include <algorithm>
+#include "ros2_uav_parameters/parameter_client.hpp"
 
 namespace ros2_uav::parameters
 {
+using std::chrono_literals::operator""s;
 
 ParameterClient::ParameterClient(
-  const std::string & node_name, std::vector<std::string> & required_parameters,
+  const std::string & node_name, const std::vector<std::string> & required_parameters,
   const std::string & server_name)
 : Node(node_name), server_name_(server_name)
 {
@@ -48,10 +49,9 @@ ParameterClient::ParameterClient(
   param_subscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
 
   for (const auto & parameter : rclcpp_remote_parameters) {
-    remote_parameters_.push_back(
-      std::make_shared<ros2_uav::parameters::Parameter>(
-        this, param_subscriber_,
-        parameter));
+    remote_parameters_.emplace(
+      parameter.get_name(),
+      std::make_shared<ros2_uav::parameters::Parameter>(parameter));
   }
   register_thread_ = std::jthread([this]() {registerParameters();});
 }
@@ -65,7 +65,8 @@ ParameterClient::~ParameterClient()
 
 void ParameterClient::registerParameters()
 {
-  for (auto & parameter : remote_parameters_) {
+  for (auto & [name, parameter] : remote_parameters_) {
+    parameter->createRosCallback(this, param_subscriber_);
     std::string service_name = parameter->getName();
     std::replace(service_name.begin(), service_name.end(), '.', '/');
     service_name = server_name_ + "/param/" + service_name + "/register";

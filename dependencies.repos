@@ -3,3 +3,13 @@ repositories:
         type: git
         url: https://github.com/Robotsix-UAV/ros2_uav_interfaces
         version: main
+
+    uav_cpp:
+        type: git
+        url: https://github.com/Robotsix-UAV/uav_cpp
+        version: main
+
+    ros2_uav_cpp:
+        type: git
+        url: https://github.com/Robotsix-UAV/ros2_uav_cpp
+        version: main

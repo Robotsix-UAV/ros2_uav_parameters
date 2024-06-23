@@ -16,13 +16,14 @@
 #include <string>
 #include <rclcpp/rclcpp.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
-#include "auto_ros_parameters/parameters.hpp"
-#include "auto_ros_parameters/yaml_parameter_parser.hpp"
+#include <uav_cpp/parameters/yaml_parameter_parser.hpp>
+#include <ros2_uav_cpp/ros2_logger.hpp>
+#include "ros2_uav_parameters/parameters/parameter.hpp"
 
 namespace fs = std::filesystem;
-using rcl_interfaces::msg::FloatingPointRange;
-using rcl_interfaces::msg::ParameterDescriptor;
-using ros2_uav::parameters::YamlParameterParser;
+using uav_cpp::parameters::YamlParameterParser;
+using ros2_uav::parameters::ServerParameter;
+using ros2_uav::utils::RosLoggerInterface;
 
 class ServerNode : public rclcpp::Node
 {
@@ -39,15 +40,12 @@ public:
     return param_subscriber_;
   }
 
-  void initParameters(const ros2_uav::parameters::YamlParameterParser & parser)
+  void initParameters(const YamlParameterParser<ServerParameter> & parser)
   {
-    // Declare parameters from the parser
-    for (const auto & param : parser.getParameters()) {
-      std::string name;
-      YamlParameterParser::ParameterValue value;
-      ParameterDescriptor descriptor;
-      std::tie(name, value, descriptor) = param;
-      addParameter(name, value, descriptor);
+    parameters_ = parser.getParameters();
+    for (auto & [name, parameter] : parameters_) {
+      parameter->createRegisterService(this);
+      parameter->createRosCallback(this, param_subscriber_);
     }
   }
 
@@ -57,7 +55,7 @@ public:
     for (const auto & entry : fs::recursive_directory_iterator(config_directory)) {
       if (entry.is_regular_file() && entry.path().extension() == ".yaml") {
         try {
-          YamlParameterParser parser(entry.path().string());
+          YamlParameterParser<ServerParameter> parser(entry.path().string());
           initParameters(parser);
         } catch (const std::exception & e) {
           RCLCPP_ERROR(
@@ -67,25 +65,8 @@ public:
       }
     }
   }
-
-private:
-  void addParameter(
-    const std::string & name, const YamlParameterParser::ParameterValue & value,
-    const ParameterDescriptor & descriptor)
-  {
-    std::visit(
-      [this, &name, &descriptor](auto && val)
-      {
-        parameters_.push_back(
-          std::make_shared<ros2_uav::parameters::ServerParameter>(
-            shared_from_this(),
-            param_subscriber_, name, val, descriptor));
-      },
-      value);
-  }
-
+  std::map<std::string, std::shared_ptr<ServerParameter>> parameters_;
   std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber_;
-  std::vector<std::shared_ptr<ros2_uav::parameters::ServerParameter>> parameters_;
 };
 
 int main(int argc, char ** argv)
@@ -93,13 +74,16 @@ int main(int argc, char ** argv)
   rclcpp::init(argc, argv);
 
   auto node = std::make_shared<ServerNode>();
+
   auto default_config_folder = ament_index_cpp::get_package_share_directory("ros2_uav_parameters");
   default_config_folder += "/config";
   auto param_descriptor = rcl_interfaces::msg::ParameterDescriptor();
   param_descriptor.description = "Folder containing YAML configuration files";
-  auto config_file = ros2_uav::parameters::Parameter(
-    node,
-    node->getParameterEventHandler(), "config_directory", default_config_folder, param_descriptor);
+  node->declare_parameter("config_directory", default_config_folder, param_descriptor);
+
+  // Set the logger to node logger for the uav_cpp library
+  auto logger = std::make_shared<RosLoggerInterface>(node->get_logger());
+  uav_cpp::logger::Logger::setCustomLogger(logger);
 
   // Need to spin to get the parameter necessary to load all the others
   rclcpp::spin_some(node);

@@ -12,9 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import os
-
-from ament_index_python.packages import get_package_share_directory
 import launch
 import launch.actions
 import launch_testing
@@ -25,14 +22,9 @@ import rclpy
 
 @pytest.mark.launch_test
 def generate_test_description():
-    # Retrieve the package share directory
-    package_share_directory = get_package_share_directory(
-        'ros2_uav_parameters')
-    config_directory = os.path.join(package_share_directory, 'config')
-
     parameter_server_launch = launch.actions.ExecuteProcess(
-        cmd=['ros2', 'launch', 'ros2_uav_parameters',
-             'parameter_server_launch.py', f'config_directory:={config_directory}'],
+        cmd=['ros2', 'run', 'ros2_uav_parameters',
+             'parameter_server'],
         output='screen'
     )
 
