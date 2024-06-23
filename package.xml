@@ -20,6 +20,7 @@
   <test_depend>ament_cmake_pytest</test_depend>
   <test_depend>ament_index_python</test_depend>
   <test_depend>launch_testing_ament_cmake</test_depend>
+  <test_depend>launch-ros</test_depend>
 
   <export>
     <build_type>ament_cmake</build_type>
