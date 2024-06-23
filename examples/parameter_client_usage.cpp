@@ -31,11 +31,14 @@ public:
         remote_parameters_["limits.ground_velocity"]->getValue(ground_velocity);
         remote_parameters_["limits.vertical_velocity"]->getValue(vertical_velocity);
         UAVCPP_INFO(
-          "Ground velocity %f --- Vertical velocity %f", ground_velocity,
+          "Ground velocity {} --- Vertical velocity {}", ground_velocity,
           vertical_velocity);
       };
-    auto timer = create_wall_timer(std::chrono::seconds(1), timer_callback);
+    timer_ = create_wall_timer(std::chrono::seconds(1), timer_callback);
   }
+
+private:
+  rclcpp::TimerBase::SharedPtr timer_;
 };
 
 int main(int argc, char ** argv)

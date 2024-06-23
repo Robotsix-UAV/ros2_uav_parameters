@@ -46,6 +46,24 @@ public:
   }
 };
 
+class MockParameterClient : public ros2_uav::parameters::ParameterClient
+{
+public:
+  MockParameterClient(
+    const std::string & node_name,
+    const std::vector<std::string> & required_parameters,
+    const std::string & server_name = "parameter_server")
+  : ros2_uav::parameters::ParameterClient(node_name, required_parameters, server_name)
+  {
+  }
+
+  std::map<std::string, std::shared_ptr<ros2_uav::parameters::Parameter>> get_parameters()
+  {
+    return remote_parameters_;
+  }
+};
+
+
 class TestParameterClient : public ::testing::Test
 {
 protected:
@@ -84,7 +102,7 @@ protected:
 TEST_F(TestParameterClient, RegisterWithParameterServer)
 {
   // Create ParameterClient node
-  auto parameter_client_node = std::make_shared<ros2_uav::parameters::ParameterClient>(
+  auto parameter_client_node = std::make_shared<MockParameterClient>(
     "parameter_client",
     required_parameters_);
 
@@ -125,6 +143,21 @@ TEST_F(TestParameterClient, RegisterWithParameterServer)
   param2 = parameter_client_node->get_parameter("param2");
   EXPECT_EQ(param2.get_type(), rclcpp::ParameterType::PARAMETER_INTEGER);
   EXPECT_EQ(param2.as_int(), 20);
+
+  // Let the callback execute
+  executor.spin_some();
+
+  // Check if the parameters are stored in the ParameterClient
+  auto parameters = parameter_client_node->get_parameters();
+  EXPECT_EQ(parameters.size(), 2);
+  EXPECT_EQ(parameters["param1"]->getName(), "param1");
+  int64_t param1_value;
+  parameters["param1"]->getValue(param1_value);
+  EXPECT_EQ(param1_value, 10);
+  int64_t param2_value;
+  EXPECT_EQ(parameters["param2"]->getName(), "param2");
+  parameters["param2"]->getValue(param2_value);
+  EXPECT_EQ(param2_value, 20);
 }
 
 TEST_F(TestParameterClient, RegisterWithParameterServerMissingParameter)
