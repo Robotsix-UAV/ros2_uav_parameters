@@ -68,7 +68,7 @@ if(BUILD_TESTING)
 endif()
 
 install(
-  DIRECTORY include/ros2_uav_parameters/
+  DIRECTORY include/ros2_uav_parameters
   DESTINATION include
 )
 

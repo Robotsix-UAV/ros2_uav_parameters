@@ -56,6 +56,11 @@ public:
    */
   void registerParameters();
 
+  std::map<std::string, std::shared_ptr<ros2_uav::parameters::Parameter>> getParameters()
+  {
+    return remote_parameters_;
+  }
+
 protected:
   std::map<std::string, std::shared_ptr<ros2_uav::parameters::Parameter>> remote_parameters_;
   ///< List of remote parameters.
