@@ -42,11 +42,13 @@ public:
 
   void initParameters(const YamlParameterParser<ServerParameter> & parser)
   {
-    parameters_ = parser.getParameters();
-    for (auto & [name, parameter] : parameters_) {
+    auto new_parameters = parser.getParameters();
+    for (auto & [name, parameter] : new_parameters) {
       parameter->createRegisterService(this);
       parameter->createRosCallback(this, param_subscriber_);
     }
+    parameters_.insert(new_parameters.begin(), new_parameters.end());
+    //TODO(robotsix): Proper error for double parameters
   }
 
   void loadParametersFromDirectory()

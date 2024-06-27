@@ -1,4 +1,4 @@
-arm_spin:
+spin:
   thrust:
     description: 'Thrust value for the arm spin'
     type: float

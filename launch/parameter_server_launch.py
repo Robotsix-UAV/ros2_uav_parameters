@@ -17,6 +17,7 @@ import os
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
@@ -29,10 +30,16 @@ def generate_launch_description():
             default_value=config_directory,
             description='Path to the configuration directory'
         ),
+        DeclareLaunchArgument(
+            'namespace',
+            default_value='uav0',
+            description='Namespace to use for the parameter server'
+        ),
         Node(
             package='ros2_uav_parameters',
+            namespace=LaunchConfiguration('namespace'),
             executable='parameter_server',
-            name='ros2_uav_parameters',
+            name='parameter_server',
             parameters=[{'config_directory': config_directory}],
         )
     ])

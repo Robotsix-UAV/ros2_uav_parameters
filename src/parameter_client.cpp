@@ -33,7 +33,7 @@ ParameterClient::ParameterClient(
   }
   auto parameter_client = std::make_shared<rclcpp::SyncParametersClient>(this, server_name_);
   RCLCPP_INFO(get_logger(), "Waiting for parameter server %s to start", server_name_.c_str());
-  if (!parameter_client->wait_for_service(1s)) {
+  if (!parameter_client->wait_for_service(5s)) {
     throw std::runtime_error("Parameter server " + server_name_ + " not available");
   }
   // Wait for the parameter server to load the parameters
@@ -66,7 +66,8 @@ ParameterClient::~ParameterClient()
 void ParameterClient::registerParameters()
 {
   for (auto & [name, parameter] : remote_parameters_) {
-    parameter->createRosCallback(this, param_subscriber_);
+    auto ros_param = std::static_pointer_cast<ros2_uav::parameters::Parameter>(parameter);
+    ros_param->createRosCallback(this, param_subscriber_);
     std::string service_name = parameter->getName();
     std::replace(service_name.begin(), service_name.end(), '.', '/');
     service_name = server_name_ + "/param/" + service_name + "/register";
