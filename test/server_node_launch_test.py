@@ -31,10 +31,11 @@ import yaml
 valid_data = True
 
 
-def create_test_config(invalid=False):
+def create_test_config(invalid=False, double=False):
     test_dir = 'test_config'
     os.makedirs(test_dir, exist_ok=True)
     temp_file_path = os.path.join(test_dir, 'test_config.yaml')
+    temp_file_path_2 = os.path.join(test_dir, 'test_config_2.yaml')
     if invalid:
         config = {
             'Parameter_group_1': {
@@ -50,12 +51,14 @@ def create_test_config(invalid=False):
                     'max': 10,
                     'type': 'int',
                     'description': 'An integer parameter for testing',
-                    'constraints_description': 'Value must be between 0 and 10'
                 }
             }
         }
     with open(temp_file_path, 'w') as temp_file:
         yaml.dump(config, temp_file)
+    if double:
+        with open(temp_file_path_2, 'w') as temp_file:
+            yaml.dump(config, temp_file)
     return test_dir
 
 
@@ -66,7 +69,7 @@ def generate_test_description():
         launch.actions.DeclareLaunchArgument(
             'dir_valid',
             default_value='OK',
-            choices=['OK', 'Empty', 'NotExists', 'Invalid'],
+            choices=['OK', 'Empty', 'NotExists', 'Invalid', 'DoubleKey'],
             description='Validity of the configuration folder'
         ),
         launch.actions.OpaqueFunction(
@@ -86,6 +89,9 @@ def set_node_arguments(context):
     elif dir_valid == 'NotExists':
         valid_data = False
         parameters = [{'config_directory': '/path/that/does/not/exist'}]
+    elif dir_valid == 'DoubleKey':
+        valid_data = False
+        parameters = [{'config_directory': create_test_config(double=True)}]
     else:
         valid_data = False
         parameters = [{'config_directory': create_test_config(True)}]
