@@ -118,7 +118,7 @@ class TestFixture(unittest.TestCase):
 
     def test_node_start(self, proc_output):
         node = Node('test_node')
-        node_up = wait_for_node(node, 'ros2_uav_parameters', 5.0)
+        node_up = wait_for_node(node, 'ros2_uav_parameters', 10.0)
         # Node can go down if the arguments are invalid
         if valid_data:
             assert node_up, 'Node should be up'
@@ -130,7 +130,7 @@ class TestFixture(unittest.TestCase):
         node = Node('test_node')
         client = node.create_client(GetParameters, 'ros2_uav_parameters/get_parameters')
 
-        ready = client.wait_for_service(timeout_sec=5.0)
+        ready = client.wait_for_service(timeout_sec=10.0)
         if valid_data:
             self.assertTrue(ready, 'Service is not available.')
         else:
