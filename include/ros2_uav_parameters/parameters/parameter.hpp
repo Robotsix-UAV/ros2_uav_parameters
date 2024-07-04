@@ -25,6 +25,7 @@
 
 namespace ros2_uav::parameters
 {
+using uav_cpp::utils::SmartPointerMixin;
 using rcl_interfaces::msg::ParameterDescriptor;
 using ros2_uav_interfaces::srv::ParameterClientRegister;
 using rcl_interfaces::srv::SetParameters;
@@ -33,10 +34,10 @@ using rcl_interfaces::srv::SetParameters;
  * @class Parameter
  * @brief A class wrapping uav_cpp::parameters::Parameter with ROS2 parameter callback functionality.
  */
-class Parameter : public uav_cpp::parameters::Parameter
+class Parameter : public SmartPointerMixin<Parameter, uav_cpp::parameters::Parameter>
 {
 public:
-  using uav_cpp::parameters::Parameter::Parameter;
+  using SmartPointerMixin<Parameter, uav_cpp::parameters::Parameter>::SmartPointerMixin;
 
   /**
    * @brief Constructor to initialize a Parameter object with a given node, parameter subscriber, name, value, and description.

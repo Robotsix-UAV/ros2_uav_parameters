@@ -55,7 +55,7 @@ Parameter::Parameter(
   rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
   const std::string & name, const uav_cpp::parameters::ParameterType & value,
   const std::string & description)
-: uav_cpp::parameters::Parameter(name, value, description)
+: SmartPointerMixin<Parameter, uav_cpp::parameters::Parameter>(name, value, description)
 {
   createRosCallback(node, param_subscriber);
 }
