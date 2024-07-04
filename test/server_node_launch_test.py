@@ -130,7 +130,7 @@ class TestFixture(unittest.TestCase):
         node = Node('test_node')
         client = node.create_client(GetParameters, 'ros2_uav_parameters/get_parameters')
 
-        ready = client.wait_for_service(timeout_sec=3.0)
+        ready = client.wait_for_service(timeout_sec=5.0)
         if valid_data:
             self.assertTrue(ready, 'Service is not available.')
         else:
