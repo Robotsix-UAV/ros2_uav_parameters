@@ -57,6 +57,9 @@ public:
    */
   void registerParameters();
 
+  /**
+   * @brief Get the map of remote parameters.
+   */
   ParameterMap getParameters()
   {
     return remote_parameters_;
