@@ -17,3 +17,17 @@ inertia:
     type: float
     default: 1.0
     min: 0.0
+
+takeoff:
+  altitude:
+    description: 'Altitude to takeoff to'
+    type: float
+    default: 3.0
+    min: 0.0
+
+  bearing:
+    description: 'Bearing to takeoff to in degrees'
+    type: float
+    default: 0.0
+    min: -180.0
+    max: 180.0
