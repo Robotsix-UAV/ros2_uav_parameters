@@ -42,10 +42,17 @@ public:
 
   void initParameters(const YamlParameterParser<ServerParameter> & parser)
   {
-    parameters_ = parser.getParameters();
-    for (auto & [name, parameter] : parameters_) {
+    auto new_parameters = parser.getParameters();
+    for (auto & [name, parameter] : new_parameters) {
+      if (parameters_.find(name) != parameters_.end()) {
+        throw std::runtime_error(
+                "Parameter " + name +
+                " was found twice in the configuration files");
+      }
+      UAVCPP_INFO("Adding parameter {}", name);
       parameter->createRegisterService(this);
       parameter->createRosCallback(this, param_subscriber_);
+      parameters_.emplace(name, parameter);
     }
   }
 
@@ -58,9 +65,10 @@ public:
           YamlParameterParser<ServerParameter> parser(entry.path().string());
           initParameters(parser);
         } catch (const std::exception & e) {
-          RCLCPP_ERROR(
-            get_logger(), "Error parsing file %s: %s",
+          UAVCPP_ERROR(
+            "Error parsing file {}: {}",
             entry.path().string().c_str(), e.what());
+          throw e;
         }
       }
     }

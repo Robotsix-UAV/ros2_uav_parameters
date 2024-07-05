@@ -1,0 +1,33 @@
+general:
+  uav_name:
+    description: 'Name of the UAV'
+    type: string
+    default: 'uav0'
+
+spin:
+  thrust:
+    description: 'Thrust value for idle spin on ground. Should be much less than 9.81*mass'
+    type: float
+    default: 2.0
+    min: 0.0
+
+inertia:
+  vehicle_mass:
+    description: 'Mass of the UAV'
+    type: float
+    default: 1.0
+    min: 0.0
+
+takeoff:
+  altitude:
+    description: 'Altitude to takeoff to'
+    type: float
+    default: 3.0
+    min: 0.0
+
+  bearing:
+    description: 'Bearing to takeoff to in degrees'
+    type: float
+    default: 0.0
+    min: -180.0
+    max: 180.0

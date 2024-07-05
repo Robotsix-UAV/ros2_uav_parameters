@@ -57,7 +57,7 @@ public:
   {
   }
 
-  std::map<std::string, std::shared_ptr<ros2_uav::parameters::Parameter>> get_parameters()
+  uav_cpp::parameters::ParameterMap  get_parameters()
   {
     return remote_parameters_;
   }

@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8)
 project(ros2_uav_parameters)
 
-set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD 20)
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
 endif()
@@ -62,13 +62,18 @@ if(BUILD_TESTING)
     TARGET test_server_node_invalid
     ARGS "dir_valid:=Invalid"
   )
+  add_launch_test(
+    test/server_node_launch_test.py
+    TARGET test_server_node_double_key
+    ARGS "dir_valid:=DoubleKey"
+  )
   add_launch_test(test/parameter_server_run_test.py)
   add_launch_test(test/parameter_server_launch_test.py)
   add_launch_test(test/examples/test_parameter_client_usage.py)
 endif()
 
 install(
-  DIRECTORY include/ros2_uav_parameters/
+  DIRECTORY include/ros2_uav_parameters
   DESTINATION include
 )
 
@@ -88,6 +93,13 @@ install(
 install(
   DIRECTORY config launch
   DESTINATION share/${PROJECT_NAME}/
+)
+
+ament_export_dependencies(
+  rclcpp
+  uav_cpp
+  ros2_uav_interfaces
+  ros2_uav_cpp
 )
 
 ament_export_targets(export_parameter_client HAS_LIBRARY_TARGET)

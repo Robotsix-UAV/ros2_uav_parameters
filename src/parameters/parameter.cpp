@@ -55,7 +55,7 @@ Parameter::Parameter(
   rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
   const std::string & name, const uav_cpp::parameters::ParameterType & value,
   const std::string & description)
-: uav_cpp::parameters::Parameter(name, value, description)
+: SmartPointerMixin<Parameter, uav_cpp::parameters::Parameter>(name, value, description)
 {
   createRosCallback(node, param_subscriber);
 }
@@ -188,6 +188,7 @@ void ServerParameter::createRegisterService(rclcpp::Node * node)
   service_name = node->get_fully_qualified_name() + std::string("/") + service_name;
 
   // Create a service to register a new client node
+  UAVCPP_INFO("Creating register service {}", service_name);
   register_service_ = node->create_service<ros2_uav_interfaces::srv::ParameterClientRegister>(
     service_name,
     [this](

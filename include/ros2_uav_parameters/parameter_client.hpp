@@ -24,6 +24,7 @@
 
 namespace ros2_uav::parameters
 {
+using uav_cpp::parameters::ParameterMap;
 /**
  * @class ParameterClient
  * @brief A class for managing client-side ROS2 parameters.
@@ -56,8 +57,16 @@ public:
    */
   void registerParameters();
 
+  /**
+   * @brief Get the map of remote parameters.
+   */
+  ParameterMap getParameters()
+  {
+    return remote_parameters_;
+  }
+
 protected:
-  std::map<std::string, std::shared_ptr<ros2_uav::parameters::Parameter>> remote_parameters_;
+  ParameterMap remote_parameters_;
   ///< List of remote parameters.
 
 private:
