@@ -2,13 +2,13 @@ se3:
   position_gains:
     description: "Position gains for the SE3 controller"
     type: float
-    default: [9.0, 9.0, 20.0]
+    default: [4.0, 4.0, 4.0]
     min: 0.0
 
   velocity_gains:
     description: "Velocity gains for the SE3 controller"
     type: float
-    default: [6.0, 6.0, 9.0]
+    default: [2.0, 2.0, 2.0]
     min: 0.0
 
   min_z_acceleration:
