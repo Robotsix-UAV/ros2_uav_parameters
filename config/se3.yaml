@@ -20,6 +20,6 @@ se3:
   max_angle:
     description: "Maximum angle of the UAV from vertical in degrees"
     type: float
-    default: 40.0
+    default: 70.0
     min: 0.0
     max: 180.0
