@@ -17,10 +17,3 @@ takeoff:
     type: float
     default: 10.0
     min: 0.0
-
-  heading:
-    description: 'Heading after takeoff to in degrees'
-    type: float
-    default: 0.0
-    min: -180.0
-    max: 180.0
