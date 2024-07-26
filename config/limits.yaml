@@ -1,4 +1,10 @@
 limits:
+  thrust:
+    description: "Maximum thrust of the UAV"
+    type: float
+    default: 120.0
+    min: 0.0
+
   ground_velocity:
     description: "Maximum ground velocity of the UAV"
     type: float
@@ -40,3 +46,10 @@ limits:
     type: float
     default: 0.5
     min: 0.0
+
+  max_angle_degrees:
+    description: "Maximum angle of the UAV from vertical in degrees"
+    type: float
+    default: 70.0
+    min: 0.0
+    max: 180.0

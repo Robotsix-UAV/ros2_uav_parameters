@@ -11,18 +11,11 @@ spin:
     default: 2.0
     min: 0.0
 
-inertia:
-  vehicle_mass:
-    description: 'Mass of the UAV'
-    type: float
-    default: 1.0
-    min: 0.0
-
 takeoff:
   altitude:
     description: 'Altitude to takeoff to'
     type: float
-    default: 3.0
+    default: 10.0
     min: 0.0
 
   heading:

@@ -11,15 +11,9 @@ se3:
     default: [2.0, 2.0, 2.0]
     min: 0.0
 
+#TODO(robotsix): Switch this to limits.yaml and include in the NLMPC
   min_z_acceleration:
     description: "Minimum z acceleration of the UAV"
     type: float
     default: -5.0
     max: -1.0
-
-  max_angle:
-    description: "Maximum angle of the UAV from vertical in degrees"
-    type: float
-    default: 70.0
-    min: 0.0
-    max: 180.0
