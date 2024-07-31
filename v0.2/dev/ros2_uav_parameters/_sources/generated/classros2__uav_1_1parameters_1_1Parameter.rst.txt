@@ -1,0 +1,32 @@
+.. _exhale_class_classros2__uav_1_1parameters_1_1Parameter:
+
+Class Parameter
+===============
+
+- Defined in :ref:`file_include_ros2_uav_parameters_parameters_parameter.hpp`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``public uav_cpp::utils::SmartPointerMixin< Parameter, uav_cpp::parameters::Parameter >``
+
+
+Derived Type
+************
+
+- ``public ros2_uav::parameters::ServerParameter`` (:ref:`exhale_class_classros2__uav_1_1parameters_1_1ServerParameter`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: ros2_uav::parameters::Parameter
+   :project: ros2_uav_parameters Doxygen Project
+   :members:
+   :protected-members:
+   :undoc-members:

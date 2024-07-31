@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Configuration - ROS2 PX4 Interface Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Configuration";
+        var mkdocs_page_input_path = "configuration.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> ROS2 PX4 Interface Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Configuration</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#file-location">File Location</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#yaml-file-structure">YAML File Structure</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#example-parametersyaml">Example parameters.yaml</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#attributes">Attributes</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../parameter_library/">Parameter Library</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">ROS2 PX4 Interface Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Configuration</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="configuration-guide">Configuration Guide</h1>
+<h2 id="overview">Overview</h2>
+<p>This document explains how to configure YAML files in the config directory for the parameter server. These files define parameters for the parameter server node, including their default values, types, descriptions, and constraints.</p>
+<h2 id="file-location">File Location</h2>
+<p>Place YAML files in the config directory of your ROS 2 package. The node will parse all YAML files in this directory and its subfolders. If the package is built using <code>colcon build --symlink-install</code>, you can modify the files in the source directory without rebuilding the package.</p>
+<h2 id="yaml-file-structure">YAML File Structure</h2>
+<p>Each YAML file can contain multiple parameter groups. Each parameter group contains multiple parameters with attributes:</p>
+<ul>
+<li><code>default</code>: Default value of the parameter.</li>
+<li><code>type</code>: Data type (<code>int</code>, <code>double</code>, <code>bool</code>, <code>string</code>).</li>
+<li><code>description</code>: (Optional) Description of the parameter.</li>
+<li><code>constraints_description</code>: (Optional) Additional constraints on the parameter.</li>
+<li><code>min</code>: (Optional) Minimum value for <code>int</code> and <code>double</code> types.</li>
+<li><code>max</code>: (Optional) Maximum value for <code>int</code> and <code>double</code> types.</li>
+</ul>
+<h3 id="example-parametersyaml">Example <code>parameters.yaml</code></h3>
+<pre><code class="language-yaml">Parameter_group_1:
+  Parameter1:
+    default: 5
+    min: 0
+    max: 10
+    type: int
+    description: &quot;An integer parameter&quot;
+    constraints_description: &quot;Must be between 0 and 10&quot;
+
+  Parameter2:
+    default: 3.14
+    min: 0.0
+    max: 10.0
+    type: double
+
+  Parameter3:
+    default: true
+    type: bool
+
+  Parameter4:
+    default: &quot;hello&quot;
+    type: string
+
+Parameter_group_2:
+  ArrayParameter1:
+    default: [1, 2, 3]
+    type: int
+
+  ArrayParameter2:
+    default: [1.1, 2.2, 3.3]
+    type: double
+
+  ArrayParameter3:
+    default: [true, false, true]
+    type: bool
+
+  ArrayParameter4:
+    default: [&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;]
+    type: string
+</code></pre>
+<h3 id="attributes">Attributes</h3>
+<ul>
+<li><code>default</code>: Specifies the default value. Use a sequence (<code>[]</code>) for arrays.</li>
+<li><code>type</code>: Defines the parameter type (<code>int</code>, <code>double</code>, <code>bool</code>, <code>string</code>).</li>
+<li><code>description</code>: (Optional) Describes the parameter.</li>
+<li><code>constraints_description</code>: (Optional) Additional constraints or information.</li>
+<li><code>min</code>: (Optional) Minimum value for <code>int</code> and <code>double</code> types.</li>
+<li><code>max</code>: (Optional) Maximum value for <code>int</code> and <code>double</code> types.</li>
+</ul>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href=".." class="btn btn-neutral float-left" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../parameter_library/" class="btn btn-neutral float-right" title="Parameter Library">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../parameter_library/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

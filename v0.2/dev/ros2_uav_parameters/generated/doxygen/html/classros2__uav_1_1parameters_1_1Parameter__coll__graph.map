@@ -1,0 +1,4 @@
+<map id="ros2_uav::parameters::Parameter" name="ros2_uav::parameters::Parameter">
+<area shape="rect" id="node1" title="A class wrapping uav_cpp::parameters::Parameter with ROS2 parameter callback functionality." alt="" coords="21,109,184,151"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,5,200,61"/>
+</map>
