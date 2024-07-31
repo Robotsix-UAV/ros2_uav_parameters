@@ -1,9 +1,3 @@
-general:
-  uav_name:
-    description: 'Name of the UAV'
-    type: string
-    default: 'uav0'
-
 spin:
   thrust:
     description: 'Thrust value for idle spin on ground. Should be much less than 9.81*mass'
