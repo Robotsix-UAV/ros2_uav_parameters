@@ -1,4 +1,4 @@
-se3:
+pd:
   position_gains:
     description: "Position gains for the SE3 controller"
     type: float
@@ -10,10 +10,3 @@ se3:
     type: float
     default: [2.0, 2.0, 2.0]
     min: 0.0
-
-#TODO(robotsix): Switch this to limits.yaml and include in the NLMPC
-  min_z_acceleration:
-    description: "Minimum z acceleration of the UAV"
-    type: float
-    default: -5.0
-    max: -1.0
