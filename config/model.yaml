@@ -16,3 +16,19 @@ model:
     type: float
     default: 0.001
     min: 0.0
+
+  thrust_constant_coefficient:
+    description: 'Thrust constant coefficient for thrust scaling'
+    type: float
+    default: 0.0
+
+  thrust_linear_coefficient:
+    description: 'Thrust linear coefficient for thrust scaling'
+    type: float
+    default: 0.0
+
+  thrust_quadratic_coefficient:
+    description: 'Thrust quadratic coefficient for thrust scaling'
+    type: float
+    default: 120.0
+    min: 0.0
