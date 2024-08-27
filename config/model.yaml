@@ -8,6 +8,7 @@ model:
   thrust_constant_coefficient:
     description: 'Thrust constant coefficient for thrust scaling'
     type: float
+    default: 0.0
 
   thrust_linear_coefficient:
     description: 'Thrust linear coefficient for thrust scaling'
