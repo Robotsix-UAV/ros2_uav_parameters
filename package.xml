@@ -2,7 +2,7 @@
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
   <name>ros2_uav_parameters</name>
-  <version>0.2.11</version>
+  <version>0.2.12</version>
   <description>A parameter server for the ROS2 UAV nodes</description>
   <maintainer email="damien@robotsix.net">Damien SIX</maintainer>
   <license>Apache-2.0</license>
