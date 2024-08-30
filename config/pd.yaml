@@ -1,0 +1,24 @@
+pd:
+  position_gains:
+    description: "Position gains for the PD controller"
+    type: float
+    default: [4.0, 4.0, 4.0]
+    min: 0.0
+
+  velocity_gains:
+    description: "Velocity gains for the PD controller"
+    type: float
+    default: [2.0, 2.0, 2.0]
+    min: 0.0
+
+  position_error_threshold:
+    description: "Position error threshold to consider the target reached"
+    type: float
+    default: 0.1
+    min: 0.0
+
+  velocity_error_threshold:
+    description: "Velocity error threshold to consider the target reached"
+    type: float
+    default: 0.1
+    min: 0.0
