@@ -14,11 +14,11 @@ pd:
   position_error_threshold:
     description: "Position error threshold to consider the target reached"
     type: float
-    default: 0.1
+    default: 0.2
     min: 0.0
 
   velocity_error_threshold:
     description: "Velocity error threshold to consider the target reached"
     type: float
-    default: 0.1
+    default: 0.2
     min: 0.0
