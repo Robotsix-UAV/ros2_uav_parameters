@@ -1,4 +1,10 @@
 limits:
+  thrust:
+    description: "Maximum thrust of the UAV"
+    type: float
+    default: 200.0
+    min: 0.0
+
   ground_velocity:
     description: "Maximum ground velocity of the UAV"
     type: float

@@ -5,6 +5,18 @@ model:
     default: 1.0
     min: 0.0
 
+  attitude_control_delay:
+    description: 'Delay in attitude control loop'
+    type: float
+    default: 0.1
+    min: 0.0
+
+  thrust_control_delay:
+    description: 'Delay in thrust control loop'
+    type: float
+    default: 0.001
+    min: 0.0
+
   thrust_constant_coefficient:
     description: 'Thrust constant coefficient for thrust scaling'
     type: float
