@@ -90,11 +90,6 @@ install(
   RUNTIME DESTINATION share/${PROJECT_NAME}/examples
 )
 
-install(
-  DIRECTORY config launch
-  DESTINATION share/${PROJECT_NAME}/
-)
-
 ament_export_dependencies(
   rclcpp
   uav_cpp
