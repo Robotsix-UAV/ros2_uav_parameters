@@ -76,5 +76,3 @@ multirotor_nlmpc:
       type: float
       default: 1.0
       min: 0.0
-
-

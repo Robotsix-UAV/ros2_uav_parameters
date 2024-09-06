@@ -22,14 +22,6 @@ You can run the parameter server node using the following commands:
 ros2 run ros2_uav_parameters parameter_server
 ```
 
-or
-
-```sh
-ros2 launch ros2_uav_parameters parameter_server_launch.py config_directory:=<your_config_folder_path>
-```
-
-for a custom configuration folder.
-
 ### ParameterClientNode
 
 The `ParameterClientNode` is a class inherited from ROS2 Node that subscribes to a list of parameters and synchronizes them with the parameter server. It stores the parameters under a std::map remote_parameters_ that can be accessed by the node.
