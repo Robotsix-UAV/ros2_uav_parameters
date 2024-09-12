@@ -11,3 +11,9 @@ takeoff:
     type: float
     default: 10.0
     min: 0.0
+
+disturbance_observer:
+  active:
+    description: 'Flag to activate the disturbance observer'
+    type: bool
+    default: true
