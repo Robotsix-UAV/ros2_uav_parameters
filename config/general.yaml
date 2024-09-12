@@ -13,7 +13,7 @@ takeoff:
     min: 0.0
 
 disturbance_observer:
-  active:
+  enable:
     description: 'Flag to activate the disturbance observer'
     type: bool
     default: true
