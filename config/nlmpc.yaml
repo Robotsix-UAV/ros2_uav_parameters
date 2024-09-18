@@ -47,14 +47,14 @@ multirotor_nlmpc:
       default: 50.0
       min: 0.0
 
-    orientation_weight:
-      description: "Weight for the orientation in the NLMPC"
+    attitude_weight:
+      description: "Weight for the attitude in the NLMPC"
       type: float
       default: 1.0
       min: 0.0
 
-    orientation_weight_terminal:
-      description: "Weight for the orientation in the terminal cost of the NLMPC"
+    attitude_weight_terminal:
+      description: "Weight for the attitude in the terminal cost of the NLMPC"
       type: float
       default: 10.0
       min: 0.0

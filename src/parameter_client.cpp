@@ -36,7 +36,7 @@ ParameterClient::ParameterClient(
     }
   }
   auto parameter_client = std::make_shared<rclcpp::SyncParametersClient>(this, server_name_);
-  RCLCPP_INFO(get_logger(), "Waiting for parameter server %s to start", server_name_.c_str());
+  UAVCPP_INFO("Waiting for parameter server {} to start", server_name_.c_str());
   if (!parameter_client->wait_for_service(5s)) {
     throw std::runtime_error("Parameter server " + server_name_ + " not available");
   }
@@ -90,8 +90,8 @@ void ParameterClient::registerParameters()
               parameter->getName());
       // LCOV_EXCL_STOP
     }
-    RCLCPP_INFO(
-      get_logger(), "Registering parameter %s with service %s",
+    UAVCPP_DEBUG(
+      "Registering parameter %s with service %s",
       parameter->getName().c_str(), service_name.c_str());
     auto future = client_register->async_send_request(request);
     future.wait_for(1s);

@@ -18,9 +18,7 @@
 
 // START_EXAMPLE parameter_client
 #include <ros2_uav_parameters/parameter_client.hpp>
-#include <ros2_uav_cpp/ros2_logger.hpp>
 
-using ros2_uav::utils::RosLoggerInterface;
 
 // Create a custom Node inherited from ParameterClient
 class MyClient : public ros2_uav::parameters::ParameterClient
@@ -57,10 +55,6 @@ int main(int argc, char ** argv)
   auto node = std::make_shared<MyClient>(
     "parameter_client",
     required_parameters);
-
-  // Set the logger to node logger for the uav_cpp library
-  auto logger = std::make_shared<RosLoggerInterface>(node->get_logger());
-  uav_cpp::logger::Logger::setCustomLogger(logger);
 
   // Spin the node
   rclcpp::spin(node);

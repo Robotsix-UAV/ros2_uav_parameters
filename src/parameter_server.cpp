@@ -21,19 +21,17 @@
 #include <rclcpp/rclcpp.hpp>
 #include <ament_index_cpp/get_package_share_directory.hpp>
 #include <uav_cpp/parameters/yaml_parameter_parser.hpp>
-#include <ros2_uav_cpp/ros2_logger.hpp>
 #include "ros2_uav_parameters/parameters/parameter.hpp"
 
 namespace fs = std::filesystem;
 using uav_cpp::parameters::YamlParameterParser;
 using ros2_uav::parameters::ServerParameter;
-using ros2_uav::utils::RosLoggerInterface;
 
-class ServerNode : public rclcpp::Node
+class ServerNode : public rclcpp::Node, public uav_cpp::logger::LogTagHolder
 {
 public:
   ServerNode()
-  : Node("parameter_server")
+  : Node("parameter_server"), LogTagHolder("Parameter Server")
   {
     // Create a parameter event handler
     param_subscriber_ = std::make_shared<rclcpp::ParameterEventHandler>(this);
@@ -53,7 +51,7 @@ public:
                 "Parameter " + name +
                 " was found twice in the configuration files");
       }
-      UAVCPP_INFO("Adding parameter {}", name);
+      UAVCPP_DEBUG_TAG(this, "Adding parameter {}", name);
       parameter->createRegisterService(this);
       parameter->createRosCallback(this, param_subscriber_);
       parameters_.emplace(name, parameter);
@@ -69,7 +67,8 @@ public:
           YamlParameterParser<ServerParameter> parser(entry.path().string());
           initParameters(parser);
         } catch (const std::exception & e) {
-          UAVCPP_ERROR(
+          UAVCPP_ERROR_TAG(
+            this,
             "Error parsing file {}: {}",
             entry.path().string().c_str(), e.what());
           throw e;
@@ -92,10 +91,6 @@ int main(int argc, char ** argv)
   auto param_descriptor = rcl_interfaces::msg::ParameterDescriptor();
   param_descriptor.description = "Folder containing YAML configuration files";
   node->declare_parameter("config_directory", default_config_folder, param_descriptor);
-
-  // Set the logger to node logger for the uav_cpp library
-  auto logger = std::make_shared<RosLoggerInterface>(node->get_logger());
-  uav_cpp::logger::Logger::setCustomLogger(logger);
 
   // Need to spin to get the parameter necessary to load all the others
   rclcpp::spin_some(node);
