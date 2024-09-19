@@ -66,6 +66,8 @@ TEST_F(ServerParameterTest, ClientRegistrationTest)
   EXPECT_EQ(response->message, "");
 
   // Register client again to check for log message
+  setenv("UAV_CPP_LOG_LEVEL", "DEBUG", 1);
+  uav_cpp::logger::LogManager::getInstance().reset();
   future = client->async_send_request(request);
   testing::internal::CaptureStdout();
   executor.spin_until_future_complete(future);

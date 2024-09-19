@@ -1,78 +1,90 @@
 multirotor_nlmpc:
-    ground_position_weight:
-      description: "Weight for the ground position in the NLMPC"
-      type: float
-      default: 20.0
-      min: 0.0
+  ground_position_weight:
+    description: "Weight for the ground position in the NLMPC"
+    type: float
+    default: 20.0
+    min: 0.0
 
-    ground_position_weight_terminal:
-      description: "Weight for the ground position in the terminal cost of the NLMPC"
-      type: float
-      default: 100.0
-      min: 0.0
+  ground_position_weight_terminal:
+    description: "Weight for the ground position in the terminal cost of the NLMPC"
+    type: float
+    default: 100.0
+    min: 0.0
 
-    ground_velocity_weight:
-      description: "Weight for the ground velocity in the NLMPC"
-      type: float
-      default: 10.0
-      min: 0.0
+  ground_velocity_weight:
+    description: "Weight for the ground velocity in the NLMPC"
+    type: float
+    default: 10.0
+    min: 0.0
 
-    ground_velocity_weight_terminal:
-      description: "Weight for the ground velocity in the terminal cost of the NLMPC"
-      type: float
-      default: 50.0
-      min: 0.0
+  ground_velocity_weight_terminal:
+    description: "Weight for the ground velocity in the terminal cost of the NLMPC"
+    type: float
+    default: 50.0
+    min: 0.0
 
-    vertical_position_weight:
-      description: "Weight for the vertical position in the NLMPC"
-      type: float
-      default: 20.0
-      min: 0.0
+  vertical_position_weight:
+    description: "Weight for the vertical position in the NLMPC"
+    type: float
+    default: 20.0
+    min: 0.0
 
-    vertical_position_weight_terminal:
-      description: "Weight for the vertical position in the terminal cost of the NLMPC"
-      type: float
-      default: 100.0
-      min: 0.0
+  vertical_position_weight_terminal:
+    description: "Weight for the vertical position in the terminal cost of the NLMPC"
+    type: float
+    default: 100.0
+    min: 0.0
 
-    vertical_velocity_weight:
-      description: "Weight for the vertical velocity in the NLMPC"
-      type: float
-      default: 10.0
-      min: 0.0
+  vertical_velocity_weight:
+    description: "Weight for the vertical velocity in the NLMPC"
+    type: float
+    default: 10.0
+    min: 0.0
 
-    vertical_velocity_weight_terminal:
-      description: "Weight for the vertical velocity in the terminal cost of the NLMPC"
-      type: float
-      default: 50.0
-      min: 0.0
+  vertical_velocity_weight_terminal:
+    description: "Weight for the vertical velocity in the terminal cost of the NLMPC"
+    type: float
+    default: 50.0
+    min: 0.0
 
-    orientation_weight:
-      description: "Weight for the orientation in the NLMPC"
-      type: float
-      default: 1.0
-      min: 0.0
+  attitude_weight:
+    description: "Weight for the attitude in the NLMPC"
+    type: float
+    default: 1.0
+    min: 0.0
 
-    orientation_weight_terminal:
-      description: "Weight for the orientation in the terminal cost of the NLMPC"
-      type: float
-      default: 10.0
-      min: 0.0
+  attitude_weight_terminal:
+    description: "Weight for the attitude in the terminal cost of the NLMPC"
+    type: float
+    default: 10.0
+    min: 0.0
 
-    angular_rate_xy_weight:
-      description: "Weight for the angular rate around x and y axis in the NLMPC"
-      type: float
-      default: 100.0
-      min: 0.0
+  angular_rate_xy_weight:
+    description: "Weight for the angular rate around x and y axis in the NLMPC"
+    type: float
+    default: 100.0
+    min: 0.0
 
-    angular_rate_z_weight:
-      description: "Weight for the angular rate around z axis in the NLMPC"
-      type: float
-      default: 100.0
-      min: 0.0
+  angular_rate_z_weight:
+    description: "Weight for the angular rate around z axis in the NLMPC"
+    type: float
+    default: 100.0
+    min: 0.0
 
-    thrust_weight:
-      description: "Weight for the thrust in the NLMPC"
-      type: float
-      default: 1.0
-      min: 0.0
+  thrust_weight:
+    description: "Weight for the thrust in the NLMPC"
+    type: float
+    default: 1.0
+    min: 0.0
+
+  position_error_threshold:
+    description: "Position error threshold to consider the target reached"
+    type: float
+    default: 0.2
+    min: 0.0
+
+  velocity_error_threshold:
+    description: "Velocity error threshold to consider the target reached"
+    type: float
+    default: 0.2
+    min: 0.0

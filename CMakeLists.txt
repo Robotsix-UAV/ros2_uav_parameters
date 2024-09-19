@@ -11,7 +11,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(uav_cpp REQUIRED)
 find_package(ros2_uav_interfaces REQUIRED)
-find_package(ros2_uav_cpp REQUIRED)
 
 add_library(parameter_client SHARED src/parameters/parameter.cpp src/parameter_client.cpp)
 ament_target_dependencies(parameter_client rclcpp ros2_uav_interfaces)
@@ -22,10 +21,10 @@ target_include_directories(parameter_client PUBLIC
 
 add_executable(parameter_server src/parameter_server.cpp)
 ament_target_dependencies(parameter_server rclcpp)
-target_link_libraries(parameter_server parameter_client ros2_uav_cpp::ros2_uav_logger)
+target_link_libraries(parameter_server parameter_client)
 
 add_executable(parameter_client_usage examples/parameter_client_usage.cpp)
-target_link_libraries(parameter_client_usage parameter_client ros2_uav_cpp::ros2_uav_logger)
+target_link_libraries(parameter_client_usage parameter_client)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
@@ -78,11 +77,14 @@ install(
 )
 
 install(
-  TARGETS parameter_server parameter_client
+  TARGETS parameter_client
   EXPORT export_parameter_client
   RUNTIME DESTINATION lib/${PROJECT_NAME}
-  LIBRARY DESTINATION lib
-  INCLUDES DESTINATION include
+)
+
+install(
+  TARGETS parameter_server
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
 install(
