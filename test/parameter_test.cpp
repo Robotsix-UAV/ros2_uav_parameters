@@ -196,25 +196,25 @@ INSTANTIATE_TEST_SUITE_P(
   ParameterTest,
   ::testing::Values(
     TestParam{"test_integer_param", ParamValueType::INT, int64_t{42}, int64_t{84},
-      "Parameter test_integer_param changed to 84"},
+      "[Parameters] test_integer_param changed to 84"},
     TestParam{"test_double_param", ParamValueType::DOUBLE, double{3.14}, double{2.71},
-      "Parameter test_double_param changed to 2.71"},
+      "[Parameters] test_double_param changed to 2.71"},
     TestParam{"test_string_param", ParamValueType::STRING, std::string{"hello"},
       std::string{"world"}, "Parameter test_string_param changed to world"},
     TestParam{"test_bool_param", ParamValueType::BOOL, bool{true}, bool{false},
-      "Parameter test_bool_param changed to false"},
+      "[Parameters] test_bool_param changed to false"},
     TestParam{"test_int_array_param", ParamValueType::INT_ARRAY, std::vector<int64_t>{1, 2, 3, 4},
       std::vector<int64_t>{5, 6, 7, 8}, "Parameter test_int_array_param changed to [5, 6, 7, 8]"},
     TestParam{"test_double_array_param", ParamValueType::DOUBLE_ARRAY,
       std::vector<double>{1.1, 2.2, 3.3, 4.4}, std::vector<double>{5.5, 6.6, 7.7, 8.8},
-      "Parameter test_double_array_param changed to [5.5, 6.6, 7.7, 8.8]"},
+      "[Parameters] test_double_array_param changed to [5.5, 6.6, 7.7, 8.8]"},
     TestParam{"test_string_array_param", ParamValueType::STRING_ARRAY,
       std::vector<std::string>{"one", "two", "three"},
       std::vector<std::string>{"four", "five", "six"},
-      "Parameter test_string_array_param changed to [four, five, six]"},
+      "[Parameters] test_string_array_param changed to [four, five, six]"},
     TestParam{"test_bool_array_param", ParamValueType::BOOL_ARRAY,
       std::vector<bool>{true, false, true}, std::vector<bool>{false, true, false},
-      "Parameter test_bool_array_param changed to [false, true, false]"}
+      "[Parameters] test_bool_array_param changed to [false, true, false]"}
   )
 );
 
