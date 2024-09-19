@@ -13,7 +13,6 @@
   <depend>yaml-cpp</depend>
   <depend>ros2_uav_interfaces</depend>
   <depend>uav_cpp</depend>
-  <depend>ros2_uav_cpp</depend>
 
   <exec_depend>launch</exec_depend>
   <exec_depend>launch_ros</exec_depend>
