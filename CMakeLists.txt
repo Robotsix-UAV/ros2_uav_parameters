@@ -101,7 +101,6 @@ ament_export_dependencies(
   rclcpp
   uav_cpp
   ros2_uav_interfaces
-  ros2_uav_cpp
 )
 
 ament_export_targets(export_parameter_client HAS_LIBRARY_TARGET)
