@@ -11,7 +11,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(uav_cpp REQUIRED)
 find_package(ros2_uav_interfaces REQUIRED)
-find_package(ros2_uav_cpp REQUIRED)
 
 add_library(parameter_client SHARED src/parameters/parameter.cpp src/parameter_client.cpp)
 ament_target_dependencies(parameter_client rclcpp ros2_uav_interfaces)
