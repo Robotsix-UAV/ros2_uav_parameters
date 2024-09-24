@@ -84,6 +84,8 @@ int main(int argc, char ** argv)
 {
   rclcpp::init(argc, argv);
 
+  uav_cpp::logger::LogManager::getInstance("parameter_server.log");
+
   auto node = std::make_shared<ServerNode>();
 
   auto default_config_folder = ament_index_cpp::get_package_share_directory("ros2_uav_parameters");
