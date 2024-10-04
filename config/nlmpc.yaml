@@ -50,13 +50,13 @@ multirotor_nlmpc:
   attitude_weight:
     description: "Weight for the attitude in the NLMPC"
     type: float
-    default: 0.1
+    default: 1.0
     min: 0.0
 
   attitude_weight_terminal:
     description: "Weight for the attitude in the terminal cost of the NLMPC"
     type: float
-    default: 1.0
+    default: 10.0
     min: 0.0
 
   angular_rate_xy_weight:

@@ -44,13 +44,13 @@ limits:
   angular_velocity_z:
     description: "Maximum angular velocity around the z-axis of the UAV"
     type: float
-    default: 0.5
+    default: 1.0
     min: 0.0
 
   angular_acceleration_z:
-    description: "Maximum angular acceleration around the x-axis of the UAV"
+    description: "Maximum angular acceleration around the z-axis of the UAV"
     type: float
-    default: 1.0
+    default: 10.0
     min: 0.0
 
   min_z_acceleration:
