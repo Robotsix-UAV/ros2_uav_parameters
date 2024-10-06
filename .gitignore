@@ -1,4 +1,4 @@
 .vscode/
 build/
 **/__pycache__/
-asistant_gpt.log
+assistant_gpt.log
