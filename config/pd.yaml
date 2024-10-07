@@ -22,3 +22,9 @@ pd:
     type: float
     default: 0.2
     min: 0.0
+
+  position_tracking_loss_threshold:
+    description: "Position tracking loss threshold"
+    type: float
+    default: 3.0
+    min: 0.0
