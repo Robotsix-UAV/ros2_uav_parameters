@@ -1,0 +1,110 @@
+
+.. _program_listing_file_include_ros2_uav_parameters_parameters_parameter.hpp:
+
+Program Listing for File parameter.hpp
+======================================
+
+|exhale_lsh| :ref:`Return to documentation for file <file_include_ros2_uav_parameters_parameters_parameter.hpp>` (``include/ros2_uav_parameters/parameters/parameter.hpp``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+.. code-block:: cpp
+
+   // Copyright 2024 The Technology Innovation Institute (TII)
+   //
+   // Licensed under the Apache License, Version 2.0 (the "License");
+   // you may not use this file except in compliance with the License.
+   // You may obtain a copy of the License at
+   //
+   //     http://www.apache.org/licenses/LICENSE-2.0
+   //
+   // Unless required by applicable law or agreed to in writing, software
+   // distributed under the License is distributed on an "AS IS" BASIS,
+   // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   // See the License for the specific language governing permissions and
+   // limitations under the License.
+   
+   #pragma once
+   
+   #include <functional>
+   #include <utility>
+   #include <memory>
+   #include <string>
+   #include <vector>
+   #include <rclcpp/rclcpp.hpp>
+   #include <ros2_uav_interfaces/srv/parameter_client_register.hpp>
+   #include <uav_cpp/parameters/parameter.hpp>
+   
+   namespace ros2_uav::parameters
+   {
+   using uav_cpp::utils::SmartPointerMixin;
+   using rcl_interfaces::msg::ParameterDescriptor;
+   using ros2_uav_interfaces::srv::ParameterClientRegister;
+   using rcl_interfaces::srv::SetParameters;
+   
+   class Parameter : public SmartPointerMixin<Parameter, uav_cpp::parameters::Parameter>
+   {
+   public:
+     using SmartPointerMixin<Parameter, uav_cpp::parameters::Parameter>::SmartPointerMixin;
+   
+     Parameter(
+       rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+       const std::string & name, const uav_cpp::parameters::ParameterType & value,
+       const std::string & description = "");
+   
+     Parameter(
+       rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+       const std::string & name, const uav_cpp::parameters::ParameterType & value,
+       const std::string & description = "");
+   
+     explicit Parameter(const rclcpp::Parameter & parameter);
+   
+     void createRosCallback(
+       rclcpp::Node * node,
+       std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber);
+   
+     void createRosCallback(
+       rclcpp::Node::SharedPtr node,
+       std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber);
+   
+   protected:
+     std::function<void(const rclcpp::Parameter &)> createParameterCallback();
+   
+     std::shared_ptr<rclcpp::ParameterCallbackHandle> cb_handle_ = nullptr;
+   };
+   
+   class ServerParameter : public Parameter
+   {
+   public:
+     using Parameter::Parameter;
+   
+     ServerParameter(
+       rclcpp::Node * node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+       const std::string & name, const uav_cpp::parameters::ParameterType & value,
+       const std::string & description = "");
+   
+     ServerParameter(
+       rclcpp::Node::SharedPtr node, std::shared_ptr<rclcpp::ParameterEventHandler> param_subscriber,
+       const std::string & name, const uav_cpp::parameters::ParameterType & value,
+       const std::string & description = "");
+   
+     void createRegisterService(rclcpp::Node * node);
+   
+     void createRegisterService(rclcpp::Node::SharedPtr node);
+   
+   private:
+     void onParameterChange();
+   
+     void handleClientRegistration(
+       const std::shared_ptr<ParameterClientRegister::Request> request,
+       std::shared_ptr<ParameterClientRegister::Response> response);
+   
+     std::vector<std::pair<std::string,
+       std::shared_ptr<rclcpp::Client<SetParameters>>>> client_nodes_;
+   
+     std::shared_ptr<rclcpp::Service<ParameterClientRegister>>
+     register_service_;  
+     rclcpp::Node * node_ = nullptr;  
+   };
+   
+   }  // namespace ros2_uav::parameters

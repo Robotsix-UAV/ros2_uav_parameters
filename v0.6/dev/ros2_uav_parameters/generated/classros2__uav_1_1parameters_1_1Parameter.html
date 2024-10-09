@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class Parameter &mdash; ros2_uav_parameters 0.6.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=7ab3649f" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2bd037f0"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Class ParameterClient" href="classros2__uav_1_1parameters_1_1ParameterClient.html" />
+    <link rel="prev" title="Namespace ros2_uav::parameters" href="namespace_ros2_uav__parameters.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            ros2_uav_parameters
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">C++ API</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="index.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="index.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html#full-c-api">Full C++ API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#namespaces">Namespaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="namespace_rclcpp.html">Namespace rclcpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_ros2_uav.html">Namespace ros2_uav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="namespace_ros2_uav__parameters.html">Namespace ros2_uav::parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#classes-and-structs">Classes and Structs</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Class Parameter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classros2__uav_1_1parameters_1_1ParameterClient.html">Class ParameterClient</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classros2__uav_1_1parameters_1_1ServerParameter.html">Class ServerParameter</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#directories">Directories</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="dir_include.html">Directory include</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dir_include_ros2_uav_parameters.html">Directory ros2_uav_parameters</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dir_include_ros2_uav_parameters_parameters.html">Directory parameters</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#files">Files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="file_include_ros2_uav_parameters_parameters_parameter.hpp.html">File parameter.hpp</a></li>
+<li class="toctree-l4"><a class="reference internal" href="file_include_ros2_uav_parameters_parameter_client.hpp.html">File parameter_client.hpp</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../standards.html">Standard Documents</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../standard_docs/CONTRIBUTING.html">CONTRIBUTING</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../standard_docs/LICENSE.html">LICENSE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../standard_docs/PACKAGE.html">PACKAGE</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../standard_docs/README.html">README</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../standard_docs/README.html#ros-uav-parameters">ROS UAV PARAMETERS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../standard_docs/README.html#documentation">Documentation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../standard_docs/README.html#support">Support</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../standard_docs/README.html#contributing">Contributing</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../standard_docs/README.html#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../genindex.html">Index</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ros2_uav_parameters</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="index.html">C++ API</a></li>
+      <li class="breadcrumb-item active">Class Parameter</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/generated/classros2__uav_1_1parameters_1_1Parameter.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="class-parameter">
+<span id="exhale-class-classros2-uav-1-1parameters-1-1parameter"></span><h1>Class Parameter<a class="headerlink" href="#class-parameter" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_include_ros2_uav_parameters_parameters_parameter.hpp.html#file-include-ros2-uav-parameters-parameters-parameter-hpp"><span class="std std-ref">File parameter.hpp</span></a></p></li>
+</ul>
+<section id="inheritance-relationships">
+<h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Link to this heading"></a></h2>
+<section id="base-type">
+<h3>Base Type<a class="headerlink" href="#base-type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">uav_cpp::utils::SmartPointerMixin&lt;</span> <span class="pre">Parameter,</span> <span class="pre">uav_cpp::parameters::Parameter</span> <span class="pre">&gt;</span></code></p></li>
+</ul>
+</section>
+<section id="derived-type">
+<h3>Derived Type<a class="headerlink" href="#derived-type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">ros2_uav::parameters::ServerParameter</span></code> (<a class="reference internal" href="classros2__uav_1_1parameters_1_1ServerParameter.html#exhale-class-classros2-uav-1-1parameters-1-1serverparameter"><span class="std std-ref">Class ServerParameter</span></a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Link to this heading"></a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9ParameterE">
+<span id="_CPPv3N8ros2_uav10parameters9ParameterE"></span><span id="_CPPv2N8ros2_uav10parameters9ParameterE"></span><span id="ros2_uav::parameters::Parameter"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Parameter</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">uav_cpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">utils</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SmartPointerMixin</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4N8ros2_uav10parameters9ParameterE" title="ros2_uav::parameters::Parameter"><span class="n"><span class="pre">Parameter</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">uav_cpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Parameter</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9ParameterE" title="Link to this definition"></a><br /></dt>
+<dd><p>A class wrapping uav_cpp::parameters::Parameter with ROS2 parameter callback functionality. </p>
+<p>Subclassed by <a class="reference internal" href="classros2__uav_1_1parameters_1_1ServerParameter.html#classros2__uav_1_1parameters_1_1ServerParameter"><span class="std std-ref">ros2_uav::parameters::ServerParameter</span></a></p>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9Parameter9ParameterEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE">
+<span id="_CPPv3N8ros2_uav10parameters9Parameter9ParameterEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE"></span><span id="_CPPv2N8ros2_uav10parameters9Parameter9ParameterEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE"></span><span id="ros2_uav::parameters::Parameter::Parameter__rclcpp::NodeP.std::shared_ptr:rclcpp::ParameterEventHandler:.ssCR.uav_cpp::parameters::ParameterTypeCR.ssCR"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter_1afbf4113be77e4edacb50cb7aaaad5ee1"></span><span class="sig-name descname"><span class="n"><span class="pre">Parameter</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Node</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">node</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ParameterEventHandler</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">param_subscriber</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uav_cpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ParameterType</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">description</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9Parameter9ParameterEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor to initialize a <a class="reference internal" href="#classros2__uav_1_1parameters_1_1Parameter"><span class="std std-ref">Parameter</span></a> object with a given node, parameter subscriber, name, value, and description. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> – Pointer to the ROS2 node. </p></li>
+<li><p><strong>param_subscriber</strong> – Shared pointer to the parameter event handler. </p></li>
+<li><p><strong>name</strong> – Name of the parameter. </p></li>
+<li><p><strong>value</strong> – Value of the parameter. </p></li>
+<li><p><strong>description</strong> – Description of the parameter (optional). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9Parameter9ParameterEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE">
+<span id="_CPPv3N8ros2_uav10parameters9Parameter9ParameterEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE"></span><span id="_CPPv2N8ros2_uav10parameters9Parameter9ParameterEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE"></span><span id="ros2_uav::parameters::Parameter::Parameter__rclcpp::Node::SharedPtr.std::shared_ptr:rclcpp::ParameterEventHandler:.ssCR.uav_cpp::parameters::ParameterTypeCR.ssCR"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter_1a5a1466f3506ee3f5a210829ce2a70eb6"></span><span class="sig-name descname"><span class="n"><span class="pre">Parameter</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Node</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SharedPtr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">node</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ParameterEventHandler</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">param_subscriber</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">name</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">uav_cpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">parameters</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ParameterType</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">value</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">description</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="s"><span class="pre">&quot;&quot;</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9Parameter9ParameterEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEERKNSt6stringERKN7uav_cpp10parameters13ParameterTypeERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor to initialize a <a class="reference internal" href="#classros2__uav_1_1parameters_1_1Parameter"><span class="std std-ref">Parameter</span></a> object with a shared pointer to the node, parameter subscriber, name, value, and description. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> – Shared pointer to the ROS2 node. </p></li>
+<li><p><strong>param_subscriber</strong> – Shared pointer to the parameter event handler. </p></li>
+<li><p><strong>name</strong> – Name of the parameter. </p></li>
+<li><p><strong>value</strong> – Value of the parameter. </p></li>
+<li><p><strong>description</strong> – Description of the parameter (optional). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9Parameter9ParameterERKN6rclcpp9ParameterE">
+<span id="_CPPv3N8ros2_uav10parameters9Parameter9ParameterERKN6rclcpp9ParameterE"></span><span id="_CPPv2N8ros2_uav10parameters9Parameter9ParameterERKN6rclcpp9ParameterE"></span><span id="ros2_uav::parameters::Parameter::Parameter__rclcpp::ParameterCR"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter_1a3bc3fc873d2c233d08469d163bc93d43"></span><span class="k"><span class="pre">explicit</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Parameter</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Parameter</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">parameter</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9Parameter9ParameterERKN6rclcpp9ParameterE" title="Link to this definition"></a><br /></dt>
+<dd><p>Constructor to initialize from an existing ROS2 parameter. Requires calling createRosCallback to enable parameter callback. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>parameter</strong> – The existing parameter. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9Parameter17createRosCallbackEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE">
+<span id="_CPPv3N8ros2_uav10parameters9Parameter17createRosCallbackEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE"></span><span id="_CPPv2N8ros2_uav10parameters9Parameter17createRosCallbackEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE"></span><span id="ros2_uav::parameters::Parameter::createRosCallback__rclcpp::NodeP.std::shared_ptr:rclcpp::ParameterEventHandler:"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter_1a7e9621ca0d1aec48b661fc70bae9e42b"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">createRosCallback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Node</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="n sig-param"><span class="pre">node</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ParameterEventHandler</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">param_subscriber</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9Parameter17createRosCallbackEPN6rclcpp4NodeENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a ROS parameter callback for the given node and parameter subscriber. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> – Pointer to the ROS2 node. </p></li>
+<li><p><strong>param_subscriber</strong> – Shared pointer to the parameter event handler. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9Parameter17createRosCallbackEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE">
+<span id="_CPPv3N8ros2_uav10parameters9Parameter17createRosCallbackEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE"></span><span id="_CPPv2N8ros2_uav10parameters9Parameter17createRosCallbackEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE"></span><span id="ros2_uav::parameters::Parameter::createRosCallback__rclcpp::Node::SharedPtr.std::shared_ptr:rclcpp::ParameterEventHandler:"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter_1a4b8c3d8893df9d12ada5b945784690de"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">createRosCallback</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Node</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">SharedPtr</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">node</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ParameterEventHandler</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">param_subscriber</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9Parameter17createRosCallbackEN6rclcpp4Node9SharedPtrENSt10shared_ptrIN6rclcpp21ParameterEventHandlerEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a ROS parameter callback for the given shared pointer to the node and parameter subscriber. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>node</strong> – Shared pointer to the ROS2 node. </p></li>
+<li><p><strong>param_subscriber</strong> – Shared pointer to the parameter event handler. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-functions">Protected Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9Parameter23createParameterCallbackEv">
+<span id="_CPPv3N8ros2_uav10parameters9Parameter23createParameterCallbackEv"></span><span id="_CPPv2N8ros2_uav10parameters9Parameter23createParameterCallbackEv"></span><span id="ros2_uav::parameters::Parameter::createParameterCallback"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter_1a9f3bf5bc9c3bc17b10119607f708aa52"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">function</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">void</span></span><span class="p"><span class="pre">(</span></span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Parameter</span></span><span class="p"><span class="pre">&amp;</span></span><span class="p"><span class="pre">)</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">createParameterCallback</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9Parameter23createParameterCallbackEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Creates a parameter callback function given its type. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>A function that handles parameter changes. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-protected-attributes">Protected Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N8ros2_uav10parameters9Parameter10cb_handle_E">
+<span id="_CPPv3N8ros2_uav10parameters9Parameter10cb_handle_E"></span><span id="_CPPv2N8ros2_uav10parameters9Parameter10cb_handle_E"></span><span id="ros2_uav::parameters::Parameter::cb_handle___std::shared_ptr:rclcpp::ParameterCallbackHandle:"></span><span class="target" id="classros2__uav_1_1parameters_1_1Parameter_1af1669b679dfff99827ca7f05c02cf72c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shared_ptr</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">rclcpp</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ParameterCallbackHandle</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cb_handle_</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">nullptr</span></span><a class="headerlink" href="#_CPPv4N8ros2_uav10parameters9Parameter10cb_handle_E" title="Link to this definition"></a><br /></dt>
+<dd><p>Handle for the parameter callback. </p>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="namespace_ros2_uav__parameters.html" class="btn btn-neutral float-left" title="Namespace ros2_uav::parameters" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="classros2__uav_1_1parameters_1_1ParameterClient.html" class="btn btn-neutral float-right" title="Class ParameterClient" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright The &lt;ros2_uav_parameters&gt; Contributors. License: Apache-2.0.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

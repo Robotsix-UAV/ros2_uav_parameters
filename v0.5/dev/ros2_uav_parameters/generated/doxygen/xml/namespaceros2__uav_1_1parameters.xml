@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.11.0" xml:lang="en-US">
+  <compounddef id="namespaceros2__uav_1_1parameters" kind="namespace" language="C++">
+    <compoundname>ros2_uav::parameters</compoundname>
+    <innerclass refid="classros2__uav_1_1parameters_1_1Parameter" prot="public">ros2_uav::parameters::Parameter</innerclass>
+    <innerclass refid="classros2__uav_1_1parameters_1_1ParameterClient" prot="public">ros2_uav::parameters::ParameterClient</innerclass>
+    <innerclass refid="classros2__uav_1_1parameters_1_1ServerParameter" prot="public">ros2_uav::parameters::ServerParameter</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="author"><para>Damien SIX (<ulink url="mailto:damien@robotsix.net">damien@robotsix.net</ulink>) </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/ros2_uav_parameters/parameter_client.hpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

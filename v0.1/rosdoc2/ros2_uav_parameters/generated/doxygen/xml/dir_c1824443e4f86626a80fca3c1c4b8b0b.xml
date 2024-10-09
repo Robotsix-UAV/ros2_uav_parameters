@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.1" xml:lang="en-US">
+  <compounddef id="dir_c1824443e4f86626a80fca3c1c4b8b0b" kind="dir">
+    <compoundname>include/ros2_uav_parameters/auto_ros_parameters</compoundname>
+    <innerfile refid="parameters_8hpp">parameters.hpp</innerfile>
+    <innerfile refid="utils_8hpp">utils.hpp</innerfile>
+    <innerfile refid="yaml__parameter__parser_8hpp">yaml_parameter_parser.hpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ros2_uav_parameters/auto_ros_parameters/"/>
+  </compounddef>
+</doxygen>

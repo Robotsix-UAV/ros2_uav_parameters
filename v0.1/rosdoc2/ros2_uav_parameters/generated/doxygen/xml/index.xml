@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygenindex xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="index.xsd" version="1.9.1" xml:lang="en-US">
+  <compound refid="classuav__ros2_1_1Parameter" kind="class"><name>uav_ros2::Parameter</name>
+    <member refid="classuav__ros2_1_1Parameter_1a45f79070208c0aade2ccb957a58484cf" kind="variable"><name>cb_handle_</name></member>
+    <member refid="classuav__ros2_1_1Parameter_1afe88fa7772ed72d9bd27640a2784304c" kind="variable"><name>param_name_</name></member>
+    <member refid="classuav__ros2_1_1Parameter_1afc8c600c61dd16522ebba2d1bbef9619" kind="variable"><name>node_</name></member>
+    <member refid="classuav__ros2_1_1Parameter_1ab22c0b52efdb9f860fa368402a39b712" kind="function"><name>Parameter</name></member>
+    <member refid="classuav__ros2_1_1Parameter_1ac4a578af524b8f48488468d9e134d811" kind="function"><name>onParameterChange</name></member>
+    <member refid="classuav__ros2_1_1Parameter_1a0d7fa67f7bce276cc46e7ad6f105276f" kind="function"><name>parameterCallback</name></member>
+    <member refid="classuav__ros2_1_1Parameter_1aa0be1ae208535faa02543102e746a249" kind="function"><name>logChange</name></member>
+  </compound>
+  <compound refid="classuav__ros2_1_1YamlParameterParser" kind="class"><name>uav_ros2::YamlParameterParser</name>
+    <member refid="classuav__ros2_1_1YamlParameterParser_1a67dba94ca8246184ab221181cefac775" kind="typedef"><name>ParameterValue</name></member>
+    <member refid="classuav__ros2_1_1YamlParameterParser_1ae84d67c9c8a7084ac7db0f7e0ee79c0e" kind="variable"><name>parameters_</name></member>
+    <member refid="classuav__ros2_1_1YamlParameterParser_1a53d3ccbc4570a0457e1b657be0ffffe0" kind="function"><name>YamlParameterParser</name></member>
+    <member refid="classuav__ros2_1_1YamlParameterParser_1a6b9f1bb385f9aa69116a62e636f9f0b7" kind="function"><name>getParameters</name></member>
+    <member refid="classuav__ros2_1_1YamlParameterParser_1aad5a8bd8253cfa15e3c707bbaabbb087" kind="function"><name>parseYamlFile</name></member>
+  </compound>
+  <compound refid="namespaceuav__ros2" kind="namespace"><name>uav_ros2</name>
+  </compound>
+  <compound refid="namespaceuav__ros2_1_1utils" kind="namespace"><name>uav_ros2::utils</name>
+    <member refid="utils_8hpp_1ab8c12703e58f8ccbb5ba772896cfe58e" kind="function"><name>doubleToStringTrimZero</name></member>
+  </compound>
+  <compound refid="parameters_8hpp" kind="file"><name>parameters.hpp</name>
+  </compound>
+  <compound refid="utils_8hpp" kind="file"><name>utils.hpp</name>
+  </compound>
+  <compound refid="yaml__parameter__parser_8hpp" kind="file"><name>yaml_parameter_parser.hpp</name>
+  </compound>
+  <compound refid="dir_c1824443e4f86626a80fca3c1c4b8b0b" kind="dir"><name>include/ros2_uav_parameters/auto_ros_parameters</name>
+  </compound>
+  <compound refid="dir_d44c64559bbebec7f509842c48db8b23" kind="dir"><name>include</name>
+  </compound>
+  <compound refid="dir_36dda49fc2e712d98bcf5383987f1dcd" kind="dir"><name>include/ros2_uav_parameters</name>
+  </compound>
+</doxygenindex>

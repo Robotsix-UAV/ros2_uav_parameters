@@ -1,0 +1,127 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - usr/include/yaml-cpp/node/detail/memory.h</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory /usr/include/yaml-cpp/node/detail">/usr/include/yaml-cpp/node/detail</a> - memory.h</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">3</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2024-09-04 08:24:10</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : #ifndef VALUE_DETAIL_MEMORY_H_62B23520_7C8E_11DE_8A39_0800200C9A66</span>
+<span id="L2"><span class="lineNum">       2</span>              : #define VALUE_DETAIL_MEMORY_H_62B23520_7C8E_11DE_8A39_0800200C9A66</span>
+<span id="L3"><span class="lineNum">       3</span>              : </span>
+<span id="L4"><span class="lineNum">       4</span>              : #if defined(_MSC_VER) ||                                            \</span>
+<span id="L5"><span class="lineNum">       5</span>              :     (defined(__GNUC__) &amp;&amp; (__GNUC__ == 3 &amp;&amp; __GNUC_MINOR__ &gt;= 4) || \</span>
+<span id="L6"><span class="lineNum">       6</span>              :      (__GNUC__ &gt;= 4))  // GCC supports &quot;pragma once&quot; correctly since 3.4</span>
+<span id="L7"><span class="lineNum">       7</span>              : #pragma once</span>
+<span id="L8"><span class="lineNum">       8</span>              : #endif</span>
+<span id="L9"><span class="lineNum">       9</span>              : </span>
+<span id="L10"><span class="lineNum">      10</span>              : #include &lt;set&gt;</span>
+<span id="L11"><span class="lineNum">      11</span>              : </span>
+<span id="L12"><span class="lineNum">      12</span>              : #include &quot;yaml-cpp/dll.h&quot;</span>
+<span id="L13"><span class="lineNum">      13</span>              : #include &quot;yaml-cpp/node/ptr.h&quot;</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span>              : namespace YAML {</span>
+<span id="L16"><span class="lineNum">      16</span>              : namespace detail {</span>
+<span id="L17"><span class="lineNum">      17</span>              : class node;</span>
+<span id="L18"><span class="lineNum">      18</span>              : }  // namespace detail</span>
+<span id="L19"><span class="lineNum">      19</span>              : }  // namespace YAML</span>
+<span id="L20"><span class="lineNum">      20</span>              : </span>
+<span id="L21"><span class="lineNum">      21</span>              : namespace YAML {</span>
+<span id="L22"><span class="lineNum">      22</span>              : namespace detail {</span>
+<span id="L23"><span class="lineNum">      23</span>              : class YAML_CPP_API memory {</span>
+<span id="L24"><span class="lineNum">      24</span>              :  public:</span>
+<span id="L25"><span class="lineNum">      25</span> <span class="tlaGNC tlaBgGNC">          56 :   memory() : m_nodes{} {}</span></span>
+<span id="L26"><span class="lineNum">      26</span>              :   node&amp; create_node();</span>
+<span id="L27"><span class="lineNum">      27</span>              :   void merge(const memory&amp; rhs);</span>
+<span id="L28"><span class="lineNum">      28</span>              : </span>
+<span id="L29"><span class="lineNum">      29</span>              :  private:</span>
+<span id="L30"><span class="lineNum">      30</span>              :   using Nodes = std::set&lt;shared_node&gt;;</span>
+<span id="L31"><span class="lineNum">      31</span>              :   Nodes m_nodes;</span>
+<span id="L32"><span class="lineNum">      32</span>              : };</span>
+<span id="L33"><span class="lineNum">      33</span>              : </span>
+<span id="L34"><span class="lineNum">      34</span>              : class YAML_CPP_API memory_holder {</span>
+<span id="L35"><span class="lineNum">      35</span>              :  public:</span>
+<span id="L36"><span class="lineNum">      36</span> <span class="tlaGNC">          56 :   memory_holder() : m_pMemory(new memory) {}</span></span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">         112 :   node&amp; create_node() { return m_pMemory-&gt;create_node(); }</span></span>
+<span id="L39"><span class="lineNum">      39</span>              :   void merge(memory_holder&amp; rhs);</span>
+<span id="L40"><span class="lineNum">      40</span>              : </span>
+<span id="L41"><span class="lineNum">      41</span>              :  private:</span>
+<span id="L42"><span class="lineNum">      42</span>              :   shared_memory m_pMemory;</span>
+<span id="L43"><span class="lineNum">      43</span>              : };</span>
+<span id="L44"><span class="lineNum">      44</span>              : }  // namespace detail</span>
+<span id="L45"><span class="lineNum">      45</span>              : }  // namespace YAML</span>
+<span id="L46"><span class="lineNum">      46</span>              : </span>
+<span id="L47"><span class="lineNum">      47</span>              : #endif  // VALUE_DETAIL_MEMORY_H_62B23520_7C8E_11DE_8A39_0800200C9A66</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

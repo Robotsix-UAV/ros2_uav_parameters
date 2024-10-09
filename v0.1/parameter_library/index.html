@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Parameter Library - ROS2 PX4 Interface Documentation</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Parameter Library";
+        var mkdocs_page_input_path = "parameter_library.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".." class="icon icon-home"> ROS2 PX4 Interface Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Home</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuration</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Parameter Library</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#examples">Examples</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#yamlparameterparser">YamlParameterParser</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#example-usage">Example Usage</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#uav_ros2parameter">uav_ros2::Parameter</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#modifying-the-callback">Modifying the Callback</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#adding-a-new-parameter">Adding a New Parameter</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#advanced-usage">Advanced Usage</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">ROS2 PX4 Interface Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Parameter Library</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="parameters-library-documentation">Parameters Library Documentation</h1>
+<h2 id="examples">Examples</h2>
+<p>Compiling examples using the parameter library can be found in the <code>examples</code> directory of the repository.</p>
+<h2 id="yamlparameterparser">YamlParameterParser</h2>
+<h3 id="usage">Usage</h3>
+<p>The <code>YamlParameterParser</code> class is used to parse YAML files containing parameter definitions. It reads the parameters from the specified YAML files and stores them for use in the ROS 2 parameter server as a vector of tuples containing the parameter name, value, and descriptor.</p>
+<h3 id="example-usage">Example Usage</h3>
+<pre><code class="language-cpp">#include &quot;auto_ros_parameters/yaml_parameter_parser.hpp&quot;
+#include &quot;rcl_interfaces/msg/parameter_descriptor.hpp&quot;
+
+int main()
+{
+  // Parse parameters from the temporary YAML file
+  uav_ros2::YamlParameterParser parser(temp_path.string());
+  auto parameters = parser.getParameters();
+
+  // Iterate over the parameters
+  for (const auto &amp; param : parameters) {
+    std::string name;
+    // Use std::variant to store different types of parameter values
+    uav_ros2::YamlParameterParser::ParameterValue value;
+    rcl_interfaces::msg::ParameterDescriptor descriptor;
+    std::tie(name, value, descriptor) = param;
+
+    // Display the parameter name
+    std::cout &lt;&lt; &quot;Parameter name: &quot; &lt;&lt; name &lt;&lt; std::endl;
+  }
+  return 0;
+}
+
+</code></pre>
+<h2 id="uav_ros2parameter">uav_ros2::Parameter</h2>
+<p>The <code>uav_ros2::Parameter</code> class is used to manage ROS 2 parameters. It automatically subscribes to parameter changes and provides a callback method to handle parameter changes. The class also provides a method to log parameter changes. It is intended to be used with the <code>rclcpp::Node</code> class.</p>
+<h3 id="modifying-the-callback">Modifying the Callback</h3>
+<p>The <code>uav_ros2::Parameter</code> class provides a default callback method that logs parameter changes. You can modify this callback method by subclassing the <code>uav_ros2::Parameter</code> class and overriding the <code>onParameterChanged</code> method.</p>
+<pre><code class="language-cpp">#include &quot;auto_ros_parameters/parameters.hpp&quot;
+
+// Class that inherits from uav_ros2::Parameter
+class MyParameter
+  : public uav_ros2::Parameter
+{
+public:
+  MyParameter(
+    rclcpp::Node::SharedPtr node,
+    std::shared_ptr&lt;rclcpp::ParameterEventHandler&gt; parameter_handler,
+    const std::string &amp; name,
+    const int &amp; value,
+    rcl_interfaces::msg::ParameterDescriptor descriptor)
+  : uav_ros2::Parameter(node, parameter_handler, name, value, descriptor)
+  {
+  }
+
+protected:
+  // Custom callback function in the derived class
+  void onParameterChange(const rclcpp::Parameter &amp; parameter)
+  {
+    if (parameter.as_int() == 42) {
+      RCLCPP_INFO(
+        node_-&gt;get_logger(),
+        &quot;The answer to the Ultimate Question of Life, the Universe, and Everything!&quot;);
+    }
+  }
+};
+
+</code></pre>
+<h3 id="adding-a-new-parameter">Adding a New Parameter</h3>
+<p>Here is a minimal example of how to add a new parameter using the <code>uav_ros2::Parameter</code> class or a subclass:</p>
+<pre><code class="language-cpp">#include &lt;rclcpp/rclcpp.hpp&gt;
+int main()
+{
+  // Initialize the ROS 2 system
+  rclcpp::init(0, nullptr);
+  // Create a ROS 2 node named &quot;parameters_usage&quot;
+  auto node = rclcpp::Node::make_shared(&quot;parameters_usage&quot;);
+  // Create a parameter event handler
+  auto parameter_handler = std::make_shared&lt;rclcpp::ParameterEventHandler&gt;(node);
+  // Parameter value
+  auto value = 42;
+  // Parameter descriptor usage is the same as standard ROS 2 parameters
+  auto param_descriptor = rcl_interfaces::msg::ParameterDescriptor();
+  param_descriptor.description = &quot;So Long, and Thanks for All the Fish!&quot;;
+  // Create a parameter with a custom callback function
+  auto config_file = MyParameter(
+    node, parameter_handler,
+    &quot;my_custom_parameter&quot;, value, param_descriptor);
+  // Spin the node
+  rclcpp::spin(node);
+  rclcpp::shutdown();
+  return 0;
+}
+
+</code></pre>
+<h3 id="advanced-usage">Advanced Usage</h3>
+<p>An example of a more advanced usage of the <code>uav_ros2::Parameter</code> class can be found in the <code>parameter_server.cpp</code> file.</p>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="../configuration/" class="btn btn-neutral float-left" title="Configuration"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../configuration/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+  </span>
+</div>
+    <script src="../js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = "..";</script>
+    <script src="../js/theme_extra.js"></script>
+    <script src="../js/theme.js"></script>
+      <script src="../search/main.js"></script>
+      <script src="../js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>

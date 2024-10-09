@@ -1,0 +1,218 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.11.0" xml:lang="en-US">
+  <compounddef id="classros2__uav_1_1parameters_1_1ParameterClient" kind="class" language="C++" prot="public">
+    <compoundname>ros2_uav::parameters::ParameterClient</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">rclcpp::Node</basecompoundref>
+    <includes refid="parameter__client_8hpp" local="no">parameter_client.hpp</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classros2__uav_1_1parameters_1_1ParameterClient_1a76ddd1631d94ca9826c08ff089db8009" prot="protected" static="no" mutable="no">
+        <type>ParameterMap</type>
+        <definition>ParameterMap ros2_uav::parameters::ParameterClient::remote_parameters_</definition>
+        <argsstring></argsstring>
+        <name>remote_parameters_</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::remote_parameters_</qualifiedname>
+        <briefdescription>
+<para>List of remote parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="73" column="16" bodyfile="include/ros2_uav_parameters/parameter_client.hpp" bodystart="73" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classros2__uav_1_1parameters_1_1ParameterClient_1a1b9841845cf3c82a39e7f31d67e3e0a3" prot="private" static="no" mutable="no">
+        <type>std::jthread</type>
+        <definition>std::jthread ros2_uav::parameters::ParameterClient::register_thread_</definition>
+        <argsstring></argsstring>
+        <name>register_thread_</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::register_thread_</qualifiedname>
+        <briefdescription>
+<para>Thread for registering parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="77" column="16" bodyfile="include/ros2_uav_parameters/parameter_client.hpp" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classros2__uav_1_1parameters_1_1ParameterClient_1a6335b009688d42cfe415ab497a1cf3c2" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string ros2_uav::parameters::ParameterClient::server_name_</definition>
+        <argsstring></argsstring>
+        <name>server_name_</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::server_name_</qualifiedname>
+        <briefdescription>
+<para>Name of the parameter server. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="78" column="15" bodyfile="include/ros2_uav_parameters/parameter_client.hpp" bodystart="78" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classros2__uav_1_1parameters_1_1ParameterClient_1ac82a7474d0da7ae339c2d89108f0e50d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt;</type>
+        <definition>std::shared_ptr&lt;rclcpp::ParameterEventHandler&gt; ros2_uav::parameters::ParameterClient::param_subscriber_</definition>
+        <argsstring></argsstring>
+        <name>param_subscriber_</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::param_subscriber_</qualifiedname>
+        <briefdescription>
+<para><ref refid="classros2__uav_1_1parameters_1_1Parameter" kindref="compound">Parameter</ref> event handler subscriber. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="79" column="19" bodyfile="include/ros2_uav_parameters/parameter_client.hpp" bodystart="79" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1ParameterClient_1acf5f53b62abf2137704e4d44a091705d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ros2_uav::parameters::ParameterClient::ParameterClient</definition>
+        <argsstring>(const std::string &amp;node_name, const std::vector&lt; std::string &gt; &amp;required_parameters, const std::string &amp;server_name=&quot;&quot;)</argsstring>
+        <name>ParameterClient</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::ParameterClient</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>node_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>required_parameters</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>server_name</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Construct a new <ref refid="classros2__uav_1_1parameters_1_1Parameter" kindref="compound">Parameter</ref> Client object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the client node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>required_parameters</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A list of required parameters to be synchronized. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>server_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The name of the parameter server node (default is &quot;&quot;). An empty string indicates the default parameter server. (i.e., node_namespace/parameter_server) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="50" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1ParameterClient_1aa1149fba7c70ef29a5e6085c12b57d73" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ros2_uav::parameters::ParameterClient::~ParameterClient</definition>
+        <argsstring>()</argsstring>
+        <name>~ParameterClient</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::~ParameterClient</qualifiedname>
+        <briefdescription>
+<para>Destroy the <ref refid="classros2__uav_1_1parameters_1_1Parameter" kindref="compound">Parameter</ref> Client object. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="57" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1ParameterClient_1a4da0ec8c5e2b5a956783e915c0d8dade" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ros2_uav::parameters::ParameterClient::registerParameters</definition>
+        <argsstring>()</argsstring>
+        <name>registerParameters</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::registerParameters</qualifiedname>
+        <briefdescription>
+<para>Register or parameters with the parameter server. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="62" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1ParameterClient_1a7bd60254e7c479d87c8009936121f069" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>ParameterMap</type>
+        <definition>ParameterMap ros2_uav::parameters::ParameterClient::getParameters</definition>
+        <argsstring>()</argsstring>
+        <name>getParameters</name>
+        <qualifiedname>ros2_uav::parameters::ParameterClient::getParameters</qualifiedname>
+        <briefdescription>
+<para>Get the map of remote parameters. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameter_client.hpp" line="67" column="16" bodyfile="include/ros2_uav_parameters/parameter_client.hpp" bodystart="67" bodyend="70"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A class for managing client-side ROS2 parameters. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>This class handles the registration and synchronization of parameters with a remote parameter server. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>rclcpp::Node</label>
+      </node>
+      <node id="1">
+        <label>ros2_uav::parameters::ParameterClient</label>
+        <link refid="classros2__uav_1_1parameters_1_1ParameterClient"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>rclcpp::Node</label>
+      </node>
+      <node id="1">
+        <label>ros2_uav::parameters::ParameterClient</label>
+        <link refid="classros2__uav_1_1parameters_1_1ParameterClient"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>remote_parameters_</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ParameterMap</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/ros2_uav_parameters/parameter_client.hpp" line="39" column="1" bodyfile="include/ros2_uav_parameters/parameter_client.hpp" bodystart="40" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1a7bd60254e7c479d87c8009936121f069" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>getParameters</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1ac82a7474d0da7ae339c2d89108f0e50d" prot="private" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>param_subscriber_</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1acf5f53b62abf2137704e4d44a091705d" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>ParameterClient</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1a1b9841845cf3c82a39e7f31d67e3e0a3" prot="private" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>register_thread_</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1a4da0ec8c5e2b5a956783e915c0d8dade" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>registerParameters</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1a76ddd1631d94ca9826c08ff089db8009" prot="protected" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>remote_parameters_</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1a6335b009688d42cfe415ab497a1cf3c2" prot="private" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>server_name_</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1ParameterClient_1aa1149fba7c70ef29a5e6085c12b57d73" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::ParameterClient</scope><name>~ParameterClient</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

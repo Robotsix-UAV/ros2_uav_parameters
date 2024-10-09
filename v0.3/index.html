@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="None" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>ROS2 UAV Parameters Documentation</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
+        <link href="css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Home";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+      <script>hljs.highlightAll();</script> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="." class="icon icon-home"> ROS2 UAV Parameters Documentation
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ros2-version">ROS2 Version</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#features">Features</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#parameter-server-node">Parameter Server Node</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#parameterclientnode">ParameterClientNode</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="configuration/">Configuration</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="" href="parameter_library.md">Parameter Library</a>
+                </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">ROS2 UAV Parameters Documentation</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" aria-label="Docs"></a></li>
+      <li class="breadcrumb-item active">Home</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="ros2-uav-parameters-documentation">ROS2 UAV Parameters Documentation</h1>
+<h2 id="overview">Overview</h2>
+<p>Welcome to the ROS2 UAV Parameters documentation. This repository provides a parameter server node specifically designed for use with other ROS2 UAV packages. The parameter server node is a standalone node that manages UAV parameters within the ROS2 ecosystem. It is designed to handle parameters that are commonly used in the ROS2 UAV nodes. It allows users to find all standard parameters in one place.</p>
+<p>This documentation provides guidance to users. Developers can find additional information at the <a href="rosdoc2/ros2_uav_parameters">Developer Documentation</a> page.</p>
+<h2 id="ros2-version">ROS2 Version</h2>
+<p>This package is designed to work with ROS2 Humble Hawksbill. It has not been tested with other versions of ROS2.</p>
+<h2 id="features">Features</h2>
+<h3 id="parameter-server-node">Parameter Server Node</h3>
+<p>A node designed to manage UAV parameters within the ROS2 ecosystem. This node reads parameters from YAML files in the config directory of this package and creates them. They become available to other nodes in the system. Guidance on configuring the parameter server node can be found in the <a href="configuration/">Configuration</a> section of this documentation.</p>
+<p>You can run the parameter server node using the following commands:</p>
+<pre><code class="language-sh">ros2 run ros2_uav_parameters parameter_server
+</code></pre>
+<h3 id="parameterclientnode">ParameterClientNode</h3>
+<p>The <code>ParameterClientNode</code> is a class inherited from ROS2 Node that subscribes to a list of parameters and synchronizes them with the parameter server. It stores the parameters under a std::map remote_parameters_ that can be accessed by the node.</p>
+<pre><code class="language-cpp">#include &lt;ros2_uav_parameters/parameter_client.hpp&gt;
+#include &lt;ros2_uav_cpp/ros2_logger.hpp&gt;
+
+using ros2_uav::utils::RosLoggerInterface;
+
+// Create a custom Node inherited from ParameterClient
+class MyClient : public ros2_uav::parameters::ParameterClient
+{
+public:
+  MyClient(const std::string &amp; node_name, const std::vector&lt;std::string&gt; &amp; required_parameters)
+  : ParameterClient(node_name, required_parameters)
+  {
+    // Create a ROS timer to display the registered parameter values
+    auto timer_callback = [this]() {
+        double ground_velocity, vertical_velocity;
+        remote_parameters_[&quot;limits.ground_velocity&quot;]-&gt;getValue(ground_velocity);
+        remote_parameters_[&quot;limits.vertical_velocity&quot;]-&gt;getValue(vertical_velocity);
+        UAVCPP_INFO(
+          &quot;Ground velocity {} --- Vertical velocity {}&quot;, ground_velocity,
+          vertical_velocity);
+      };
+    timer_ = create_wall_timer(std::chrono::seconds(1), timer_callback);
+  }
+
+private:
+  rclcpp::TimerBase::SharedPtr timer_;
+};
+
+int main(int argc, char ** argv)
+{
+  rclcpp::init(argc, argv);
+
+  // Define the required parameters
+  auto required_parameters =
+    std::vector&lt;std::string&gt;{&quot;limits.ground_velocity&quot;, &quot;limits.vertical_velocity&quot;};
+
+  // Create the custom node
+  auto node = std::make_shared&lt;MyClient&gt;(
+    &quot;parameter_client&quot;,
+    required_parameters);
+
+  // Set the logger to node logger for the uav_cpp library
+  auto logger = std::make_shared&lt;RosLoggerInterface&gt;(node-&gt;get_logger());
+  uav_cpp::logger::Logger::setCustomLogger(logger);
+
+  // Spin the node
+  rclcpp::spin(node);
+  rclcpp::shutdown();
+  return 0;
+}
+
+</code></pre>
+              
+            </div>
+          </div><footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
+        <a href="configuration/" class="btn btn-neutral float-right" title="Configuration">Next <span class="icon icon-circle-arrow-right"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script>var base_url = ".";</script>
+    <script src="js/theme_extra.js"></script>
+    <script src="js/theme.js"></script>
+      <script src="search/main.js"></script>
+      <script src="js/version-select.js"></script>
+    <script>
+        jQuery(function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        });
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.6.1
+Build Date UTC : 2024-09-12 08:44:23.350442+00:00
+-->

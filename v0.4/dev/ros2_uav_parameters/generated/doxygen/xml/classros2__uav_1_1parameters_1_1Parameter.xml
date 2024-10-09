@@ -1,0 +1,359 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.11.0" xml:lang="en-US">
+  <compounddef id="classros2__uav_1_1parameters_1_1Parameter" kind="class" language="C++" prot="public">
+    <compoundname>ros2_uav::parameters::Parameter</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">uav_cpp::utils::SmartPointerMixin&lt; Parameter, uav_cpp::parameters::Parameter &gt;</basecompoundref>
+    <derivedcompoundref refid="classros2__uav_1_1parameters_1_1ServerParameter" prot="public" virt="non-virtual">ros2_uav::parameters::ServerParameter</derivedcompoundref>
+    <includes refid="parameter_8hpp" local="no">parameter.hpp</includes>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classros2__uav_1_1parameters_1_1Parameter_1af1669b679dfff99827ca7f05c02cf72c" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; rclcpp::ParameterCallbackHandle &gt;</type>
+        <definition>std::shared_ptr&lt;rclcpp::ParameterCallbackHandle&gt; ros2_uav::parameters::Parameter::cb_handle_</definition>
+        <argsstring></argsstring>
+        <name>cb_handle_</name>
+        <qualifiedname>ros2_uav::parameters::Parameter::cb_handle_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+<para>Handle for the parameter callback. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="109" column="19" bodyfile="include/ros2_uav_parameters/parameters/parameter.hpp" bodystart="109" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1Parameter_1afbf4113be77e4edacb50cb7aaaad5ee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ros2_uav::parameters::Parameter::Parameter</definition>
+        <argsstring>(rclcpp::Node *node, std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt; param_subscriber, const std::string &amp;name, const uav_cpp::parameters::ParameterType &amp;value, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>Parameter</name>
+        <qualifiedname>ros2_uav::parameters::Parameter::Parameter</qualifiedname>
+        <param>
+          <type>rclcpp::Node *</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt;</type>
+          <declname>param_subscriber</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const uav_cpp::parameters::ParameterType &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructor to initialize a <ref refid="classros2__uav_1_1parameters_1_1Parameter" kindref="compound">Parameter</ref> object with a given node, parameter subscriber, name, value, and description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the ROS2 node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>param_subscriber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the parameter event handler. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value of the parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the parameter (optional). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="55" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1Parameter_1a5a1466f3506ee3f5a210829ce2a70eb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ros2_uav::parameters::Parameter::Parameter</definition>
+        <argsstring>(rclcpp::Node::SharedPtr node, std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt; param_subscriber, const std::string &amp;name, const uav_cpp::parameters::ParameterType &amp;value, const std::string &amp;description=&quot;&quot;)</argsstring>
+        <name>Parameter</name>
+        <qualifiedname>ros2_uav::parameters::Parameter::Parameter</qualifiedname>
+        <param>
+          <type>rclcpp::Node::SharedPtr</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt;</type>
+          <declname>param_subscriber</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const uav_cpp::parameters::ParameterType &amp;</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>description</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+<para>Constructor to initialize a <ref refid="classros2__uav_1_1parameters_1_1Parameter" kindref="compound">Parameter</ref> object with a shared pointer to the node, parameter subscriber, name, value, and description. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the ROS2 node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>param_subscriber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the parameter event handler. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Value of the parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>description</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Description of the parameter (optional). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="69" column="3"/>
+      </memberdef>
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1Parameter_1a3bc3fc873d2c233d08469d163bc93d43" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>ros2_uav::parameters::Parameter::Parameter</definition>
+        <argsstring>(const rclcpp::Parameter &amp;parameter)</argsstring>
+        <name>Parameter</name>
+        <qualifiedname>ros2_uav::parameters::Parameter::Parameter</qualifiedname>
+        <param>
+          <type>const rclcpp::Parameter &amp;</type>
+          <declname>parameter</declname>
+        </param>
+        <briefdescription>
+<para>Constructor to initialize from an existing ROS2 parameter. Requires calling createRosCallback to enable parameter callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>parameter</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The existing parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="79" column="12"/>
+      </memberdef>
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1Parameter_1a7e9621ca0d1aec48b661fc70bae9e42b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ros2_uav::parameters::Parameter::createRosCallback</definition>
+        <argsstring>(rclcpp::Node *node, std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt; param_subscriber)</argsstring>
+        <name>createRosCallback</name>
+        <qualifiedname>ros2_uav::parameters::Parameter::createRosCallback</qualifiedname>
+        <param>
+          <type>rclcpp::Node *</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt;</type>
+          <declname>param_subscriber</declname>
+        </param>
+        <briefdescription>
+<para>Creates a ROS parameter callback for the given node and parameter subscriber. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Pointer to the ROS2 node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>param_subscriber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the parameter event handler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="87" column="8"/>
+      </memberdef>
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1Parameter_1a4b8c3d8893df9d12ada5b945784690de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void ros2_uav::parameters::Parameter::createRosCallback</definition>
+        <argsstring>(rclcpp::Node::SharedPtr node, std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt; param_subscriber)</argsstring>
+        <name>createRosCallback</name>
+        <qualifiedname>ros2_uav::parameters::Parameter::createRosCallback</qualifiedname>
+        <param>
+          <type>rclcpp::Node::SharedPtr</type>
+          <declname>node</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; rclcpp::ParameterEventHandler &gt;</type>
+          <declname>param_subscriber</declname>
+        </param>
+        <briefdescription>
+<para>Creates a ROS parameter callback for the given shared pointer to the node and parameter subscriber. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>node</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the ROS2 node. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>param_subscriber</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared pointer to the parameter event handler. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="97" column="8"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classros2__uav_1_1parameters_1_1Parameter_1a9f3bf5bc9c3bc17b10119607f708aa52" prot="protected" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::function&lt; void(const rclcpp::Parameter &amp;)&gt;</type>
+        <definition>std::function&lt; void(const rclcpp::Parameter &amp;)&gt; ros2_uav::parameters::Parameter::createParameterCallback</definition>
+        <argsstring>()</argsstring>
+        <name>createParameterCallback</name>
+        <qualifiedname>ros2_uav::parameters::Parameter::createParameterCallback</qualifiedname>
+        <briefdescription>
+<para>Creates a parameter callback function given its type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>A function that handles parameter changes. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="107" column="17"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>A class wrapping uav_cpp::parameters::Parameter with ROS2 parameter callback functionality. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>ros2_uav::parameters::Parameter</label>
+        <link refid="classros2__uav_1_1parameters_1_1Parameter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ros2_uav::parameters::ServerParameter</label>
+        <link refid="classros2__uav_1_1parameters_1_1ServerParameter"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SmartPointerMixin&lt; Parameter, uav_cpp::parameters::Parameter &gt;</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>ros2_uav::parameters::Parameter</label>
+        <link refid="classros2__uav_1_1parameters_1_1Parameter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>SmartPointerMixin&lt; Parameter, uav_cpp::parameters::Parameter &gt;</label>
+      </node>
+    </collaborationgraph>
+    <location file="include/ros2_uav_parameters/parameters/parameter.hpp" line="41" column="1" bodyfile="include/ros2_uav_parameters/parameters/parameter.hpp" bodystart="42" bodyend="111"/>
+    <listofallmembers>
+      <member refid="classros2__uav_1_1parameters_1_1Parameter_1af1669b679dfff99827ca7f05c02cf72c" prot="protected" virt="non-virtual"><scope>ros2_uav::parameters::Parameter</scope><name>cb_handle_</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1Parameter_1a9f3bf5bc9c3bc17b10119607f708aa52" prot="protected" virt="non-virtual"><scope>ros2_uav::parameters::Parameter</scope><name>createParameterCallback</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1Parameter_1a7e9621ca0d1aec48b661fc70bae9e42b" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::Parameter</scope><name>createRosCallback</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1Parameter_1a4b8c3d8893df9d12ada5b945784690de" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::Parameter</scope><name>createRosCallback</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1Parameter_1afbf4113be77e4edacb50cb7aaaad5ee1" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::Parameter</scope><name>Parameter</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1Parameter_1a5a1466f3506ee3f5a210829ce2a70eb6" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::Parameter</scope><name>Parameter</name></member>
+      <member refid="classros2__uav_1_1parameters_1_1Parameter_1a3bc3fc873d2c233d08469d163bc93d43" prot="public" virt="non-virtual"><scope>ros2_uav::parameters::Parameter</scope><name>Parameter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

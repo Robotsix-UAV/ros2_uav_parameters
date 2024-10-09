@@ -1,0 +1,144 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - src/ros2_uav_parameters/examples/parameter_client_usage.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory src/ros2_uav_parameters/examples">src/ros2_uav_parameters/examples</a> - parameter_client_usage.cpp</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">17</td>
+            <td class="headerCovTableEntry">17</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2024-10-04 14:28:33</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : // Copyright 2024 The Technology Innovation Institute (TII)</span>
+<span id="L2"><span class="lineNum">       2</span>              : //</span>
+<span id="L3"><span class="lineNum">       3</span>              : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span id="L4"><span class="lineNum">       4</span>              : // you may not use this file except in compliance with the License.</span>
+<span id="L5"><span class="lineNum">       5</span>              : // You may obtain a copy of the License at</span>
+<span id="L6"><span class="lineNum">       6</span>              : //</span>
+<span id="L7"><span class="lineNum">       7</span>              : //     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span id="L8"><span class="lineNum">       8</span>              : //</span>
+<span id="L9"><span class="lineNum">       9</span>              : // Unless required by applicable law or agreed to in writing, software</span>
+<span id="L10"><span class="lineNum">      10</span>              : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span id="L11"><span class="lineNum">      11</span>              : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span id="L12"><span class="lineNum">      12</span>              : // See the License for the specific language governing permissions and</span>
+<span id="L13"><span class="lineNum">      13</span>              : // limitations under the License.</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span>              : /**</span>
+<span id="L16"><span class="lineNum">      16</span>              :  * @author Damien SIX (damien@robotsix.net)</span>
+<span id="L17"><span class="lineNum">      17</span>              :  */</span>
+<span id="L18"><span class="lineNum">      18</span>              : </span>
+<span id="L19"><span class="lineNum">      19</span>              : // START_EXAMPLE parameter_client</span>
+<span id="L20"><span class="lineNum">      20</span>              : #include &lt;ros2_uav_parameters/parameter_client.hpp&gt;</span>
+<span id="L21"><span class="lineNum">      21</span>              : </span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span>              : // Create a custom Node inherited from ParameterClient</span>
+<span id="L24"><span class="lineNum">      24</span>              : class MyClient : public ros2_uav::parameters::ParameterClient</span>
+<span id="L25"><span class="lineNum">      25</span>              : {</span>
+<span id="L26"><span class="lineNum">      26</span>              : public:</span>
+<span id="L27"><span class="lineNum">      27</span> <span class="tlaGNC tlaBgGNC">           1 :   MyClient(const std::string &amp; node_name, const std::vector&lt;std::string&gt; &amp; required_parameters)</span></span>
+<span id="L28"><span class="lineNum">      28</span> <span class="tlaGNC">           3 :   : ParameterClient(node_name, required_parameters)</span></span>
+<span id="L29"><span class="lineNum">      29</span>              :   {</span>
+<span id="L30"><span class="lineNum">      30</span>              :     // Create a ROS timer to display the registered parameter values</span>
+<span id="L31"><span class="lineNum">      31</span> <span class="tlaGNC">           1 :     auto timer_callback = [this]() {</span></span>
+<span id="L32"><span class="lineNum">      32</span>              :         double ground_velocity, vertical_velocity;</span>
+<span id="L33"><span class="lineNum">      33</span> <span class="tlaGNC">           2 :         remote_parameters_[&quot;limits.ground_velocity&quot;]-&gt;getValue(ground_velocity);</span></span>
+<span id="L34"><span class="lineNum">      34</span> <span class="tlaGNC">           2 :         remote_parameters_[&quot;limits.vertical_velocity&quot;]-&gt;getValue(vertical_velocity);</span></span>
+<span id="L35"><span class="lineNum">      35</span> <span class="tlaGNC">           2 :         UAVCPP_INFO(</span></span>
+<span id="L36"><span class="lineNum">      36</span>              :           &quot;Ground velocity {} --- Vertical velocity {}&quot;, ground_velocity,</span>
+<span id="L37"><span class="lineNum">      37</span>              :           vertical_velocity);</span>
+<span id="L38"><span class="lineNum">      38</span> <span class="tlaGNC">           1 :       };</span></span>
+<span id="L39"><span class="lineNum">      39</span> <span class="tlaGNC">           1 :     timer_ = create_wall_timer(std::chrono::seconds(1), timer_callback);</span></span>
+<span id="L40"><span class="lineNum">      40</span> <span class="tlaGNC">           1 :   }</span></span>
+<span id="L41"><span class="lineNum">      41</span>              : </span>
+<span id="L42"><span class="lineNum">      42</span>              : private:</span>
+<span id="L43"><span class="lineNum">      43</span>              :   rclcpp::TimerBase::SharedPtr timer_;</span>
+<span id="L44"><span class="lineNum">      44</span>              : };</span>
+<span id="L45"><span class="lineNum">      45</span>              : </span>
+<span id="L46"><span class="lineNum">      46</span> <span class="tlaGNC">           1 : int main(int argc, char ** argv)</span></span>
+<span id="L47"><span class="lineNum">      47</span>              : {</span>
+<span id="L48"><span class="lineNum">      48</span> <span class="tlaGNC">           1 :   rclcpp::init(argc, argv);</span></span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span>              :   // Define the required parameters</span>
+<span id="L51"><span class="lineNum">      51</span>              :   auto required_parameters =</span>
+<span id="L52"><span class="lineNum">      52</span> <span class="tlaGNC">           4 :     std::vector&lt;std::string&gt;{&quot;limits.ground_velocity&quot;, &quot;limits.vertical_velocity&quot;};</span></span>
+<span id="L53"><span class="lineNum">      53</span>              : </span>
+<span id="L54"><span class="lineNum">      54</span>              :   // Create the custom node</span>
+<span id="L55"><span class="lineNum">      55</span>              :   auto node = std::make_shared&lt;MyClient&gt;(</span>
+<span id="L56"><span class="lineNum">      56</span>              :     &quot;parameter_client&quot;,</span>
+<span id="L57"><span class="lineNum">      57</span> <span class="tlaGNC">           1 :     required_parameters);</span></span>
+<span id="L58"><span class="lineNum">      58</span>              : </span>
+<span id="L59"><span class="lineNum">      59</span>              :   // Spin the node</span>
+<span id="L60"><span class="lineNum">      60</span> <span class="tlaGNC">           1 :   rclcpp::spin(node);</span></span>
+<span id="L61"><span class="lineNum">      61</span> <span class="tlaGNC">           1 :   rclcpp::shutdown();</span></span>
+<span id="L62"><span class="lineNum">      62</span> <span class="tlaGNC">           1 :   return 0;</span></span>
+<span id="L63"><span class="lineNum">      63</span> <span class="tlaGNC">           4 : }</span></span>
+<span id="L64"><span class="lineNum">      64</span>              : // END_EXAMPLE parameter_client</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>

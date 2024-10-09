@@ -1,0 +1,1 @@
+genhtml --quiet --output-directory /home/runner/work/ros2_uav_parameters/ros2_uav_parameters/lcov /home/runner/work/ros2_uav_parameters/ros2_uav_parameters/lcov/total_coverage.info --config-file /home/runner/work/ros2_uav_parameters/ros2_uav_parameters/lcovrc --demangle-cpp --prefix /home/runner/work/ros2_uav_parameters/ros2_uav_parameters

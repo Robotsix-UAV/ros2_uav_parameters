@@ -1,0 +1,265 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - total_coverage.info - opt/ros/humble/include/rclcpp/rclcpp/subscription_options.hpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../../../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../../../../../../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory /opt/ros/humble/include/rclcpp/rclcpp">/opt/ros/humble/include/rclcpp/rclcpp</a> - subscription_options.hpp</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">total_coverage.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryLo">70.0&nbsp;%</td>
+            <td class="headerCovTableEntry">30</td>
+            <td class="headerCovTableEntry">21</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2024-09-12 08:44:16</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+                  <tr><td><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : // Copyright 2019 Open Source Robotics Foundation, Inc.</span>
+<span id="L2"><span class="lineNum">       2</span>              : //</span>
+<span id="L3"><span class="lineNum">       3</span>              : // Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span>
+<span id="L4"><span class="lineNum">       4</span>              : // you may not use this file except in compliance with the License.</span>
+<span id="L5"><span class="lineNum">       5</span>              : // You may obtain a copy of the License at</span>
+<span id="L6"><span class="lineNum">       6</span>              : //</span>
+<span id="L7"><span class="lineNum">       7</span>              : //     http://www.apache.org/licenses/LICENSE-2.0</span>
+<span id="L8"><span class="lineNum">       8</span>              : //</span>
+<span id="L9"><span class="lineNum">       9</span>              : // Unless required by applicable law or agreed to in writing, software</span>
+<span id="L10"><span class="lineNum">      10</span>              : // distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span>
+<span id="L11"><span class="lineNum">      11</span>              : // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span>
+<span id="L12"><span class="lineNum">      12</span>              : // See the License for the specific language governing permissions and</span>
+<span id="L13"><span class="lineNum">      13</span>              : // limitations under the License.</span>
+<span id="L14"><span class="lineNum">      14</span>              : </span>
+<span id="L15"><span class="lineNum">      15</span>              : #ifndef RCLCPP__SUBSCRIPTION_OPTIONS_HPP_</span>
+<span id="L16"><span class="lineNum">      16</span>              : #define RCLCPP__SUBSCRIPTION_OPTIONS_HPP_</span>
+<span id="L17"><span class="lineNum">      17</span>              : </span>
+<span id="L18"><span class="lineNum">      18</span>              : #include &lt;chrono&gt;</span>
+<span id="L19"><span class="lineNum">      19</span>              : #include &lt;memory&gt;</span>
+<span id="L20"><span class="lineNum">      20</span>              : #include &lt;string&gt;</span>
+<span id="L21"><span class="lineNum">      21</span>              : #include &lt;type_traits&gt;</span>
+<span id="L22"><span class="lineNum">      22</span>              : #include &lt;vector&gt;</span>
+<span id="L23"><span class="lineNum">      23</span>              : </span>
+<span id="L24"><span class="lineNum">      24</span>              : #include &quot;rclcpp/callback_group.hpp&quot;</span>
+<span id="L25"><span class="lineNum">      25</span>              : #include &quot;rclcpp/detail/rmw_implementation_specific_subscription_payload.hpp&quot;</span>
+<span id="L26"><span class="lineNum">      26</span>              : #include &quot;rclcpp/intra_process_buffer_type.hpp&quot;</span>
+<span id="L27"><span class="lineNum">      27</span>              : #include &quot;rclcpp/intra_process_setting.hpp&quot;</span>
+<span id="L28"><span class="lineNum">      28</span>              : #include &quot;rclcpp/qos.hpp&quot;</span>
+<span id="L29"><span class="lineNum">      29</span>              : #include &quot;rclcpp/qos_event.hpp&quot;</span>
+<span id="L30"><span class="lineNum">      30</span>              : #include &quot;rclcpp/qos_overriding_options.hpp&quot;</span>
+<span id="L31"><span class="lineNum">      31</span>              : #include &quot;rclcpp/subscription_content_filter_options.hpp&quot;</span>
+<span id="L32"><span class="lineNum">      32</span>              : #include &quot;rclcpp/topic_statistics_state.hpp&quot;</span>
+<span id="L33"><span class="lineNum">      33</span>              : #include &quot;rclcpp/visibility_control.hpp&quot;</span>
+<span id="L34"><span class="lineNum">      34</span>              : </span>
+<span id="L35"><span class="lineNum">      35</span>              : namespace rclcpp</span>
+<span id="L36"><span class="lineNum">      36</span>              : {</span>
+<span id="L37"><span class="lineNum">      37</span>              : </span>
+<span id="L38"><span class="lineNum">      38</span>              : /// Non-template base class for subscription options.</span>
+<span id="L39"><span class="lineNum">      39</span>              : struct SubscriptionOptionsBase</span>
+<span id="L40"><span class="lineNum">      40</span>              : {</span>
+<span id="L41"><span class="lineNum">      41</span>              :   /// Callbacks for events related to this subscription.</span>
+<span id="L42"><span class="lineNum">      42</span>              :   SubscriptionEventCallbacks event_callbacks;</span>
+<span id="L43"><span class="lineNum">      43</span>              : </span>
+<span id="L44"><span class="lineNum">      44</span>              :   /// Whether or not to use default callbacks when user doesn't supply any in event_callbacks</span>
+<span id="L45"><span class="lineNum">      45</span>              :   bool use_default_callbacks = true;</span>
+<span id="L46"><span class="lineNum">      46</span>              : </span>
+<span id="L47"><span class="lineNum">      47</span>              :   /// True to ignore local publications.</span>
+<span id="L48"><span class="lineNum">      48</span>              :   bool ignore_local_publications = false;</span>
+<span id="L49"><span class="lineNum">      49</span>              : </span>
+<span id="L50"><span class="lineNum">      50</span>              :   /// Require middleware to generate unique network flow endpoints</span>
+<span id="L51"><span class="lineNum">      51</span>              :   /// Disabled by default</span>
+<span id="L52"><span class="lineNum">      52</span>              :   rmw_unique_network_flow_endpoints_requirement_t require_unique_network_flow_endpoints =</span>
+<span id="L53"><span class="lineNum">      53</span>              :     RMW_UNIQUE_NETWORK_FLOW_ENDPOINTS_NOT_REQUIRED;</span>
+<span id="L54"><span class="lineNum">      54</span>              : </span>
+<span id="L55"><span class="lineNum">      55</span>              :   /// The callback group for this subscription. NULL to use the default callback group.</span>
+<span id="L56"><span class="lineNum">      56</span>              :   rclcpp::CallbackGroup::SharedPtr callback_group = nullptr;</span>
+<span id="L57"><span class="lineNum">      57</span>              : </span>
+<span id="L58"><span class="lineNum">      58</span>              :   /// Setting to explicitly set intraprocess communications.</span>
+<span id="L59"><span class="lineNum">      59</span>              :   IntraProcessSetting use_intra_process_comm = IntraProcessSetting::NodeDefault;</span>
+<span id="L60"><span class="lineNum">      60</span>              : </span>
+<span id="L61"><span class="lineNum">      61</span>              :   /// Setting the data-type stored in the intraprocess buffer</span>
+<span id="L62"><span class="lineNum">      62</span>              :   IntraProcessBufferType intra_process_buffer_type = IntraProcessBufferType::CallbackDefault;</span>
+<span id="L63"><span class="lineNum">      63</span>              : </span>
+<span id="L64"><span class="lineNum">      64</span>              :   /// Optional RMW implementation specific payload to be used during creation of the subscription.</span>
+<span id="L65"><span class="lineNum">      65</span>              :   std::shared_ptr&lt;rclcpp::detail::RMWImplementationSpecificSubscriptionPayload&gt;</span>
+<span id="L66"><span class="lineNum">      66</span>              :   rmw_implementation_payload = nullptr;</span>
+<span id="L67"><span class="lineNum">      67</span>              : </span>
+<span id="L68"><span class="lineNum">      68</span>              :   // Options to configure topic statistics collector in the subscription.</span>
+<span id="L69"><span class="lineNum">      69</span>              :   struct TopicStatisticsOptions</span>
+<span id="L70"><span class="lineNum">      70</span>              :   {</span>
+<span id="L71"><span class="lineNum">      71</span>              :     // Enable and disable topic statistics calculation and publication. Defaults to disabled.</span>
+<span id="L72"><span class="lineNum">      72</span>              :     TopicStatisticsState state = TopicStatisticsState::NodeDefault;</span>
+<span id="L73"><span class="lineNum">      73</span>              : </span>
+<span id="L74"><span class="lineNum">      74</span>              :     // Topic to which topic statistics get published when enabled. Defaults to /statistics.</span>
+<span id="L75"><span class="lineNum">      75</span>              :     std::string publish_topic = &quot;/statistics&quot;;</span>
+<span id="L76"><span class="lineNum">      76</span>              : </span>
+<span id="L77"><span class="lineNum">      77</span>              :     // Topic statistics publication period in ms. Defaults to one second.</span>
+<span id="L78"><span class="lineNum">      78</span>              :     // Only values greater than zero are allowed.</span>
+<span id="L79"><span class="lineNum">      79</span>              :     std::chrono::milliseconds publish_period{std::chrono::seconds(1)};</span>
+<span id="L80"><span class="lineNum">      80</span>              :   };</span>
+<span id="L81"><span class="lineNum">      81</span>              : </span>
+<span id="L82"><span class="lineNum">      82</span>              :   TopicStatisticsOptions topic_stats_options;</span>
+<span id="L83"><span class="lineNum">      83</span>              : </span>
+<span id="L84"><span class="lineNum">      84</span>              :   QosOverridingOptions qos_overriding_options;</span>
+<span id="L85"><span class="lineNum">      85</span>              : </span>
+<span id="L86"><span class="lineNum">      86</span>              :   ContentFilterOptions content_filter_options;</span>
+<span id="L87"><span class="lineNum">      87</span>              : };</span>
+<span id="L88"><span class="lineNum">      88</span>              : </span>
+<span id="L89"><span class="lineNum">      89</span>              : /// Structure containing optional configuration for Subscriptions.</span>
+<span id="L90"><span class="lineNum">      90</span>              : template&lt;typename Allocator&gt;</span>
+<span id="L91"><span class="lineNum">      91</span>              : struct SubscriptionOptionsWithAllocator : public SubscriptionOptionsBase</span>
+<span id="L92"><span class="lineNum">      92</span>              : {</span>
+<span id="L93"><span class="lineNum">      93</span>              :   static_assert(</span>
+<span id="L94"><span class="lineNum">      94</span>              :     std::is_void_v&lt;typename std::allocator_traits&lt;Allocator&gt;::value_type&gt;,</span>
+<span id="L95"><span class="lineNum">      95</span>              :     &quot;Subscription allocator value type must be void&quot;);</span>
+<span id="L96"><span class="lineNum">      96</span>              : </span>
+<span id="L97"><span class="lineNum">      97</span>              :   /// Optional custom allocator.</span>
+<span id="L98"><span class="lineNum">      98</span>              :   std::shared_ptr&lt;Allocator&gt; allocator = nullptr;</span>
+<span id="L99"><span class="lineNum">      99</span>              : </span>
+<span id="L100"><span class="lineNum">     100</span> <span class="tlaGNC tlaBgGNC">          29 :   SubscriptionOptionsWithAllocator() {}</span></span>
+<span id="L101"><span class="lineNum">     101</span>              : </span>
+<span id="L102"><span class="lineNum">     102</span>              :   /// Constructor using base class as input.</span>
+<span id="L103"><span class="lineNum">     103</span>              :   explicit SubscriptionOptionsWithAllocator(</span>
+<span id="L104"><span class="lineNum">     104</span>              :     const SubscriptionOptionsBase &amp; subscription_options_base)</span>
+<span id="L105"><span class="lineNum">     105</span>              :   : SubscriptionOptionsBase(subscription_options_base)</span>
+<span id="L106"><span class="lineNum">     106</span>              :   {}</span>
+<span id="L107"><span class="lineNum">     107</span>              : </span>
+<span id="L108"><span class="lineNum">     108</span>              :   /// Convert this class, with a rclcpp::QoS, into an rcl_subscription_options_t.</span>
+<span id="L109"><span class="lineNum">     109</span>              :   /**</span>
+<span id="L110"><span class="lineNum">     110</span>              :    * \param qos QoS profile for subcription.</span>
+<span id="L111"><span class="lineNum">     111</span>              :    * \return rcl_subscription_options_t structure based on the rclcpp::QoS</span>
+<span id="L112"><span class="lineNum">     112</span>              :    */</span>
+<span id="L113"><span class="lineNum">     113</span>              :   template&lt;typename MessageT&gt;</span>
+<span id="L114"><span class="lineNum">     114</span>              :   rcl_subscription_options_t</span>
+<span id="L115"><span class="lineNum">     115</span> <span class="tlaGNC">          29 :   to_rcl_subscription_options(const rclcpp::QoS &amp; qos) const</span></span>
+<span id="L116"><span class="lineNum">     116</span>              :   {</span>
+<span id="L117"><span class="lineNum">     117</span> <span class="tlaGNC">          29 :     rcl_subscription_options_t result = rcl_subscription_get_default_options();</span></span>
+<span id="L118"><span class="lineNum">     118</span> <span class="tlaGNC">          29 :     result.allocator = this-&gt;get_rcl_allocator();</span></span>
+<span id="L119"><span class="lineNum">     119</span> <span class="tlaGNC">          29 :     result.qos = qos.get_rmw_qos_profile();</span></span>
+<span id="L120"><span class="lineNum">     120</span> <span class="tlaGNC">          29 :     result.rmw_subscription_options.ignore_local_publications = this-&gt;ignore_local_publications;</span></span>
+<span id="L121"><span class="lineNum">     121</span> <span class="tlaGNC">          29 :     result.rmw_subscription_options.require_unique_network_flow_endpoints =</span></span>
+<span id="L122"><span class="lineNum">     122</span> <span class="tlaGNC">          29 :       this-&gt;require_unique_network_flow_endpoints;</span></span>
+<span id="L123"><span class="lineNum">     123</span>              : </span>
+<span id="L124"><span class="lineNum">     124</span>              :     // Apply payload to rcl_subscription_options if necessary.</span>
+<span id="L125"><span class="lineNum">     125</span> <span class="tlaGNC">          29 :     if (rmw_implementation_payload &amp;&amp; rmw_implementation_payload-&gt;has_been_customized()) {</span></span>
+<span id="L126"><span class="lineNum">     126</span> <span class="tlaUNC tlaBgUNC">           0 :       rmw_implementation_payload-&gt;modify_rmw_subscription_options(result.rmw_subscription_options);</span></span>
+<span id="L127"><span class="lineNum">     127</span>              :     }</span>
+<span id="L128"><span class="lineNum">     128</span>              : </span>
+<span id="L129"><span class="lineNum">     129</span>              :     // Copy content_filter_options into rcl_subscription_options.</span>
+<span id="L130"><span class="lineNum">     130</span> <span class="tlaGNC tlaBgGNC">          29 :     if (!content_filter_options.filter_expression.empty()) {</span></span>
+<span id="L131"><span class="lineNum">     131</span> <span class="tlaUNC tlaBgUNC">           0 :       std::vector&lt;const char *&gt; cstrings =</span></span>
+<span id="L132"><span class="lineNum">     132</span> <span class="tlaUNC">           0 :         get_c_vector_string(content_filter_options.expression_parameters);</span></span>
+<span id="L133"><span class="lineNum">     133</span> <span class="tlaUNC">           0 :       rcl_ret_t ret = rcl_subscription_options_set_content_filter_options(</span></span>
+<span id="L134"><span class="lineNum">     134</span> <span class="tlaUNC">           0 :         get_c_string(content_filter_options.filter_expression),</span></span>
+<span id="L135"><span class="lineNum">     135</span>              :         cstrings.size(),</span>
+<span id="L136"><span class="lineNum">     136</span>              :         cstrings.data(),</span>
+<span id="L137"><span class="lineNum">     137</span>              :         &amp;result);</span>
+<span id="L138"><span class="lineNum">     138</span> <span class="tlaUNC">           0 :       if (RCL_RET_OK != ret) {</span></span>
+<span id="L139"><span class="lineNum">     139</span> <span class="tlaUNC">           0 :         rclcpp::exceptions::throw_from_rcl_error(</span></span>
+<span id="L140"><span class="lineNum">     140</span>              :           ret, &quot;failed to set content_filter_options&quot;);</span>
+<span id="L141"><span class="lineNum">     141</span>              :       }</span>
+<span id="L142"><span class="lineNum">     142</span> <span class="tlaUNC">           0 :     }</span></span>
+<span id="L143"><span class="lineNum">     143</span>              : </span>
+<span id="L144"><span class="lineNum">     144</span> <span class="tlaGNC tlaBgGNC">          58 :     return result;</span></span>
+<span id="L145"><span class="lineNum">     145</span>              :   }</span>
+<span id="L146"><span class="lineNum">     146</span>              : </span>
+<span id="L147"><span class="lineNum">     147</span>              :   std::shared_ptr&lt;Allocator&gt;</span>
+<span id="L148"><span class="lineNum">     148</span> <span class="tlaGNC">          58 :   get_allocator() const</span></span>
+<span id="L149"><span class="lineNum">     149</span>              :   {</span>
+<span id="L150"><span class="lineNum">     150</span> <span class="tlaGNC">          58 :     if (!this-&gt;allocator) {</span></span>
+<span id="L151"><span class="lineNum">     151</span> <span class="tlaGNC">          58 :       if (!allocator_storage_) {</span></span>
+<span id="L152"><span class="lineNum">     152</span> <span class="tlaGNC">          29 :         allocator_storage_ = std::make_shared&lt;Allocator&gt;();</span></span>
+<span id="L153"><span class="lineNum">     153</span>              :       }</span>
+<span id="L154"><span class="lineNum">     154</span> <span class="tlaGNC">          58 :       return allocator_storage_;</span></span>
+<span id="L155"><span class="lineNum">     155</span>              :     }</span>
+<span id="L156"><span class="lineNum">     156</span> <span class="tlaUNC tlaBgUNC">           0 :     return this-&gt;allocator;</span></span>
+<span id="L157"><span class="lineNum">     157</span>              :   }</span>
+<span id="L158"><span class="lineNum">     158</span>              : </span>
+<span id="L159"><span class="lineNum">     159</span>              : private:</span>
+<span id="L160"><span class="lineNum">     160</span>              :   using PlainAllocator =</span>
+<span id="L161"><span class="lineNum">     161</span>              :     typename std::allocator_traits&lt;Allocator&gt;::template rebind_alloc&lt;char&gt;;</span>
+<span id="L162"><span class="lineNum">     162</span>              : </span>
+<span id="L163"><span class="lineNum">     163</span>              :   rcl_allocator_t</span>
+<span id="L164"><span class="lineNum">     164</span> <span class="tlaGNC tlaBgGNC">          29 :   get_rcl_allocator() const</span></span>
+<span id="L165"><span class="lineNum">     165</span>              :   {</span>
+<span id="L166"><span class="lineNum">     166</span> <span class="tlaGNC">          29 :     if (!plain_allocator_storage_) {</span></span>
+<span id="L167"><span class="lineNum">     167</span> <span class="tlaGNC">          29 :       plain_allocator_storage_ =</span></span>
+<span id="L168"><span class="lineNum">     168</span> <span class="tlaGNC">          58 :         std::make_shared&lt;PlainAllocator&gt;(*this-&gt;get_allocator());</span></span>
+<span id="L169"><span class="lineNum">     169</span>              :     }</span>
+<span id="L170"><span class="lineNum">     170</span> <span class="tlaGNC">          29 :     return rclcpp::allocator::get_rcl_allocator&lt;char&gt;(*plain_allocator_storage_);</span></span>
+<span id="L171"><span class="lineNum">     171</span>              :   }</span>
+<span id="L172"><span class="lineNum">     172</span>              : </span>
+<span id="L173"><span class="lineNum">     173</span>              :   // This is a temporal workaround, to make sure that get_allocator()</span>
+<span id="L174"><span class="lineNum">     174</span>              :   // always returns a copy of the same allocator.</span>
+<span id="L175"><span class="lineNum">     175</span>              :   mutable std::shared_ptr&lt;Allocator&gt; allocator_storage_;</span>
+<span id="L176"><span class="lineNum">     176</span>              : </span>
+<span id="L177"><span class="lineNum">     177</span>              :   // This is a temporal workaround, to keep the plain allocator that backs</span>
+<span id="L178"><span class="lineNum">     178</span>              :   // up the rcl allocator returned in rcl_subscription_options_t alive.</span>
+<span id="L179"><span class="lineNum">     179</span>              :   mutable std::shared_ptr&lt;PlainAllocator&gt; plain_allocator_storage_;</span>
+<span id="L180"><span class="lineNum">     180</span>              : };</span>
+<span id="L181"><span class="lineNum">     181</span>              : </span>
+<span id="L182"><span class="lineNum">     182</span>              : using SubscriptionOptions = SubscriptionOptionsWithAllocator&lt;std::allocator&lt;void&gt;&gt;;</span>
+<span id="L183"><span class="lineNum">     183</span>              : }  // namespace rclcpp</span>
+<span id="L184"><span class="lineNum">     184</span>              : </span>
+<span id="L185"><span class="lineNum">     185</span>              : #endif  // RCLCPP__SUBSCRIPTION_OPTIONS_HPP_</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../../../../../../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
