@@ -2,13 +2,13 @@ multirotor_nlmpc:
   ground_position_weight:
     description: "Weight for the ground position in the NLMPC"
     type: float
-    default: 10.0
+    default: 50.0
     min: 0.0
 
   ground_position_weight_terminal:
     description: "Weight for the ground position in the terminal cost of the NLMPC"
     type: float
-    default: 100.0
+    default: 500.0
     min: 0.0
 
   ground_velocity_weight:
@@ -38,43 +38,49 @@ multirotor_nlmpc:
   vertical_velocity_weight:
     description: "Weight for the vertical velocity in the NLMPC"
     type: float
-    default: 5.0
+    default: 10.0
     min: 0.0
 
   vertical_velocity_weight_terminal:
     description: "Weight for the vertical velocity in the terminal cost of the NLMPC"
     type: float
-    default: 50.0
+    default: 100.0
     min: 0.0
 
   attitude_weight:
     description: "Weight for the attitude in the NLMPC"
     type: float
-    default: 1.0
+    default: 100.0
     min: 0.0
 
   attitude_weight_terminal:
     description: "Weight for the attitude in the terminal cost of the NLMPC"
     type: float
-    default: 10.0
+    default: 1000.0
     min: 0.0
 
   angular_rate_xy_weight:
-    description: "Weight for the angular rate around x and y axis in the NLMPC"
+    description: "Weight for the angular rate around x and y axis in the NLMPC. Increase for slower rotation around x and y axis"
     type: float
     default: 500.0
     min: 0.0
 
   angular_rate_z_weight:
-    description: "Weight for the angular rate around z axis in the NLMPC"
+    description: "Weight for the angular rate around z axis in the NLMPC. Increase for slower rotation around z axis"
     type: float
     default: 500.0
     min: 0.0
 
   thrust_weight:
-    description: "Weight for the thrust in the NLMPC"
+    description: "Weight for the thrust in the NLMPC. Increase for slower thrust changes"
     type: float
     default: 1.0
+    min: 0.0
+
+  rate_damping:
+    description: "Rate damping coefficient for hight velocities (affects the rate weight)"
+    type: float
+    default: 0.0
     min: 0.0
 
   position_error_threshold:
@@ -92,5 +98,5 @@ multirotor_nlmpc:
   position_tracking_loss_threshold:
     description: "Position tracking loss threshold"
     type: float
-    default: 3.0
+    default: 5.0
     min: 0.0
