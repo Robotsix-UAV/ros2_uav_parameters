@@ -1,0 +1,15 @@
+disturbance_observer:
+    enable:
+      description: 'Flag to activate the disturbance observer'
+      type: bool
+      default: true
+    constant_gain:
+      à_description: 'Constant disturbance gain for the disturbance observer. The higher the value, the slower the disturbance observer will react to disturbances'
+      type: float
+      default: 10.0
+      min: 0.0
+    proportional_gain:
+      description: 'Proportional disturbance gain for the disturbance observer. The higher the value, the slower the disturbance observer will react to disturbances'
+      type: float
+      default: 1.0
+      min: 0.0
