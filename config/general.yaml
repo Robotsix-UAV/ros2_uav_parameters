@@ -5,3 +5,9 @@ spin:
     default: 2.0
     min: 0.0
 
+waypoint_tracker:
+  velocity_gain:
+    description: 'Gain to keep velocity high between waypoints.'
+    type: float
+    default: 0.5
+    min: 0.0
