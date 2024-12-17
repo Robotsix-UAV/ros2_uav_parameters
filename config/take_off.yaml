@@ -1,0 +1,11 @@
+takeoff:
+  altitude:
+    description: "Altitude to take off"
+    type: float
+    default: 2.0
+    min: 1.0
+
+  initial_velocity:
+    description: "Initial velocity to take off"
+    type: float
+    default: 3.0

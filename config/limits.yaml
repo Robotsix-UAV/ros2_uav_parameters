@@ -8,19 +8,19 @@ limits:
   ground_velocity:
     description: "Maximum ground velocity of the UAV"
     type: float
-    default: 35.0
+    default: 20.0
     min: 0.0
 
   vertical_velocity:
     description: "Maximum vertical velocity of the UAV"
     type: float
-    default: 35.0
+    default: 20.0
     min: 0.0
 
   global_velocity:
     description: "Maximum global velocity of the UAV"
     type: float
-    default: 35.0
+    default: 20.0
     min: 0.0
 
   ground_acceleration:
