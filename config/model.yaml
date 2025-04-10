@@ -2,7 +2,7 @@ model:
   vehicle_mass:
     description: 'Mass of the UAV'
     type: float
-    default: 1.0
+    default: 4.2
     min: 0.0
 
   thrust_constant_coefficient:
@@ -13,7 +13,7 @@ model:
   thrust_linear_coefficient:
     description: 'Thrust linear coefficient for thrust scaling'
     type: float
-    default: 120.0
+    default: 160.0
 
   thrust_quadratic_coefficient:
     description: 'Thrust quadratic coefficient for thrust scaling'
