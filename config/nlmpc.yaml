@@ -98,5 +98,5 @@ multirotor_nlmpc:
   position_tracking_loss_threshold:
     description: "Position tracking loss threshold"
     type: float
-    default: 5.0
+    default: 10.0
     min: 0.0
